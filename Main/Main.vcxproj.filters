@@ -26,10 +26,13 @@
     <ClInclude Include="test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test\tests\FloatEqualTest.h">
+    <ClInclude Include="test\unit_tests\FloatEqualTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test\tests\VectorTest.h">
+    <ClInclude Include="test\unit_tests\VectorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\playing_tests\ProjectileTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

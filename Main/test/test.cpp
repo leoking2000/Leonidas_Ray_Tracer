@@ -1,10 +1,13 @@
 #include "test.h"
 
-#include "tests/FloatEqualTest.h"
-#include "tests/VectorTest.h"
+#include "unit_tests/FloatEqualTest.h"
+#include "unit_tests/VectorTest.h"
+
+#include "playing_tests/ProjectileTest.h"
 
 void Test::Test()
 {
 	FloatEqualTest();
 	VectorTest();
+	ProjectileTest();
 }

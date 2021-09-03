@@ -3,11 +3,11 @@
 
 int main()
 {
-
 #ifndef NDEBUG
     Test::Test();
 #endif
 
+    std::cout << "=================================" << std::endl;
     std::cout << "Leonidas Ray Tracer!!!" << std::endl;
 
 
