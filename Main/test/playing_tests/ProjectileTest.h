@@ -8,9 +8,9 @@
 void ProjectileTest()
 {
 	const LRT::vec3 gravity(  0.0f, -0.1f, 0.0f);
-	const LRT::vec3    wind(-0.01f,  0.0f, 0.0f);
+	const LRT::vec3    wind( -0.01f,  0.0f, 0.0f);
 
-	LRT::vec3 proj_pos(0.0f, 1.0f, 0.0f);
+	LRT::vec3 proj_pos(1.0f, 1.0f, 0.0f);
 
 	LRT::vec3 proj_vel(1.0f, 1.0f, 0.0f);
 	proj_vel.normalize();
@@ -28,9 +28,10 @@ void ProjectileTest()
 	std::cout << "Proj Vel:  [" << proj_vel.x << ", " << proj_vel.y << ", " << proj_vel.z << "]\n";
 	std::cout << "Proj Speed: " << initial_speed << "\n";
 
+	const int MaxNumberOfTicks = 500;
 	int numberOfTicks = 0;
 
-	while (proj_pos.y >= 0.0f)
+	while (proj_pos.y >= 0.0f || numberOfTicks >= MaxNumberOfTicks)
 	{
 		proj_pos = proj_pos + proj_vel;
 		proj_vel = proj_vel + gravity + wind;
