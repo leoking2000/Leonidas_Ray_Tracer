@@ -58,7 +58,7 @@ namespace LRT
 		float length() const;
 
 		// returns this vector with a magnitude/lenght of 1 
-		vec3 normalized() const;
+		vec3 getNormalized() const;
 
 		// returns the distance between this vector and a
 		float distance(const vec3& a) const;

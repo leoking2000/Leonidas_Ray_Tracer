@@ -78,7 +78,7 @@ float LRT::vec3::length() const
     return std::sqrt(this->dot(*this));
 }
 
-LRT::vec3 LRT::vec3::normalized() const
+LRT::vec3 LRT::vec3::getNormalized() const
 {
     return *this / this->length();
 }

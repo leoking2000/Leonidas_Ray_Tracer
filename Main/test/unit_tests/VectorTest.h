@@ -107,7 +107,7 @@ void VectorTest()
 	/* Normalization */
 	{
 		LRT::vec3 a1(4.0f, 0.0f, 0.0f);
-		assert(a1.normalized() == LRT::vec3::right());
+		assert(a1.getNormalized() == LRT::vec3::right());
 		assert(a1 == LRT::vec3(4.0f, 0.0f, 0.0f));
 
 		LRT::vec3 a2(1.0f, 2.0f, 3.0f);
