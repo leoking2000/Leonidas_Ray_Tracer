@@ -168,9 +168,8 @@ void VectorTest()
 		LRT::Color c2(0.9f, 1.0f, 0.1f);
 
 		assert(c1 * c2 == LRT::Color(0.9f, 0.2f, 0.04f));
+		assert(LRT::Colors::green * c1 == LRT::Color(0.0f, 0.2f, 0.0f));
 	}
-
-
 
 
 	std::cout << "OK\n";

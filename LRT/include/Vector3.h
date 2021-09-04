@@ -117,7 +117,7 @@ namespace LRT
 
 		// Access the x, y, z components using [0], [1], [2] respectively
 		float& operator[](int i);
-		
+
 	};
 
 	LRTAPI vec3 operator* (float num, const vec3& a);
@@ -127,10 +127,18 @@ namespace LRT
 	// Hadamard Product
 	LRTAPI Color operator* (const Color& c1, const Color& c2);
 
-	static constexpr Color black = Color( 0.0f, 0.0f, 0.0f );
-	static constexpr Color white = Color( 1.0f, 1.0f, 1.0f );
-	static constexpr Color red   = Color( 1.0f, 0.0f, 0.0f );
-	static constexpr Color green = Color( 0.0f, 1.0f, 0.0f );
-	static constexpr Color blue  = Color( 0.0f, 0.0f, 1.0f );
+	namespace Colors
+	{
+		static constexpr Color black = Color(0.0f, 0.0f, 0.0f);
+		static constexpr Color white = Color(1.0f, 1.0f, 1.0f);
+		static constexpr Color red = Color(1.0f, 0.0f, 0.0f);
+		static constexpr Color green = Color(0.0f, 1.0f, 0.0f);
+		static constexpr Color blue = Color(0.0f, 0.0f, 1.0f);
+		static constexpr Color cyan = Color(0.0f, 1.0f, 1.0f);
+		static constexpr Color gray = Color(0.5f, 0.5f, 0.5f);
+		static constexpr Color mangenta = Color(1.0f, 0.0f, 1.0f);
+		static constexpr Color yellow = Color(1.0f, 0.92f, 0.016f);
+	}
+
 }
 
