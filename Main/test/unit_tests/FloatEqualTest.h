@@ -2,7 +2,7 @@
 #include <iostream>
 #include <assert.h>
 
-#include "test.h"
+#include "test/test.h"
 #include "LRT.h"
 
 void FloatEqualTest()

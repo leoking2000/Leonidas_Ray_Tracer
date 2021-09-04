@@ -1,4 +1,5 @@
 #pragma once
+#include <cinttypes>
 
 #define LRTAPI __declspec(dllexport)
 
@@ -8,3 +9,4 @@ namespace LRT
 }
 
 #include "Vector4.h"
+#include "Canvas.h"
