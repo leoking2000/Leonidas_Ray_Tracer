@@ -23,8 +23,17 @@ namespace LRT
 			};
 		};
 	public:
-		vec3(); // x = 0, y = 0, z = 0
-		vec3(float x, float y, float z);
+		constexpr vec3()
+			:
+			x(0.0f), y(0.0f), z(0.0f)
+		{
+		}
+
+		constexpr vec3(float x, float y, float z)
+			:
+			x(x), y(y), z(z)
+		{
+		};
 
 		// static Methods //
 
@@ -118,10 +127,10 @@ namespace LRT
 	// Hadamard Product
 	LRTAPI Color operator* (const Color& c1, const Color& c2);
 
-	//static constexpr Color black = (const Color)Color( 0.0f, 0.0f, 0.0f );
-	//static constexpr Color white = (const Color)Color( 1.0f, 1.0f, 1.0f );
-	//static constexpr Color red   = (const Color)Color( 1.0f, 0.0f, 0.0f );
-	//static constexpr Color green = (const Color)Color( 0.0f, 1.0f, 0.0f );
-	//static constexpr Color blue  = (const Color)Color( 0.0f, 0.0f, 1.0f );
+	static constexpr Color black = Color( 0.0f, 0.0f, 0.0f );
+	static constexpr Color white = Color( 1.0f, 1.0f, 1.0f );
+	static constexpr Color red   = Color( 1.0f, 0.0f, 0.0f );
+	static constexpr Color green = Color( 0.0f, 1.0f, 0.0f );
+	static constexpr Color blue  = Color( 0.0f, 0.0f, 1.0f );
 }
 

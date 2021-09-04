@@ -1,18 +1,6 @@
 #include "LRT.h"
 #include <cmath>
 
-LRT::vec3::vec3()
-    :
-    x(0.0f), y(0.0f), z(0.0f)
-{
-}
-
-LRT::vec3::vec3(float x, float y, float z)
-    :
-    x(x), y(y), z(z)
-{
-}
-
 LRT::vec3 LRT::vec3::zero()
 {
     return vec3(0.0f, 0.0f, 0.0f);
