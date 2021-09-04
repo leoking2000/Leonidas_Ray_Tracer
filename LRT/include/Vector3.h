@@ -7,9 +7,21 @@ namespace LRT
 	class LRTAPI vec3
 	{
 	public:
-		float x;
-		float y;
-		float z;
+		union
+		{
+			struct
+			{
+				float x;
+				float y;
+				float z;
+			};
+			struct
+			{
+				float r;
+				float g;
+				float b;
+			};
+		};
 	public:
 		vec3(); // x = 0, y = 0, z = 0
 		vec3(float x, float y, float z);
@@ -100,6 +112,16 @@ namespace LRT
 	};
 
 	LRTAPI vec3 operator* (float num, const vec3& a);
-}
 
+	typedef vec3 Color;
+
+	// Hadamard Product
+	LRTAPI Color operator* (const Color& c1, const Color& c2);
+
+	//static constexpr Color black = (const Color)Color( 0.0f, 0.0f, 0.0f );
+	//static constexpr Color white = (const Color)Color( 1.0f, 1.0f, 1.0f );
+	//static constexpr Color red   = (const Color)Color( 1.0f, 0.0f, 0.0f );
+	//static constexpr Color green = (const Color)Color( 0.0f, 1.0f, 0.0f );
+	//static constexpr Color blue  = (const Color)Color( 0.0f, 0.0f, 1.0f );
+}
 

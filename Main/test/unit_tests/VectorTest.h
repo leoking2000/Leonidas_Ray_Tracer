@@ -142,6 +142,33 @@ void VectorTest()
 
 	}
 
+	/*** color stuff ***/
+
+	/* create a color */
+	{
+		LRT::Color a(-0.5f, 0.4f, 1.7f);
+		assert(a.r == -0.5 && a.g == 0.4f && a.b == 1.7f);
+	}
+
+	/* adding/subtracting/multiplying colors */
+	{
+		LRT::Color c1(0.9f, 0.6f, 0.75f);
+		LRT::Color c2(0.7f, 0.1f, 0.25f);
+
+		assert(c1 + c2 == LRT::Color(1.6f, 0.7f, 1.0f));
+		assert(c1 - c2 == LRT::Color(0.2f, 0.5f, 0.5f));
+
+		LRT::Color c3 = LRT::Color(0.2f, 0.3f, 0.4f);
+		assert(c3 * 2.0f == LRT::Color(0.4f, 0.6f, 0.8f));
+	}
+
+	/* hadamard product */
+	{
+		LRT::Color c1(1.0f, 0.2f, 0.4f);
+		LRT::Color c2(0.9f, 1.0f, 0.1f);
+
+		assert(c1 * c2 == LRT::Color(0.9f, 0.2f, 0.04f));
+	}
 
 
 
