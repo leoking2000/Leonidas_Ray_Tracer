@@ -31,7 +31,7 @@ void ProjectileTest()
 	const int MaxNumberOfTicks = 500;
 	int numberOfTicks = 0;
 
-	while (proj_pos.y >= 0.0f || numberOfTicks >= MaxNumberOfTicks)
+	while (proj_pos.y >= 0.0f && numberOfTicks <= MaxNumberOfTicks)
 	{
 		proj_pos = proj_pos + proj_vel;
 		proj_vel = proj_vel + gravity + wind;
