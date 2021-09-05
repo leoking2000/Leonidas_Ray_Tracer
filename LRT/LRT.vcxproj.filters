@@ -27,7 +27,7 @@
     <ClInclude Include="include\Canvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utilit.h">
+    <ClInclude Include="include\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

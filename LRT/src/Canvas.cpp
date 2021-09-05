@@ -3,7 +3,6 @@
 #include <utility>
 #include <fstream>
 #include <string>
-#include "utilit.h"
 
 LRT::Canvas::Canvas(uint32_t width, uint32_t height)
     :

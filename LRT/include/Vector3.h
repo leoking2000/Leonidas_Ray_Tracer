@@ -1,5 +1,5 @@
 #pragma once
-#define LRTAPI __declspec(dllexport)
+#include "utilities.h"
 
 namespace LRT
 {

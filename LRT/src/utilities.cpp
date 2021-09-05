@@ -1,4 +1,4 @@
-#include "utilit.h"
+#include "utilities.h"
 #include <cmath>
 #include <limits>
 #include <algorithm>

@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector3.h"
-#include <cinttypes>
 
 #define LRTAPI __declspec(dllexport)
 

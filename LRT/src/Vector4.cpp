@@ -1,4 +1,4 @@
-#include "utilit.h"
+#include "utilities.h"
 #include "Vector4.h"
 
 LRT::vec4::vec4()
