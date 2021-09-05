@@ -1,6 +1,9 @@
 #include "Canvas.h"
 #include <assert.h>
 #include <utility>
+#include <fstream>
+#include <string>
+#include "utilit.h"
 
 LRT::Canvas::Canvas(uint32_t width, uint32_t height)
     :
@@ -100,4 +103,44 @@ void LRT::Canvas::SetPixel(uint32_t x, uint32_t y, const Color& c)
     assert(y < m_height);
 
     m_data[y * m_width + x] = c;
+}
+
+void LRT::Canvas::SaveToFile(const char* filename)
+{
+    std::ofstream ppm_file;
+    ppm_file.open(filename, std::ios::out | std::ios::trunc);
+
+    ppm_file << "P3\n";
+    ppm_file << std::to_string(m_width) << " " << std::to_string(m_height) << "\n";
+    ppm_file << "255" << "\n";
+
+    for (uint32_t y = 0; y < m_height; y++)
+    {
+        uint8_t numberOfPixelWritten = 0;
+        for (uint32_t x = 0; x < m_width; x++)
+        {
+            Color* pixel = &m_data[y * m_width + x];
+
+            uint8_t r = (uint8_t)( pixel->r * 255.0f );
+            uint8_t g = (uint8_t)( pixel->g * 255.0f );
+            uint8_t b = (uint8_t)( pixel->b * 255.0f );
+
+            r = clamp(r, (uint8_t)0, (uint8_t)255);
+            g = clamp(g, (uint8_t)0, (uint8_t)255);
+            b = clamp(b, (uint8_t)0, (uint8_t)255);
+
+            ppm_file << std::to_string(r) << " " << std::to_string(g) << " " << std::to_string(b) << " ";
+            numberOfPixelWritten++;
+
+            if (numberOfPixelWritten == 5)
+            {
+                ppm_file << "\n";
+            }
+           
+        }
+    }
+
+    ppm_file << "\n";
+
+    ppm_file.close();
 }

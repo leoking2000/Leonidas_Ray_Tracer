@@ -1,4 +1,5 @@
-#include "LRT.h"
+#include "utilit.h"
+#include "Vector3.h"
 #include <cmath>
 
 LRT::vec3 LRT::vec3::zero()

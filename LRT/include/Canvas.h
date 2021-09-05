@@ -28,6 +28,8 @@ namespace LRT
 		Color GetPixel(uint32_t x, uint32_t y) const;
 		void  SetPixel(uint32_t x, uint32_t y, const Color& c);
 
+		void SaveToFile(const char* filename); // saves the canvas into a ppm file.
+
 	private:
 		uint32_t m_width;
 		uint32_t m_height;
