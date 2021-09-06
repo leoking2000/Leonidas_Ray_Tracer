@@ -16,6 +16,8 @@ void CanvasTest()
 		LRT::Canvas cav(10, 20);
 
 		LRT::Canvas copy_cav = cav;
+
+		copy_cav.Clear(LRT::Colors::white);
 		copy_cav.SetPixel(0, 1, LRT::Colors::mangenta);
 		copy_cav.SetPixel(1, 0, LRT::Colors::cyan);
 

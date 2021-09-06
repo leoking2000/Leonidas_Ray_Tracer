@@ -106,6 +106,11 @@ void LRT::Canvas::SetPixel(uint32_t x, uint32_t y, const Color& c)
 
 void LRT::Canvas::SaveToFile(const char* filename)
 {
+    // the PPM file format must have 70 characters per line or less.
+    // a pixel will take at maximum 12 characters.  example: "255 255 255 "
+    // so if we write 5 pixels per line we have 12*5 = 60( < 70) characters per line at maximum.
+    constexpr uint32_t MaxPixelsPerLine = 5;
+
     std::ofstream ppm_file;
     ppm_file.open(filename, std::ios::out | std::ios::trunc);
 
@@ -113,29 +118,23 @@ void LRT::Canvas::SaveToFile(const char* filename)
     ppm_file << std::to_string(m_width) << " " << std::to_string(m_height) << "\n";
     ppm_file << "255" << "\n";
 
-    for (uint32_t y = 0; y < m_height; y++)
+    uint32_t counter = 0; // counts the pixels writen in on line
+
+    for (size_t i = 0; i < m_width * m_height; i++)
     {
-        uint8_t numberOfPixelWritten = 0;
-        for (uint32_t x = 0; x < m_width; x++)
+        Color* pixel = &m_data[i];
+
+        uint32_t r = LRT::clamp<uint32_t>(uint32_t(pixel->r * 255.0f), 0, 255);
+        uint32_t g = LRT::clamp<uint32_t>(uint32_t(pixel->g * 255.0f), 0, 255);
+        uint32_t b = LRT::clamp<uint32_t>(uint32_t(pixel->b * 255.0f), 0, 255);
+
+        ppm_file << std::to_string(r) << " " << std::to_string(g) << " " << std::to_string(b) << " ";
+
+        counter++;
+        if (counter == MaxPixelsPerLine)
         {
-            Color* pixel = &m_data[y * m_width + x];
-
-            uint8_t r = (uint8_t)( pixel->r * 255.0f );
-            uint8_t g = (uint8_t)( pixel->g * 255.0f );
-            uint8_t b = (uint8_t)( pixel->b * 255.0f );
-
-            r = clamp(r, (uint8_t)0, (uint8_t)255);
-            g = clamp(g, (uint8_t)0, (uint8_t)255);
-            b = clamp(b, (uint8_t)0, (uint8_t)255);
-
-            ppm_file << std::to_string(r) << " " << std::to_string(g) << " " << std::to_string(b) << " ";
-            numberOfPixelWritten++;
-
-            if (numberOfPixelWritten == 5)
-            {
-                ppm_file << "\n";
-            }
-           
+            ppm_file << "\n";
+            counter = 0;
         }
     }
 
