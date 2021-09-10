@@ -5,8 +5,6 @@
 #include "test/test.h"
 #include "LRT.h"
 
-#include "Canvas.h"
-
 void CanvasTest()
 {
 	std::cout << "Canvas Test.....";

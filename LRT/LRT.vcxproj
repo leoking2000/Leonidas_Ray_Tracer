@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="include\Canvas.h" />
     <ClInclude Include="include\LRT.h" />
+    <ClInclude Include="include\Matrix.h" />
     <ClInclude Include="include\utilities.h" />
     <ClInclude Include="include\Vector3.h" />
     <ClInclude Include="include\Vector4.h" />
