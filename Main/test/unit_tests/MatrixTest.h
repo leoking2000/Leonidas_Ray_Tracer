@@ -171,6 +171,21 @@ void MatrixTest()
 		assert(LRT::mat<4>::subMatrix(B, 2, 1) == subB);
 	}
 
+	// minors and cofactors
+	{
+		LRT::mat3 A = {
+			3.0f, 5.0f, 0.0f,
+			2.0f, -1.0f, -7.0f,
+			6.0f, -1.0f, 5.0f
+		};
+
+		assert(A.getMinor(1, 0) == 25);
+		assert(A.getCofactor(1, 0) == -25);
+
+		assert(A.getMinor(0, 0) == -12);
+		assert(A.getCofactor(0, 0) == -12);
+	}
+
 	// Determinant
 	{
 		LRT::mat2 mat_2 = {
@@ -185,7 +200,53 @@ void MatrixTest()
 			1.0f, 4.0f, -1.0f
 		};
 		assert(mat_3.det() == -24.0f);
+
+		LRT::mat3 A = {
+			1.0f, 2.0f, 6.0f,
+			-5.0f, 8.0f, -4.0f,
+			2.0f, 6.0f, 4.0f
+		};
+
+		assert(A.getCofactor(0, 0) == 56);
+		assert(A.getCofactor(0, 1) == 12);
+		assert(A.getCofactor(0, 2) == -46);
+		assert(A.det() == -196.0f);
+		assert(A(0, 0) * 56 + A(0, 1) * 12 - A(0, 2) * 46 == -196.0f);
+
+		LRT::mat4 B = {
+			-2.0f, -8.0f, 3.0f, 5.0f,
+			-3.0f, 1.0f, 7.0f, 3.0f,
+			1.0f, 2.0f, -9.0f, 6.0f,
+			-6.0f, 7.0f, 7.0f, -9.0f
+		};
+
+		assert(B.getCofactor(0, 0) == 690.0f);
+		assert(B.getCofactor(0, 1) == 447.0f);
+		assert(B.getCofactor(0, 2) == 210.0f);
+		assert(B.getCofactor(0, 3) == 51.0f);
+		assert(B.det() == -4071.0f);
+
+		LRT::mat<5> mat_5A = {
+			6.0f, 7.0f, 2.0f, 1.0f, 0.0f,
+			1.0f, 1.0f, 3.0f, 7.0f, 0.0f,
+			0.0f, 3.0f, 1.0f, 0.0f, 0.0f,
+			2.0f, 3.0f, 6.0f, 3.0f, 0.0f,
+			1.0f, 2.0f, 4.0f, 2.0f, 1.0f
+		};
+
+		LRT::mat<5> mat_5B = {
+			6.0f, 7.0f, 2.0f, 1.0f, 0.0f,
+			1.0f, 1.0f, 3.0f, 7.0f, 0.0f,
+			0.0f, 3.0f, 1.0f, 0.0f, 0.0f,
+			2.0f, 3.0f, 6.0f, 3.0f, 0.0f,
+			1.0f, 2.0f, 4.0f, 2.0f, 0.0f
+		};
+
+		assert(mat_5A.det() == 498.0f);
+		assert(mat_5B.det() == 0.0f);
 	}
+
+
 
 
 	std::cout << "OK\n";

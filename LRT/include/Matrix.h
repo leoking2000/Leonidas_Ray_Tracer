@@ -214,6 +214,21 @@ namespace LRT
 
 		// Methods //
 
+		float getMinor(uint32_t row, uint32_t col) const
+		{
+			return subMatrix(*this, row, col).det();
+		}
+
+		float getCofactor(uint32_t row, uint32_t col) const
+		{
+			float minor = this->getMinor(row, col);
+
+			if ((row + col) % 2 == 1)
+				minor = -minor;
+
+			return minor;
+		}
+
 		float det() const
 		{
 			if constexpr (S == 2)
@@ -227,7 +242,14 @@ namespace LRT
 			}
 			else
 			{
-				return 0.0f;
+				float sum = 0.0f;
+
+				for (uint32_t row = 0; row < S; row++)
+				{
+					sum += (*this)(row, S - 1) * this->getCofactor(row, S - 1);
+				}
+
+				return sum;
 			}
 
 		}
