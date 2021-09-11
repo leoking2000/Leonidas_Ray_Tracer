@@ -337,6 +337,8 @@ void MatrixTest()
 		LRT::mat4 C = A * A_inv;
 
 		assert(C == LRT::mat4::identity());
+
+		assert(LRT::mat4::inverse(A.transpose()) == A_inv.transpose());
 	}
 
 
