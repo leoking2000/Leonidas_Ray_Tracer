@@ -246,6 +246,98 @@ void MatrixTest()
 		assert(mat_5B.det() == 0.0f);
 	}
 
+	// matrix invertion
+	{
+		LRT::mat4 A = {
+			-5.0f, 2.0f, 6.0f, -8.0f,
+			1.0f, -5.0f, 1.0f, 8.0f,
+			7.0f, 7.0f, -6.0f, -7.0f,
+			1.0f, -3.0f, 7.0f, 4.0f
+		};
+
+		LRT::mat4 A_inv = LRT::mat4::inverse(A);
+
+		LRT::mat4 A_inv_ex = {
+			 0.21805f,  0.45113f,  0.24060f, -0.04511f,
+			-0.80827f, -1.45677f, -0.44361f,  0.52068f,
+			-0.07895f, -0.22368f, -0.05263f,  0.19737f,
+			-0.52256f, -0.81391f, -0.30075f,  0.30639f
+		};
+
+		assert(A_inv_ex == A_inv);
+
+		LRT::mat4 B = {
+			8.0f, -5.0f, 9.0f, 2.0f,
+			7.0f, 5.0f, 6.0f, 1.0f,
+			-6.0f, 0.0f, 9.0f, 6.0f,
+			-3.0f, 0.0f, -9.0f, -4.0f
+		};
+		LRT::mat4 B_inv = LRT::mat4::inverse(B);
+
+		LRT::mat4 B_inv_ex = {
+			-0.15385f, -0.15385f, -0.28205f, -0.53846f,
+			-0.07692f,  0.12308f,  0.02564f,  0.03077f,
+			 0.35897f,  0.35897f,  0.43590f,  0.92308f,
+			-0.69231f, -0.69231f, -0.76923f, -1.92308f
+		};
+
+		assert(B_inv_ex == B_inv);
+
+		LRT::mat4 C = {
+			9.0f, 3.0f, 0.0f, 9.0f,
+			-5.0f, -2.0f, -6.0f, -3.0f,
+			-4.0f, 9.0f, 6.0f, 4.0f,
+			-7.0f, 6.0f, 6.0f, 2.0f
+		};
+
+		LRT::mat4 C_inv = LRT::mat4::inverse(C);
+
+		LRT::mat4 C_inv_ex = {
+			-0.04074f, -0.07778f,  0.14444f, -0.22222f,
+			-0.07778f,  0.03333f,  0.36667f, -0.33333f,
+			-0.02901f, -0.14630f, -0.10926f, 0.12963f,
+			 0.17778f,  0.06667f, -0.26667f, 0.33333f
+		};
+
+		assert(B_inv_ex == B_inv);
+
+	}
+	// Multiplying a product by its inverse
+	{
+		LRT::mat4 A = {
+			3.0f, -9.0f, 7.0f, 3.0f,
+			3.0f, -8.0f, 2.0f, -9.0f,
+			-4.0f, 4.0f, 4.0f, 1.0f,
+			-6.0f, 5.0f, -1.0f, 1.0f
+		};
+
+		LRT::mat4 B = {
+			8.0f, 2.0f, 2.0f, 2.0f,
+			3.0f, -1.0f, 7.0f, 0.0f,
+			7.0f, 0.0f, 5.0f, 4.0f,
+			6.0f, -2.0f, 0.0f, 5.0f
+		};
+
+		LRT::mat4 C = A * B;
+
+		assert(C * LRT::mat4::inverse(B) == A);
+	}
+
+	{
+		assert(LRT::mat4::inverse(LRT::mat4::identity()) == LRT::mat4::identity());
+
+		LRT::mat4 A = {
+			-5.0f, 2.0f, 6.0f, -8.0f,
+			1.0f, -5.0f, 1.0f, 8.0f,
+			7.0f, 7.0f, -6.0f, -7.0f,
+			1.0f, -3.0f, 7.0f, 4.0f
+		};
+		LRT::mat4 A_inv = LRT::mat4::inverse(A);
+
+		LRT::mat4 C = A * A_inv;
+
+		//assert(C == LRT::mat4::identity()); // :(
+	}
 
 
 

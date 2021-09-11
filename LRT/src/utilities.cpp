@@ -21,7 +21,7 @@ namespace LRT
         else if (a == 0 || b == 0 || (absA + absB < MIN_NORMAL)) {
             // a or b is zero or both are extremely close to it
             // relative error is less meaningful here
-            return diff < (epsilon* MIN_NORMAL);
+            return diff < (epsilon * MIN_NORMAL);
         }
         else { // use relative error
             return diff / std::min((absA + absB), MAX_VALUE) < epsilon;

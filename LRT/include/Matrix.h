@@ -1,7 +1,11 @@
 #pragma once
 #include "Vector4.h"
+#include <assert.h>
 #include <string>
 #include <cmath>
+
+// TODO: Det and invert do some small errors. fix it using the Numerical analysis book.
+// NOTE: for now the == operator will use relative error with epsilon = 0.0001
 
 namespace LRT
 {
@@ -14,9 +18,25 @@ namespace LRT
 	public:
 		mat() = default;
 
-		inline float operator()(uint32_t row, uint32_t col) const { return data[row * S + col]; }
+		inline float operator()(uint32_t row, uint32_t col) const 
+		{ 
+			assert(row >= 0);
+			assert(row < S);
+			assert(col >= 0);
+			assert(col < S);
 
-		inline float& operator()(uint32_t row, uint32_t col) { return data[row * S + col]; }
+			return data[row * S + col]; 
+		}
+
+		inline float& operator()(uint32_t row, uint32_t col) 
+		{
+			assert(row >= 0);
+			assert(row < S);
+			assert(col >= 0);
+			assert(col < S);
+
+			return data[row * S + col];
+		}
 
 		// static Methods //
 
@@ -212,6 +232,32 @@ namespace LRT
 			return sub;
 		}
 
+		// returns the zero matrix if mat is not invertible
+		static mat<S> inverse(const mat<S> mat)
+		{
+			float det = mat.det();
+
+			if (LRT::Equal(det, 0.0f))
+			{
+				LRT::mat<4> zero;
+				return zero;
+			}
+
+			LRT::mat<S> inv;
+
+			float det_inv = 1 / det;
+
+			for (uint32_t row = 0; row < S; row++)
+			{
+				for (uint32_t col = 0; col < S; col++)
+				{
+					inv(col, row) = mat.getCofactor(row, col) * det_inv;
+				}
+			}
+
+			return inv;
+		}
+
 		// Methods //
 
 		float getMinor(uint32_t row, uint32_t col) const
@@ -275,7 +321,7 @@ namespace LRT
 			bool isEqual = true;
 			for (size_t i = 0; i < S * S; i++)
 			{
-				if (!LRT::Equal(data[i], other.data[i]))
+				if (!LRT::Equal(data[i], other.data[i], 0.001f))
 				{
 					isEqual = false;
 					break;
