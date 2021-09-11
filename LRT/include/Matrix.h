@@ -5,7 +5,7 @@
 #include <cmath>
 
 // TODO: Det and invert do some small errors. fix it using the Numerical analysis book.
-// NOTE: for now the == operator will use relative error with epsilon = 0.0001
+// NOTE: for now the == operator will use absolute error with epsilon = 0.00001
 
 namespace LRT
 {
@@ -13,6 +13,11 @@ namespace LRT
 	template<uint32_t S>
 	class mat
 	{
+	private:
+		static inline bool equal(float a, float b)
+		{
+			return std::abs(a - b) < 0.00001f;
+		}
 	public:
 		float data[S * S] = { 0 };
 	public:
@@ -321,7 +326,7 @@ namespace LRT
 			bool isEqual = true;
 			for (size_t i = 0; i < S * S; i++)
 			{
-				if (!LRT::Equal(data[i], other.data[i], 0.001f))
+				if (!equal(data[i], other.data[i]))
 				{
 					isEqual = false;
 					break;

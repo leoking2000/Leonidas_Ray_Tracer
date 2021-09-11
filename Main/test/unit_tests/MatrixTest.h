@@ -336,7 +336,7 @@ void MatrixTest()
 
 		LRT::mat4 C = A * A_inv;
 
-		//assert(C == LRT::mat4::identity()); // :(
+		assert(C == LRT::mat4::identity());
 	}
 
 
