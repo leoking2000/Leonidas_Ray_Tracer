@@ -26,9 +26,6 @@
     <ClInclude Include="test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test\unit_tests\FloatEqualTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="test\unit_tests\VectorTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>

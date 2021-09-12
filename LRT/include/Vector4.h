@@ -14,6 +14,9 @@ namespace LRT
 
 		// static Methods //
 
+		static inline vec4 point(float x, float y, float z) { return { x, y, z, 1.0f }; }
+		static inline vec4 vector(float x, float y, float z) { return { x, y, z, 0.0f }; }
+
 		// (0 , 0, 0, 0)
 		static vec4 zero();
 

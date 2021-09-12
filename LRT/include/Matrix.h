@@ -4,20 +4,12 @@
 #include <string>
 #include <cmath>
 
-// TODO: Det and invert do some small errors. fix it using the Numerical analysis book.
-// NOTE: for now the == operator will use absolute error with epsilon = 0.00001
-
 namespace LRT
 {
 	// Matrix with size SxS
 	template<uint32_t S>
 	class mat
 	{
-	private:
-		static inline bool equal(float a, float b)
-		{
-			return std::abs(a - b) < 0.00001f;
-		}
 	public:
 		float data[S * S] = { 0 };
 	public:
@@ -45,7 +37,7 @@ namespace LRT
 
 		// static Methods //
 
-		static mat<S> identity()
+		static inline mat<S> identity()
 		{
 			if constexpr (S == 2)
 			{
@@ -77,7 +69,7 @@ namespace LRT
 			}
 		}
 
-		static mat<S> scale(float s)
+		static inline mat<S> scale(float s)
 		{
 			if constexpr (S == 2)
 			{
@@ -109,7 +101,17 @@ namespace LRT
 			}
 		}
 
-		static mat<S> rotationX(float theta)
+		static inline mat<4> scale(float sx, float sy, float sz)
+		{
+			return {
+				sx, 0.0f, 0.0f, 0.0f,
+				0.0f,    sy, 0.0f, 0.0f,
+				0.0f, 0.0f,    sz, 0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f
+			};
+		}
+
+		static inline mat<S> rotationX(float theta)
 		{
 			float sin = sinf(theta);
 			float cos = cosf(theta);
@@ -137,7 +139,7 @@ namespace LRT
 			}
 		}
 
-		static mat<S> rotationY(float theta)
+		static inline mat<S> rotationY(float theta)
 		{
 			float sin = sinf(theta);
 			float cos = cosf(theta);
@@ -165,7 +167,7 @@ namespace LRT
 			}
 		}
 
-		static mat<S> rotationZ(float theta)
+		static inline mat<S> rotationZ(float theta)
 		{
 			float sin = sinf(theta);
 			float cos = cosf(theta);
@@ -193,7 +195,7 @@ namespace LRT
 			}
 		}
 
-		static mat<4> Translation3D(float x, float y, float z)
+		static inline mat<4> Translation3D(float x, float y, float z)
 		{
 			return {
 				1.0f, 0.0f, 0.0f, 0.0f,
@@ -326,7 +328,7 @@ namespace LRT
 			bool isEqual = true;
 			for (size_t i = 0; i < S * S; i++)
 			{
-				if (!equal(data[i], other.data[i]))
+				if (!LRT::Equal(data[i], other.data[i]))
 				{
 					isEqual = false;
 					break;

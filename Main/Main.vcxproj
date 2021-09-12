@@ -157,7 +157,6 @@
     <ClInclude Include="test\playing_tests\ProjectileTest.h" />
     <ClInclude Include="test\test.h" />
     <ClInclude Include="test\unit_tests\CanvasTest.h" />
-    <ClInclude Include="test\unit_tests\FloatEqualTest.h" />
     <ClInclude Include="test\unit_tests\MatrixTest.h" />
     <ClInclude Include="test\unit_tests\VectorTest.h" />
   </ItemGroup>

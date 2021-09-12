@@ -5,6 +5,8 @@
 
 namespace LRT
 {
+    constexpr float PI = 3.14159265f;
+
     bool LRTAPI Equal(float a, float b, float epsilon = 0.00001f);
 
     template<typename T>

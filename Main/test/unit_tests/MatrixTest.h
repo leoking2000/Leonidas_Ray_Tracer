@@ -341,6 +341,68 @@ void MatrixTest()
 		assert(LRT::mat4::inverse(A.transpose()) == A_inv.transpose());
 	}
 
+	// translation
+	{
+		LRT::mat4 transform = LRT::mat4::Translation3D(5.0f, -3.0f, 2.0f);
+		LRT::vec4 point = LRT::vec4::point(-3.0f, 4.0f, 5.0f);
+		assert(point * transform == LRT::vec4::point(2.0f, 1.0f, 7.0f));
+
+		LRT::mat4 transform_inv = LRT::mat4::inverse(transform);
+		assert(point * transform_inv == LRT::vec4::point(-8.0f, 7.0f, 3.0f));
+
+		LRT::vec4 vec = LRT::vec4::vector(-3.0f, 4.0f, 5.0f);
+		assert(vec * transform == vec);
+		assert(vec * transform_inv == vec);
+	}
+
+	// scaling
+	{
+		LRT::mat4 transform = LRT::mat4::scale(2.0f, 3.0f, 4.0f);
+
+		LRT::vec4 point = LRT::vec4::point(-4.0f, 6.0f, 8.0f);
+		assert(point * transform == LRT::vec4::point(-8.0f, 18.0f, 32.0f));
+
+		LRT::vec4 vec = LRT::vec4::vector(-4.0f, 6.0f, 8.0f);
+		assert(vec * transform == LRT::vec4::vector(-8.0f, 18.0f, 32.0f));
+
+		LRT::mat4 transform_inv = LRT::mat4::inverse(transform);
+		assert(vec * transform_inv == LRT::vec4::vector(-2.0f, 2.0f, 2.0f));
+
+		LRT::mat4 reflection = LRT::mat4::scale(-1.0f, 1.0f, 1.0f);
+		assert(point * reflection == LRT::vec4::point(4.0f, 6.0f, 8.0f));
+	}
+
+	// rotation
+	{
+		// X
+		LRT::vec4 point = LRT::vec4::point(0.0f, 1.0f, 0.0f);
+
+		LRT::mat4 half_quarter = LRT::mat4::rotationX(LRT::PI / 4.0f);
+		LRT::mat4 full_quarter = LRT::mat4::rotationX(LRT::PI / 2.0f);
+
+		assert(point * half_quarter == LRT::vec4::point(0.0f, std::sqrtf(2) / 2.0f, std::sqrtf(2) / 2.0f));
+		assert(point * full_quarter == LRT::vec4::point(0.0f, 0.0f, 1.0f));
+		assert(point * LRT::mat4::inverse(half_quarter) == LRT::vec4::point(0.0f, std::sqrtf(2) / 2.0f, -std::sqrtf(2) / 2.0f));
+
+		// Y
+		point = LRT::vec4::point(0.0f, 0.0f, 1.0f);
+
+		half_quarter = LRT::mat4::rotationY(LRT::PI / 4.0f);
+		full_quarter = LRT::mat4::rotationY(LRT::PI / 2.0f);
+
+		assert(point * half_quarter == LRT::vec4::point(std::sqrtf(2) / 2.0f, 0.0f, std::sqrtf(2) / 2.0f));
+		assert(point * full_quarter == LRT::vec4::point(1.0f, 0.0f, 0.0f));
+
+		// Z
+		point = LRT::vec4::point(0.0f, 1.0f, 0.0f);
+
+		half_quarter = LRT::mat4::rotationZ(LRT::PI / 4.0f);
+		full_quarter = LRT::mat4::rotationZ(LRT::PI / 2.0f);
+
+		assert(point* half_quarter == LRT::vec4::point(-std::sqrtf(2) / 2.0f, std::sqrtf(2) / 2.0f, 0.0f));
+		assert(point* full_quarter == LRT::vec4::point(-1.0f, 0.0f, 0.0f));
+
+	}
 
 
 	std::cout << "OK\n";
