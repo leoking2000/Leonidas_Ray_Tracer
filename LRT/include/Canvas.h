@@ -1,7 +1,5 @@
 #pragma once
-#include "Vector3.h"
-
-#define LRTAPI __declspec(dllexport)
+#include "LRTMath.h"
 
 namespace LRT
 {
@@ -12,6 +10,8 @@ namespace LRT
 
 		Canvas(const Canvas& other);
 		Canvas& operator=(const Canvas& other);
+
+		bool operator==(const Canvas& other);
 
 		Canvas(Canvas&& other);
 		Canvas& operator=(Canvas&& other);

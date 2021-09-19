@@ -41,5 +41,8 @@
     <ClInclude Include="test\playing_tests\clockpositionsTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="test\unit_tests\RayTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

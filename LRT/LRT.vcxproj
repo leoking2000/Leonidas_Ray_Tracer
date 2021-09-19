@@ -145,16 +145,12 @@
   <ItemGroup>
     <ClInclude Include="include\Canvas.h" />
     <ClInclude Include="include\LRT.h" />
-    <ClInclude Include="include\Matrix.h" />
-    <ClInclude Include="include\utilities.h" />
-    <ClInclude Include="include\Vector3.h" />
-    <ClInclude Include="include\Vector4.h" />
+    <ClInclude Include="include\LRTMath.h" />
+    <ClInclude Include="include\defines.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Canvas.cpp" />
-    <ClCompile Include="src\Vector3.cpp" />
-    <ClCompile Include="src\Vector4.cpp" />
-    <ClCompile Include="src\utilities.cpp" />
+    <ClCompile Include="src\LRTMath.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -159,6 +159,7 @@
     <ClInclude Include="test\test.h" />
     <ClInclude Include="test\unit_tests\CanvasTest.h" />
     <ClInclude Include="test\unit_tests\MatrixTest.h" />
+    <ClInclude Include="test\unit_tests\RayTest.h" />
     <ClInclude Include="test\unit_tests\VectorTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

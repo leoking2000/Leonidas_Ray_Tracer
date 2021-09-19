@@ -43,6 +43,19 @@ LRT::Canvas& LRT::Canvas::operator=(const LRT::Canvas& other)
     return *this;
 }
 
+bool LRT::Canvas::operator==(const Canvas& other)
+{
+    for (size_t i = 0; i < m_width * m_height; i++)
+    {
+        if (m_data[i] == other.m_data[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 LRT::Canvas::Canvas(LRT::Canvas&& other)
     :
     m_width(other.m_width),
