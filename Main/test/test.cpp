@@ -5,6 +5,7 @@
 #include "unit_tests/MatrixTest.h"
 
 #include "playing_tests/ProjectileTest.h"
+#include "playing_tests/clockpositionsTest.h"
 
 void Test::Test()
 {
@@ -13,4 +14,5 @@ void Test::Test()
 	MatrixTest();
 
 	//ProjectileTest();
+	clockpositionsTest();
 }

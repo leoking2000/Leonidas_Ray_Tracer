@@ -399,9 +399,53 @@ void MatrixTest()
 		half_quarter = LRT::mat4::rotationZ(LRT::PI / 4.0f);
 		full_quarter = LRT::mat4::rotationZ(LRT::PI / 2.0f);
 
-		assert(point* half_quarter == LRT::vec4::point(-std::sqrtf(2) / 2.0f, std::sqrtf(2) / 2.0f, 0.0f));
-		assert(point* full_quarter == LRT::vec4::point(-1.0f, 0.0f, 0.0f));
+		assert(point * half_quarter == LRT::vec4::point(-std::sqrtf(2) / 2.0f, std::sqrtf(2) / 2.0f, 0.0f));
+		assert(point * full_quarter == LRT::vec4::point(-1.0f, 0.0f, 0.0f));
+	}
 
+	// Shearing
+	{
+		LRT::mat4 transform;
+
+		LRT::vec4 point = LRT::vec4::point(2.0f, 3.0f, 4.0f);
+
+		transform = LRT::mat4::shearing(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		assert(point * transform == LRT::vec4::point(5.0f, 3.0f, 4.0f));
+
+		transform = LRT::mat4::shearing(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		assert(point * transform == LRT::vec4::point(6.0f, 3.0f, 4.0f));
+
+		transform = LRT::mat4::shearing(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+		assert(point * transform == LRT::vec4::point(2.0f, 5.0f, 4.0f));
+
+		transform = LRT::mat4::shearing(0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+		assert(point * transform == LRT::vec4::point(2.0f, 7.0f, 4.0f));
+
+		transform = LRT::mat4::shearing(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		assert(point * transform == LRT::vec4::point(2.0f, 3.0f, 6.0f));
+
+		transform = LRT::mat4::shearing(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		assert(point * transform == LRT::vec4::point(2.0f, 3.0f, 7.0f));
+
+	}
+
+	// Chaining Transformations
+	{
+		LRT::mat4 A = LRT::mat4::rotationX(LRT::PI / 2.0f);
+		LRT::mat4 B = LRT::mat4::scale(5.0f);
+		LRT::mat4 C = LRT::mat4::Translation3D(10.0f, 5.0f, 7.0f);
+		LRT::vec4 p = LRT::vec4::point(1.0f, 0.0f, 1.0f);
+
+		LRT::vec4 p_tr = p * A;
+		assert(p_tr == LRT::vec4::point(1.0f, -1.0f, 0.0f));
+
+		p_tr = p_tr * B;
+		assert(p_tr == LRT::vec4::point(5.0f, -5.0f, 0.0f));
+
+		p_tr = p_tr * C;
+		assert(p_tr == LRT::vec4::point(15.0f, 0.0f, 7.0f));
+
+		assert(p * A * B * C == p_tr);
 	}
 
 

@@ -205,6 +205,16 @@ namespace LRT
 			};
 		}
 
+		static inline mat<4> shearing(float Xy, float Xz, float Yx, float Yz, float Zx, float Zy)
+		{
+			return {
+				1.0f,   Yx,   Zx, 0.0f,
+				  Xy, 1.0f,   Zy, 0.0f,
+				  Xz,   Yz, 1.0f, 0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f
+			};
+		}
+
 		static mat<S - 1> subMatrix(const mat<S> mat, uint32_t row, uint32_t col)
 		{
 			LRT::mat<S - 1> sub;

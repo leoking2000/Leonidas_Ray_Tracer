@@ -154,6 +154,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="test\playing_tests\clockpositionsTest.h" />
     <ClInclude Include="test\playing_tests\ProjectileTest.h" />
     <ClInclude Include="test\test.h" />
     <ClInclude Include="test\unit_tests\CanvasTest.h" />
