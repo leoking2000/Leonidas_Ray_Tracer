@@ -343,18 +343,5 @@ namespace LRT
         return r;
     }
 
-    //////////////////////////////////////////////////////////////////////
-
-    Ray::Ray(const vec3& o, const vec3 dir)
-        :
-        m_origin(o),
-        m_direction(dir)
-    {
-    }
-
-    vec3 Ray::operator()(float t)
-    {
-        return m_origin + t * m_direction;
-    }
 }
 

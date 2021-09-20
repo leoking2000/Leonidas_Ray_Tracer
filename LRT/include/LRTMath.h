@@ -647,20 +647,5 @@ namespace LRT
 	typedef mat<2> mat2;
 	typedef mat<3> mat3;
 	typedef mat<4> mat4;
-
-	class LRTAPI Ray
-	{
-	public:
-		LRT::vec3 m_origin;
-		LRT::vec3 m_direction;
-
-	public:
-		Ray(const vec3& o, const vec3 dir);
-
-
-		LRT::vec3 operator()(float t);
-
-	};
-
 }
 

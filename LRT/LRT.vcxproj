@@ -144,11 +144,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Canvas.h" />
+    <ClInclude Include="include\geometry.h" />
     <ClInclude Include="include\LRT.h" />
     <ClInclude Include="include\LRTMath.h" />
     <ClInclude Include="include\defines.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\geometry.cpp" />
     <ClCompile Include="src\Canvas.cpp" />
     <ClCompile Include="src\LRTMath.cpp" />
   </ItemGroup>
