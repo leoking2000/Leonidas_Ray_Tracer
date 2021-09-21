@@ -13,8 +13,8 @@ void RayTest()
 	{
 		LRT::Ray r({ 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f });
 
-		assert(r.m_origin == LRT::vec3(1.0f, 2.0f, 3.0f));
-		assert(r.m_direction == LRT::vec3(4.0f, 5.0f, 6.0f));
+		assert(r.origin == LRT::vec3(1.0f, 2.0f, 3.0f));
+		assert(r.direction == LRT::vec3(4.0f, 5.0f, 6.0f));
 	}
 
 	// computing a point from a distance
@@ -33,36 +33,69 @@ void RayTest()
 		LRT::Sphere sphere;
 
 		// 2 intersetions
-		std::vector<float> intersetions = sphere.intersect(r);
+		std::vector<LRT::Intersection> intersetions = LRT::intersect(r, sphere);
 		assert(intersetions.size() == 2);
-		assert(intersetions[0] == 4.0f);
-		assert(intersetions[1] == 6.0f);
+		assert(intersetions[0].t == 4.0f);
+		assert(intersetions[1].t == 6.0f);
 
 		// 1 intersetion
-		r.m_origin += LRT::vec3(0.0f, 1.0f, 0.0f);
-		intersetions = sphere.intersect(r);
+		r.origin += LRT::vec3(0.0f, 1.0f, 0.0f);
+		intersetions = LRT::intersect(r, sphere);
 		assert(intersetions.size() == 2);
-		assert(intersetions[0] == 5.0f);
-		assert(intersetions[1] == 5.0f);
+		assert(intersetions[0].t == 5.0f);
+		assert(intersetions[1].t == 5.0f);
 
 		// no intersetions
-		r.m_origin += LRT::vec3(0.0f, 1.0f, 0.0f);
-		intersetions = sphere.intersect(r);
+		r.origin += LRT::vec3(0.0f, 1.0f, 0.0f);
+		intersetions = LRT::intersect(r, sphere);
 		assert(intersetions.size() == 0);
 
 		// 2 intersetions when a intersetion in behind the ray origin
-		r.m_origin = LRT::vec3();
-		intersetions = sphere.intersect(r);
+		r.origin = LRT::vec3();
+		intersetions = LRT::intersect(r, sphere);
 		assert(intersetions.size() == 2);
-		assert(intersetions[0] == -1.0f);
-		assert(intersetions[1] ==  1.0f);
+		assert(intersetions[0].t == -1.0f);
+		assert(intersetions[1].t ==  1.0f);
 
 		// 2 intersetion when the sphere in behind the ray
-		r.m_origin = LRT::vec3(0.0f, 0.0f, 5.0f);
-		intersetions = sphere.intersect(r);
+		r.origin = LRT::vec3(0.0f, 0.0f, 5.0f);
+		intersetions = LRT::intersect(r, sphere);
 		assert(intersetions.size() == 2);
-		assert(intersetions[0] == -6.0f);
-		assert(intersetions[1] == -4.0f);
+		assert(intersetions[0].t == -6.0f);
+		assert(intersetions[1].t == -4.0f);
+
+		assert(intersetions[0].obj == sphere);
+	}
+
+	// hit function test
+	{
+		LRT::Sphere sphere;
+
+		std::vector<LRT::Intersection> inters;
+
+		inters.emplace_back(1.0f, sphere);
+		inters.emplace_back(2.0f, sphere);
+		assert(LRT::hit(inters) == 0);
+
+		inters.clear();
+
+		inters.emplace_back(-1.0f, sphere);
+		inters.emplace_back(2.0f, sphere);
+		assert(LRT::hit(inters) == 1);
+
+		inters.clear();
+
+		inters.emplace_back(-4.0f, sphere);
+		inters.emplace_back(-3.0f, sphere);
+		assert(LRT::hit(inters) == -1);
+
+		inters.clear();
+
+		inters.emplace_back(5.0f, sphere);
+		inters.emplace_back(7.0f, sphere);
+		inters.emplace_back(-3.0f, sphere);
+		inters.emplace_back(2.0f, sphere);
+		assert(LRT::hit(inters) == 3);
 
 	}
 
