@@ -2,7 +2,6 @@
 #include <iostream>
 #include <assert.h>
 
-#include "test/test.h"
 #include "LRT.h"
 
 void CanvasTest()

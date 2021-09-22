@@ -7,6 +7,7 @@
 
 #include "playing_tests/ProjectileTest.h"
 #include "playing_tests/clockpositionsTest.h"
+#include "playing_tests/DrawSphereTest.h"
 
 void Test::Test()
 {
@@ -15,6 +16,7 @@ void Test::Test()
 	MatrixTest();
 	RayTest();
 
-	//ProjectileTest();
-	//clockpositionsTest();
+	ProjectileTest();
+	clockpositionsTest();
+	DrawSphereTest();
 }
