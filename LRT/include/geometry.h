@@ -10,10 +10,15 @@ namespace LRT
 		LRT::vec3 origin;
 		LRT::vec3 direction;
 	public:
-		Ray(const vec3& o, const vec3 dir);
+		Ray(const vec3& o, const vec3& dir);
 
 		LRT::vec3 operator()(float t) const;
+
+		bool operator==(const Ray& other);
+		bool operator!=(const Ray& other);
 	};
+
+	Ray LRTAPI operator*(const Ray& ray, const mat4& mat);
 
 	class LRTAPI Sphere
 	{
@@ -23,7 +28,11 @@ namespace LRT
 		bool operator==(const Sphere& other) const;
 		bool operator!=(const Sphere& other) const;
 
+		const mat4& GetInverseTransform();
+		void SetTransform(const mat4& mat);
+
 	private:
+		mat4 inv_transform;
 		size_t m_id;
 	private:
 		static size_t id_count;

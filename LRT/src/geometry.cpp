@@ -3,7 +3,7 @@
 
 namespace LRT
 {
-    Ray::Ray(const vec3& o, const vec3 dir)
+    Ray::Ray(const vec3& o, const vec3& dir)
         :
         origin(o),
         direction(dir)
@@ -15,13 +15,29 @@ namespace LRT
         return origin + t * direction;
     }
 
+    bool Ray::operator==(const Ray& other)
+    {
+        return origin == other.origin && direction == other.direction;
+    }
+
+    bool Ray::operator!=(const Ray& other)
+    {
+        return !(*this == other);
+    }
+
+    Ray operator*(const Ray& ray, const mat4& mat)
+    {
+        return Ray(vec4(ray.origin, 1.0f) * mat, vec4(ray.direction, 0.0f) * mat);
+    }
+
     /////////////////////////////////////////////////////////////////
 
     size_t Sphere::id_count = 0;
 
     Sphere::Sphere()
         :
-        m_id(id_count)
+        m_id(id_count),
+        inv_transform(LRT::mat4::identity())
     {
         id_count++;
     }
@@ -34,6 +50,16 @@ namespace LRT
     bool Sphere::operator!=(const Sphere& other) const
     {
         return !(*this == other);
+    }
+
+    const mat4& Sphere::GetInverseTransform()
+    {
+        return inv_transform;
+    }
+
+    void Sphere::SetTransform(const mat4& mat)
+    {
+        inv_transform = LRT::mat4::inverse(mat);
     }
 
     ////////////////////////////////////////////////////////////
@@ -74,24 +100,28 @@ namespace LRT
 
     /////////////////////////////////////////////////////////////////////////////////
 
-
     std::vector<Intersection> intersect(const Ray& ray, Sphere& obj)
     {
         std::vector<Intersection> intersetions;
 
-        float t = (LRT::vec3() - ray.origin).dot(ray.direction);
+        LRT::Ray t_ray = ray * obj.GetInverseTransform();
 
-        float y = LRT::vec3::distance(LRT::vec3(), ray(t));
+        LRT::vec3 sphere_to_ray = t_ray.origin - LRT::vec3::zero();
 
-        if (y > 1.0f)
+        float a = LRT::vec3::dot(t_ray.direction, t_ray.direction);
+        float b = 2 * LRT::vec3::dot(t_ray.direction, sphere_to_ray);
+        float c = LRT::vec3::dot(sphere_to_ray, sphere_to_ray) - 1.0f;
+
+        float discriminect = b * b - 4 * a * c;
+        if (discriminect < 0.0f)
         {
             return intersetions;
         }
 
-        float x = std::sqrtf(1.0f - y * y);
+        float discriminect_root = std::sqrtf(discriminect);
 
-        float t1 = t + x;
-        float t2 = t - x;
+        float t1 = (-b - discriminect_root) / (2 * a);
+        float t2 = (-b + discriminect_root) / (2 * a);
 
         if (t1 < t2)
         {
