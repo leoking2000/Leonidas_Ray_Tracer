@@ -16,6 +16,12 @@ namespace LRT
 		return v < lo ? lo : hi < v ? hi : v;
 	}
 
+	template<typename T>
+	inline T Interpolate(const T& a, const T& b, float alpha)
+	{
+		return a + (b - a) * alpha;
+	}
+
 	// 3D dimensional mathematical row vector (using float)
 	class LRTAPI vec3
 	{

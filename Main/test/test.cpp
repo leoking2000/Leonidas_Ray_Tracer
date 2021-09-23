@@ -16,7 +16,7 @@ void Test::Test()
 	MatrixTest();
 	RayTest();
 
-	ProjectileTest();
-	clockpositionsTest();
+	//ProjectileTest();
+	//clockpositionsTest();
 	DrawSphereTest();
 }
