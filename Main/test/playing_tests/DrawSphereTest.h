@@ -6,11 +6,13 @@
 
 LRT::vec3 canvasToWorldSpace(uint32_t x, uint32_t y, const LRT::Canvas& can)
 {
+	float aspect_ratio = (float)can.GetHeight() / can.GetWidth();
+
 	// maps [0 , can.width] -> [-1, 1]
 	float world_x = (2.0f / can.GetWidth()) * x - 1.0f;
 
-	// maps [0 , can.height] -> [-1, 1]
-	float world_y = (2.0f / can.GetHeight()) * y - 1.0f;
+	// maps [0 , can.height] -> [-aspect_ratio, aspect_ratio]
+	float world_y = ( -2.0f / can.GetWidth()) * y + aspect_ratio;
 
 	return LRT::vec3(world_x, world_y, 0.0f);
 }
@@ -20,11 +22,11 @@ void DrawSphereTest()
 {
 	std::cout << "Draw Sphere Test\n";
 
-	//LRT::Canvas can(192, 108);
-	LRT::Canvas can(100, 100);
+	LRT::Canvas can(1920, 1080);
+	//LRT::Canvas can(100, 100);
 
 	LRT::Sphere sphere1;
-	sphere1.SetTransform(LRT::mat4::Translation3D(0.0f, 0.0f, 5.0f));
+	sphere1.SetTransform(LRT::mat4::Translation3D(0.0f, 0.0f, 10.0f));
 
 	LRT::Ray ray({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f, 0.0f });
 
@@ -37,8 +39,10 @@ void DrawSphereTest()
 			assert(pixel_loc.z == 0.0f);
 			assert(pixel_loc.x <= 1.0f);
 			assert(pixel_loc.x >= -1.0f);
-			assert(pixel_loc.y <= 1.0f);
-			assert(pixel_loc.y >= -1.0f);
+
+			float aspect_ratio = (float)can.GetHeight() / can.GetWidth();
+			assert(pixel_loc.y <= aspect_ratio);
+			assert(pixel_loc.y >= -aspect_ratio);
 
 			ray.direction = (pixel_loc - ray.origin).getNormalized();
 
