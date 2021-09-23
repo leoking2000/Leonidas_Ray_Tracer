@@ -4,12 +4,10 @@
 int main()
 {
 #ifndef NDEBUG
-    Test::Test();
+    Test::UnitTest();
 #endif
-
-    std::cout << "=================================" << std::endl;
-    std::cout << "Leonidas Ray Tracer!!!" << std::endl;
-
+    
+    Test::PlayingTest();
 
 
     return 0;

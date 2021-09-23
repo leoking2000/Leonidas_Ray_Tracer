@@ -2,6 +2,7 @@
 
 namespace Test
 {
-	void Test();
+	void UnitTest();
+	void PlayingTest();
 }
 

@@ -14,6 +14,12 @@ LRT::vec3 canvasToWorldSpace(uint32_t x, uint32_t y, const LRT::Canvas& can)
 	// maps [0 , can.height] -> [-aspect_ratio, aspect_ratio]
 	float world_y = ( -2.0f / can.GetWidth()) * y + aspect_ratio;
 
+	assert(world_x <= 1.0f);
+	assert(world_x >= -1.0f);
+
+	assert(world_y <= aspect_ratio);
+	assert(world_y >= -aspect_ratio);
+
 	return LRT::vec3(world_x, world_y, 0.0f);
 }
 
@@ -22,7 +28,7 @@ void DrawSphereTest()
 {
 	std::cout << "Draw Sphere Test\n";
 
-	LRT::Canvas can(1920, 1080);
+	LRT::Canvas can(192, 108);
 	//LRT::Canvas can(100, 100);
 
 	LRT::Sphere sphere1;
@@ -35,28 +41,13 @@ void DrawSphereTest()
 		for (uint32_t x = 0; x < can.GetWidth(); x++)
 		{
 			LRT::vec3 pixel_loc = canvasToWorldSpace(x, y, can);
-
-			assert(pixel_loc.z == 0.0f);
-			assert(pixel_loc.x <= 1.0f);
-			assert(pixel_loc.x >= -1.0f);
-
-			float aspect_ratio = (float)can.GetHeight() / can.GetWidth();
-			assert(pixel_loc.y <= aspect_ratio);
-			assert(pixel_loc.y >= -aspect_ratio);
-
 			ray.direction = (pixel_loc - ray.origin).getNormalized();
 
 			std::vector<LRT::Intersection> xs = LRT::intersect(ray, sphere1);
 
-			if (xs.size() == 0)
-			{
-				continue;
-			}
+			uint32_t hit_index = LRT::hit(xs);
 
-			if (LRT::hit(xs) == -1)
-			{
-				continue;
-			}
+			if (hit_index == -1) continue;
 
 			LRT::Color c = LRT::Colors::cyan;
 			can.SetPixel(x, y, c);

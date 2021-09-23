@@ -9,13 +9,16 @@
 #include "playing_tests/clockpositionsTest.h"
 #include "playing_tests/DrawSphereTest.h"
 
-void Test::Test()
+void Test::UnitTest()
 {
 	VectorTest();
 	CanvasTest();
 	MatrixTest();
 	RayTest();
+}
 
+void Test::PlayingTest()
+{
 	//ProjectileTest();
 	//clockpositionsTest();
 	DrawSphereTest();
