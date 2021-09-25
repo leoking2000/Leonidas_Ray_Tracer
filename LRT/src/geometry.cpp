@@ -62,6 +62,17 @@ namespace LRT
         inv_transform = LRT::mat4::inverse(mat);
     }
 
+    LRT::vec3 Sphere::normalAt(const LRT::vec3& world_point)
+    {
+        LRT::vec4 object_point = LRT::vec4(world_point, 1.0f) * inv_transform;
+
+        LRT::vec4 object_normal = object_point - LRT::vec4::point(0.0f, 0.0f, 0.0f);
+
+        LRT::vec4 world_normal = object_normal * inv_transform.transpose();
+        
+        return LRT::vec3(world_normal.x, world_normal.y, world_normal.z).getNormalized();
+    }
+
     ////////////////////////////////////////////////////////////
 
 

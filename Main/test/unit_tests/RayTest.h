@@ -130,5 +130,29 @@ void RayTest()
 		assert(LRT::hit(xs) == -1);
 	}
 
+	// Computing the Normal on a Sphere
+	{
+		LRT::Sphere s;
+
+		assert(s.normalAt(LRT::vec3(1.0f, 0.0f, 0.0f)) == LRT::vec3(1.0f, 0.0f, 0.0f));
+		assert(s.normalAt(LRT::vec3(0.0f, 1.0f, 0.0f)) == LRT::vec3(0.0f, 1.0f, 0.0f));
+		assert(s.normalAt(LRT::vec3(0.0f, 0.0f, 1.0f)) == LRT::vec3(0.0f, 0.0f, 1.0f));
+		float num = std::sqrtf(3.0f) / 3.0f;
+		LRT::vec3 n = s.normalAt(LRT::vec3(num, num, num));
+		assert(n == LRT::vec3(num, num, num));
+		assert(n.getNormalized() == n);
+
+		s.SetTransform(LRT::mat4::Translation3D(0.0f, 1.0f, 0.0f));
+		n = s.normalAt(LRT::vec3(0.0f, 1.70711f, -0.70711f));
+		assert(n == LRT::vec3(0.0f, 0.70711f, -0.70711f));
+		assert(n.getNormalized() == n);
+		
+		s.SetTransform(LRT::mat4::rotationZ(LRT::PI / 5.0f) * LRT::mat4::scale(1.0f, 0.5f, 1.0f));
+		num = std::sqrtf(2.0f) / 2.0f;
+		n = s.normalAt(LRT::vec3(0.0f, num, -num));
+		assert(n == LRT::vec3(0.0f, 0.97014f, -0.24254f));
+		assert(n.getNormalized() == n);
+	}
+
 	std::cout << "OK\n";
 }

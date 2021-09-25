@@ -170,6 +170,17 @@ void VectorTest()
 		assert(LRT::Colors::green * c1 == LRT::Color(0.0f, 0.2f, 0.0f));
 	}
 
+	// reflect
+	{
+		LRT::vec3 v(1.0f, -1.0f, 0.0f);
+		assert(LRT::vec3::reflect(v, LRT::vec3::up()) == LRT::vec3(1.0f, 1.0f, 0.0f));
+
+		float num = std::sqrtf(2.0f) / 2.0f;
+
+		v = LRT::vec3(0.0f, -1.0f, 0.0f);
+		assert(LRT::vec3::reflect(v, LRT::vec3(num, num, 0.0f)) == LRT::vec3(1.0f, 0.0f, 0.0f));
+	}
+
 
 	std::cout << "OK\n";
 }

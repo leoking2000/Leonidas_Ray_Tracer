@@ -31,6 +31,8 @@ namespace LRT
 		const mat4& GetInverseTransform();
 		void SetTransform(const mat4& mat);
 
+		LRT::vec3 normalAt(const LRT::vec3& world_point);
+
 	private:
 		mat4 inv_transform;
 		size_t m_id;
