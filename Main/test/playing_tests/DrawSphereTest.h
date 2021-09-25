@@ -28,11 +28,16 @@ void DrawSphereTest()
 {
 	std::cout << "Draw Sphere Test\n";
 
-	LRT::Canvas can(192, 108);
-	//LRT::Canvas can(100, 100);
+	LRT::Canvas can(1920, 1080);
 
 	LRT::Sphere sphere1;
 	sphere1.SetTransform(LRT::mat4::Translation3D(0.0f, 0.0f, 10.0f));
+	//sphere1.SetTransform(LRT::mat4::scale(1.0f, 0.2f, 1.0f) * LRT::mat4::Translation3D(0.0f, 0.0f, 10.0f));
+
+	sphere1.material.color = LRT::Color(0.0f, 0.0f, 0.7f);
+	sphere1.material.ambient = 0.05f;
+
+	LRT::PointLight light({ -10.0f, 10.0f, -10.0f });
 
 	LRT::Ray ray({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f, 0.0f });
 
@@ -49,7 +54,12 @@ void DrawSphereTest()
 
 			if (hit_index == -1) continue;
 
-			LRT::Color c = LRT::Colors::cyan;
+			LRT::Intersection& hit = xs[hit_index];
+
+			LRT::vec3 point = ray(hit.t);
+			LRT::vec3 normal = hit.obj.normalAt(point);
+
+			LRT::Color c = LRT::lighting(sphere1.material, light, point, -ray.direction, normal);
 			can.SetPixel(x, y, c);
 		}
 	}

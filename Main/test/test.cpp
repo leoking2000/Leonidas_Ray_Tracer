@@ -3,7 +3,8 @@
 #include "unit_tests/VectorTest.h"
 #include "unit_tests/CanvasTest.h"
 #include "unit_tests/MatrixTest.h"
-#include "unit_tests/RayTest.h"
+#include "unit_tests/GeometryTest.h"
+#include "unit_tests/GraphicsTest.h"
 
 #include "playing_tests/ProjectileTest.h"
 #include "playing_tests/clockpositionsTest.h"
@@ -12,9 +13,10 @@
 void Test::UnitTest()
 {
 	VectorTest();
-	CanvasTest();
 	MatrixTest();
-	RayTest();
+	CanvasTest();
+	GeometryTest();
+	GraphicsTest();
 }
 
 void Test::PlayingTest()

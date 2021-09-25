@@ -1,5 +1,5 @@
 #pragma once
-#include "LRTMath.h"
+#include "graphics.h"
 #include <vector>
 
 namespace LRT
@@ -22,6 +22,8 @@ namespace LRT
 
 	class LRTAPI Sphere
 	{
+	public:
+		Material material;
 	public:
 		Sphere(); // unit sphere at the world origin.
 
