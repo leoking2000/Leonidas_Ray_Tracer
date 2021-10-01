@@ -38,9 +38,6 @@ void DrawSphereTest()
 	//	LRT::mat4::rotationZ(-LRT::PI / 4.0f) * 
 	//	LRT::mat4::Translation3D(0.0f, 0.0f, 10.0f));
 
-	sphere1.material.color = LRT::Color(0.0f, 0.0f, 0.7f);
-	//sphere1.material.ambient = 0.05f;
-
 	LRT::PointLight light({ -10.0f, 10.0f, -10.0f });
 
 	LRT::Ray ray({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f, 0.0f });

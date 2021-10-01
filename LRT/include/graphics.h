@@ -12,19 +12,36 @@ namespace LRT
 		PointLight(const LRT::vec3& pos, const LRT::Color& c = LRT::Colors::white);
 	};
 
-	struct Material
+	class LRTAPI Material
 	{
-		LRT::Color color = LRT::Colors::white;
-		float ambient = 0.1f;
-		float diffuse = 0.9f;
-		float specular = 0.9f;
-		float shininess = 200.0f;
+	public:
+		Material()
+			:
+			ambient(LRT::Colors::white * 0.1f),
+			diffuse(LRT::Colors::white * 0.9f),
+			specular(LRT::Colors::white * 0.9f),
+			shininess(200.0f)
+		{}
+		Material(Color color, float ambient, float diffuse, float specular, float shininess)
+			:
+			ambient(color * ambient),
+			diffuse(color * diffuse),
+			specular(color * specular),
+			shininess(shininess)
+		{}
+		Material(Color ambient, Color diffuse, Color specular, float shininess)
+			:
+			ambient(ambient),
+			diffuse(diffuse),
+			specular(specular),
+			shininess(shininess)
+		{}
+	public:
+		Color ambient;
+		Color diffuse;
+		Color specular;
+		float shininess;
 	};
-
-	namespace Materials
-	{
-		//static constexpr Material defaultMat = { LRT::Colors::white, 0.1f, 0.9f, 0.9f, 200.0f };
-	}
 
 	LRT::Color LRTAPI lighting(const Material& mat, const PointLight& light, const LRT::vec3& point, const LRT::vec3& view, const LRT::vec3& normal);
 
