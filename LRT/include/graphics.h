@@ -21,6 +21,11 @@ namespace LRT
 		float shininess = 200.0f;
 	};
 
+	namespace Materials
+	{
+		//static constexpr Material defaultMat = { LRT::Colors::white, 0.1f, 0.9f, 0.9f, 200.0f };
+	}
+
 	LRT::Color LRTAPI lighting(const Material& mat, const PointLight& light, const LRT::vec3& point, const LRT::vec3& view, const LRT::vec3& normal);
 
 }

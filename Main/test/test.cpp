@@ -23,5 +23,5 @@ void Test::PlayingTest()
 {
 	//ProjectileTest();
 	//clockpositionsTest();
-	DrawSphereTest();
+	//DrawSphereTest();
 }
