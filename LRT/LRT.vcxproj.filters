@@ -30,9 +30,6 @@
     <ClInclude Include="include\geometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Canvas.cpp">
@@ -44,7 +41,7 @@
     <ClCompile Include="src\geometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics.cpp">
+    <ClCompile Include="src\LRT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

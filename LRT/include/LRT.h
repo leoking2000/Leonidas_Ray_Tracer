@@ -4,5 +4,5 @@
 
 namespace LRT
 {
-	// TODO render function
+	LRT::Color LRTAPI lighting(const Material& mat, const PointLight& light, const LRT::vec3& point, const LRT::vec3& view, const LRT::vec3& normal);
 }

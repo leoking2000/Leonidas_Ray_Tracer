@@ -1,9 +1,33 @@
 #pragma once
-#include "graphics.h"
+#include "LRTMath.h"
 #include <vector>
 
 namespace LRT
 {
+	class LRTAPI PointLight
+	{
+	public:
+		LRT::vec3 position;
+		LRT::Color color;
+	public:
+		PointLight(const vec3& pos, const Color& c = LRT::Colors::white)
+			:
+			position(pos),
+			color(c)
+		{
+		}
+	};
+
+	struct Material
+	{
+		Color color = LRT::Colors::white;
+		float ambient = 0.1f;
+		float diffuse = 0.9f;
+		float specular = 0.9f;
+		float shininess = 200.0f;
+	};
+
+
 	class LRTAPI Ray
 	{
 	public:

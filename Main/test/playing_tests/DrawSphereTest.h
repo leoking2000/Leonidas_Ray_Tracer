@@ -32,11 +32,8 @@ void DrawSphereTest()
 
 	LRT::Sphere sphere1;
 	sphere1.SetTransform(LRT::mat4::Translation3D(0.0f, 0.0f, 10.0f));
-	//sphere1.SetTransform(
-	//	LRT::mat4::scale(1.0f, 1.0f, 0.1f) * 
-	//	LRT::mat4::rotationY(LRT::PI / 6.0f) * 
-	//	LRT::mat4::rotationZ(-LRT::PI / 4.0f) * 
-	//	LRT::mat4::Translation3D(0.0f, 0.0f, 10.0f));
+
+	sphere1.material.color = LRT::Colors::blue;
 
 	LRT::PointLight light({ -10.0f, 10.0f, -10.0f });
 
