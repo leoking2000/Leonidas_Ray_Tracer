@@ -58,11 +58,9 @@ namespace LRT
 		void SetTransform(const mat4& mat);
 
 		LRT::vec3 normalAt(const LRT::vec3& world_point);
-
 	private:
 		mat4 inv_transform;
 		size_t m_id;
-	private:
 		static size_t id_count;
 	};
 
@@ -77,18 +75,27 @@ namespace LRT
 		Intersection(const Intersection& other);
 		Intersection& operator=(const Intersection& other);
 
+		// TODO: Move operator?
+
 		bool operator==(const Intersection& other);
 		bool operator!=(const Intersection& other);
-
-		//Intersection(Intersection&& other);
-		//Intersection& operator=(Intersection&& other);
-
-		//~Intersection();
-
 	};
 
 	std::vector<Intersection> LRTAPI intersect(const Ray& ray, Sphere& obj);
-
 	uint32_t LRTAPI hit(const std::vector<Intersection>& Intersections);
+
+	class LRTAPI World
+	{
+	public:
+		void AddPointLight(const vec3& pos, const Color col);
+		void AddSphere(const mat4& transform, const Material& material);
+
+		std::vector<Intersection> FindIntersections(const Ray& ray);
+	public:
+		static World DefaultWorld();
+	private:
+		std::vector<Sphere> objects;
+		std::vector<PointLight> lights;
+	};
 
 }

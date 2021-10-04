@@ -23,12 +23,14 @@ LRT::vec3 canvasToWorldSpace(uint32_t x, uint32_t y, const LRT::Canvas& can)
 	return LRT::vec3(world_x, world_y, 0.0f);
 }
 
-
 void DrawSphereTest()
 {
 	std::cout << "Draw Sphere Test\n";
-
+#ifndef NDEBUG
+	LRT::Canvas can(192, 108);
+#else
 	LRT::Canvas can(1920, 1080);
+#endif
 
 	LRT::Sphere sphere1;
 	sphere1.SetTransform(LRT::mat4::Translation3D(0.0f, 0.0f, 10.0f));

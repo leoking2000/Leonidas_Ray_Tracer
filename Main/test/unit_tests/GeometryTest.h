@@ -154,5 +154,20 @@ void GeometryTest()
 		assert(n.getNormalized() == n);
 	}
 
+	// wolrd test
+	{
+		LRT::World w = LRT::World::DefaultWorld();
+
+		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
+
+		std::vector<LRT::Intersection> xs = w.FindIntersections(ray);
+
+		assert(xs.size() == 4);
+		assert(xs[0].t == 4.0f);
+		assert(xs[1].t == 4.5f);
+		assert(xs[2].t == 5.5f);
+		assert(xs[3].t == 6.0f);
+	}
+
 	std::cout << "OK\n";
 }

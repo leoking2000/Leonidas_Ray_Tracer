@@ -1,5 +1,7 @@
 #include "geometry.h"
 #include <limits>
+#include <iterator>
+#include <algorithm>
 
 namespace LRT
 {
@@ -92,7 +94,7 @@ namespace LRT
 
     Intersection& Intersection::operator=(const Intersection& other)
     {
-        this->t = t;
+        this->t = other.t;
         this->obj = other.obj;
 
         return *this;
@@ -170,6 +172,51 @@ namespace LRT
 
         return currHitIndex;
     }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    void World::AddPointLight(const vec3& pos, const Color col)
+    {
+        lights.emplace_back(pos, col);
+    }
+	void World::AddSphere(const mat4& transform, const Material& material)
+    {
+        objects.emplace_back();
+        objects.back().SetTransform(transform);
+    }
+
+	std::vector<Intersection> World::FindIntersections(const Ray& ray)
+    {
+        std::vector<Intersection> intersections;
+
+        for(int i = 0; i < objects.size(); i++)
+        {
+            std::vector<Intersection> inter = intersect(ray, objects[i]);
+            std::copy(inter.begin(), inter.end(), std::back_inserter(intersections));
+        }
+
+        std::sort(intersections.begin(), intersections.end(), [](const Intersection& i1, const Intersection& i2) { return i1.t < i2.t; });
+
+        return intersections;
+    }
+
+    World World::DefaultWorld()
+    {
+        LRT::World wolrd;
+
+        wolrd.AddPointLight(LRT::vec3(-10.0f, 10.0f, -10.0f), LRT::Colors::white);
+
+        LRT::Material mat;
+        mat.color = LRT::Color(0.8f, 1.0f, 0.6f);
+        mat.diffuse = 0.7f;
+        mat.specular = 0.2f;
+
+        wolrd.AddSphere(LRT::mat4::identity(), mat);
+        wolrd.AddSphere(LRT::mat4::scale(0.5f), mat);
+        return wolrd;
+    }
+
+    
 }
 
 
