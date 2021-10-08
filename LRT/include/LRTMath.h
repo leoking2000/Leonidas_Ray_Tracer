@@ -6,9 +6,9 @@
 
 namespace LRT
 {
-	constexpr float PI = 3.14159265f;
+	constexpr f32 PI = 3.14159265f;
 
-	bool LRTAPI Equal(float a, float b, float epsilon = 0.00001f);
+	bool LRTAPI Equal(f32 a, f32 b, f32 epsilon = 0.00001f);
 
 	template<typename T>
 	inline constexpr const T& clamp(const T& v, const T& lo, const T& hi)
@@ -17,7 +17,7 @@ namespace LRT
 	}
 
 	template<typename T>
-	inline T Interpolate(const T& a, const T& b, float alpha)
+	inline T Interpolate(const T& a, const T& b, f32 alpha)
 	{
 		return a + (b - a) * alpha;
 	}
@@ -30,15 +30,15 @@ namespace LRT
 		{
 			struct
 			{
-				float x;
-				float y;
-				float z;
+				f32 x;
+				f32 y;
+				f32 z;
 			};
 			struct
 			{
-				float r;
-				float g;
-				float b;
+				f32 r;
+				f32 g;
+				f32 b;
 			};
 		};
 	public:
@@ -48,7 +48,7 @@ namespace LRT
 		{
 		}
 
-		constexpr vec3(float x, float y, float z)
+		constexpr vec3(f32 x, f32 y, f32 z)
 			:
 			x(x), y(y), z(z)
 		{
@@ -78,10 +78,10 @@ namespace LRT
 		static vec3 back();
 
 		// returns the distance between the 2 vectors
-		static float distance(const vec3& a, const vec3& b);
+		static f32 distance(const vec3& a, const vec3& b);
 
 		// returns the dot product of two vectors
-		static float dot(const vec3& a, const vec3& b);
+		static f32 dot(const vec3& a, const vec3& b);
 
 		// returns cross Product of two vectors
 		static vec3 cross(const vec3& a, const vec3& b);
@@ -91,20 +91,20 @@ namespace LRT
 
 		// const  Methods //
 
-		//returns the magnitude/lenght squared of the vector
-		float sqrLength() const;
+		//returns the magnitude/lenght squared of the vectofloat
+		f32 sqrLength() const;
 
 		// returns the magnitude/lenght of the vector
-		float length() const;
+		f32 length() const;
 
 		// returns this vector with a magnitude/lenght of 1 
 		vec3 getNormalized() const;
 
 		// returns the distance between this vector and a
-		float distance(const vec3& a) const;
+		f32 distance(const vec3& a) const;
 
 		// returns the dot product of this vector and a
-		float dot(const vec3& a) const;
+		f32 dot(const vec3& a) const;
 
 		// returns cross Product of this vector and a
 		vec3 cross(const vec3& a);
@@ -128,18 +128,18 @@ namespace LRT
 
 		vec3 operator-() const;
 
-		vec3& operator*=(float num);
-		vec3 operator*(float num) const;
+		vec3& operator*=(f32 num);
+		vec3 operator*(f32 num) const;
 
-		vec3& operator/=(float num);
-		vec3 operator/(float num) const;
+		vec3& operator/=(f32 num);
+		vec3 operator/(f32 num) const;
 
 		// Access the x, y, z components using [0], [1], [2] respectively
-		float& operator[](int i);
+		f32& operator[](int i);
 
 	};
 
-	LRTAPI vec3 operator* (float num, const vec3& a);
+	LRTAPI vec3 operator* (f32 num, const vec3& a);
 
 	typedef vec3 Color;
 
@@ -162,7 +162,7 @@ namespace LRT
 	class LRTAPI vec4 : public vec3
 	{
 	public:
-		float w;
+		f32 w;
 	public:
 		vec4()
 			:
@@ -170,13 +170,13 @@ namespace LRT
 		{
 		}
 
-		vec4(float x, float y, float z, float w)
+		vec4(f32 x, f32 y, f32 z, f32 w)
 			:
 			vec3(x, y, z), w(w)
 		{
 		}
 
-		vec4(const vec3& a, float w)
+		vec4(const vec3& a, f32 w)
 			:
 			vec3(a.x, a.y, a.z), w(w)
 		{
@@ -184,8 +184,8 @@ namespace LRT
 
 		// static Methods //
 
-		static inline vec4 point(float x, float y, float z) { return { x, y, z, 1.0f }; }
-		static inline vec4 vector(float x, float y, float z) { return { x, y, z, 0.0f }; }
+		static inline vec4 point(f32 x, f32 y, f32 z) { return { x, y, z, 1.0f }; }
+		static inline vec4 vector(f32 x, f32 y, f32 z) { return { x, y, z, 0.0f }; }
 
 		// (0 , 0, 0, 0)
 		static vec4 zero();
@@ -222,28 +222,28 @@ namespace LRT
 
 		vec4 operator-() const;
 
-		vec4& operator*=(float num);
-		vec4 operator*(float num) const;
+		vec4& operator*=(f32 num);
+		vec4 operator*(f32 num) const;
 
-		vec4& operator/=(float num);
-		vec4 operator/(float num) const;
+		vec4& operator/=(f32 num);
+		vec4 operator/(f32 num) const;
 
 		// Access the x, y, z, w components using [0], [1], [2], [3] respectively
-		float& operator[](int i);
+		f32& operator[](int i);
 	};
 
-	LRTAPI vec4 operator* (float num, const vec4& a);
+	LRTAPI vec4 operator* (f32 num, const vec4& a);
 
 	// Matrix with size SxS
-	template<uint32_t S>
+	template<u32 S>
 	class mat
 	{
 	public:
-		float data[S * S] = { 0 };
+		f32 data[S * S] = { 0 };
 	public:
 		mat() = default;
 
-		inline float operator()(uint32_t row, uint32_t col) const
+		inline f32 operator()(u32 row, u32 col) const
 		{
 			assert(row >= 0);
 			assert(row < S);
@@ -253,7 +253,7 @@ namespace LRT
 			return data[row * S + col];
 		}
 
-		inline float& operator()(uint32_t row, uint32_t col)
+		inline f32& operator()(u32 row, u32 col)
 		{
 			assert(row >= 0);
 			assert(row < S);
@@ -297,7 +297,7 @@ namespace LRT
 			}
 		}
 
-		static inline mat<S> scale(float s)
+		static inline mat<S> scale(f32 s)
 		{
 			if constexpr (S == 2)
 			{
@@ -329,7 +329,7 @@ namespace LRT
 			}
 		}
 
-		static inline mat<4> scale(float sx, float sy, float sz)
+		static inline mat<4> scale(f32 sx, f32 sy, f32 sz)
 		{
 			return {
 				sx, 0.0f, 0.0f, 0.0f,
@@ -339,10 +339,10 @@ namespace LRT
 			};
 		}
 
-		static inline mat<S> rotationX(float theta)
+		static inline mat<S> rotationX(f32 theta)
 		{
-			float sin = sinf(theta);
-			float cos = cosf(theta);
+			f32 sin = sinf(theta);
+			f32 cos = cosf(theta);
 
 			if constexpr (S == 3)
 			{
@@ -367,10 +367,10 @@ namespace LRT
 			}
 		}
 
-		static inline mat<S> rotationY(float theta)
+		static inline mat<S> rotationY(f32 theta)
 		{
-			float sin = sinf(theta);
-			float cos = cosf(theta);
+			f32 sin = sinf(theta);
+			f32 cos = cosf(theta);
 
 			if constexpr (S == 3)
 			{
@@ -395,10 +395,10 @@ namespace LRT
 			}
 		}
 
-		static inline mat<S> rotationZ(float theta)
+		static inline mat<S> rotationZ(f32 theta)
 		{
-			float sin = sinf(theta);
-			float cos = cosf(theta);
+			f32 sin = sinf(theta);
+			f32 cos = cosf(theta);
 
 			if constexpr (S == 3)
 			{
@@ -423,7 +423,7 @@ namespace LRT
 			}
 		}
 
-		static inline mat<4> Translation3D(float x, float y, float z)
+		static inline mat<4> Translation3D(f32 x, f32 y, f32 z)
 		{
 			return {
 				1.0f, 0.0f, 0.0f, 0.0f,
@@ -433,7 +433,7 @@ namespace LRT
 			};
 		}
 
-		static inline mat<4> shearing(float Xy, float Xz, float Yx, float Yz, float Zx, float Zy)
+		static inline mat<4> shearing(f32 Xy, f32 Xz, f32 Yx, f32 Yz, f32 Zx, f32 Zy)
 		{
 			return {
 				1.0f,   Yx,   Zx, 0.0f,
@@ -443,15 +443,15 @@ namespace LRT
 			};
 		}
 
-		static mat<S - 1> subMatrix(const mat<S> mat, uint32_t row, uint32_t col)
+		static mat<S - 1> subMatrix(const mat<S> mat, u32 row, u32 col)
 		{
 			LRT::mat<S - 1> sub;
 
-			uint32_t mat_row = 0;
-			for (uint32_t r = 0; r < S - 1;)
+			u32 mat_row = 0;
+			for (u32 r = 0; r < S - 1;)
 			{
-				uint32_t mat_col = 0;
-				for (uint32_t c = 0; c < S - 1;)
+				u32 mat_col = 0;
+				for (u32 c = 0; c < S - 1;)
 				{
 					if (mat_row == row)
 					{
@@ -480,7 +480,7 @@ namespace LRT
 		// returns the zero matrix if mat is not invertible
 		static mat<S> inverse(const mat<S> mat)
 		{
-			float det = mat.det();
+			f32 det = mat.det();
 
 			if (LRT::Equal(det, 0.0f))
 			{
@@ -490,11 +490,11 @@ namespace LRT
 
 			LRT::mat<S> inv;
 
-			float det_inv = 1 / det;
+			f32 det_inv = 1 / det;
 
-			for (uint32_t row = 0; row < S; row++)
+			for (u32 row = 0; row < S; row++)
 			{
-				for (uint32_t col = 0; col < S; col++)
+				for (u32 col = 0; col < S; col++)
 				{
 					inv(col, row) = mat.getCofactor(row, col) * det_inv;
 				}
@@ -505,14 +505,14 @@ namespace LRT
 
 		// Methods //
 
-		float getMinor(uint32_t row, uint32_t col) const
+		f32 getMinor(u32 row, u32 col) const
 		{
 			return subMatrix(*this, row, col).det();
 		}
 
-		float getCofactor(uint32_t row, uint32_t col) const
+		f32 getCofactor(u32 row, u32 col) const
 		{
-			float minor = this->getMinor(row, col);
+			f32 minor = this->getMinor(row, col);
 
 			if ((row + col) % 2 == 1)
 				minor = -minor;
@@ -520,7 +520,7 @@ namespace LRT
 			return minor;
 		}
 
-		float det() const
+		f32 det() const
 		{
 			if constexpr (S == 2)
 			{
@@ -533,9 +533,9 @@ namespace LRT
 			}
 			else
 			{
-				float sum = 0.0f;
+				f32 sum = 0.0f;
 
-				for (uint32_t row = 0; row < S; row++)
+				for (u32 row = 0; row < S; row++)
 				{
 					sum += (*this)(row, S - 1) * this->getCofactor(row, S - 1);
 				}
@@ -548,9 +548,9 @@ namespace LRT
 		mat<S> transpose() const
 		{
 			mat<S> r;
-			for (uint32_t row = 0; row < S; row++)
+			for (u32 row = 0; row < S; row++)
 			{
-				for (uint32_t col = 0; col < S; col++)
+				for (u32 col = 0; col < S; col++)
 				{
 					r(row, col) = (*this)(col, row);
 				}
@@ -586,7 +586,7 @@ namespace LRT
 			return *this;
 		}
 
-		mat<S>& operator*=(float rhs)
+		mat<S>& operator*=(f32 rhs)
 		{
 			for (size_t i = 0; i < S * S; i++)
 			{
@@ -594,7 +594,7 @@ namespace LRT
 			}
 			return *this;
 		}
-		mat<S> operator*(float rhs) const
+		mat<S> operator*(f32 rhs) const
 		{
 			mat<S> result = *this;
 			return result *= rhs;
@@ -607,12 +607,12 @@ namespace LRT
 		mat<S> operator*(const mat<S>& rhs) const
 		{
 			mat<S> result;
-			for (uint32_t j = 0; j < S; j++)
+			for (u32 j = 0; j < S; j++)
 			{
-				for (uint32_t k = 0; k < S; k++)
+				for (u32 k = 0; k < S; k++)
 				{
-					float sum = 0.0f;
-					for (uint32_t i = 0; i < S; i++)
+					f32 sum = 0.0f;
+					for (u32 i = 0; i < S; i++)
 					{
 						sum += (*this)(j, i) * rhs(i, k);
 					}

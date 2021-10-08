@@ -21,10 +21,10 @@ namespace LRT
 	struct Material
 	{
 		Color color = LRT::Colors::white;
-		float ambient = 0.1f;
-		float diffuse = 0.9f;
-		float specular = 0.9f;
-		float shininess = 200.0f;
+		f32 ambient = 0.1f;
+		f32 diffuse = 0.9f;
+		f32 specular = 0.9f;
+		f32 shininess = 200.0f;
 	};
 
 
@@ -60,17 +60,17 @@ namespace LRT
 		LRT::vec3 normalAt(const LRT::vec3& world_point);
 	private:
 		mat4 inv_transform;
-		size_t m_id;
-		static size_t id_count;
+		u64 m_id;
+		static u64 id_count;
 	};
 
 	class LRTAPI Intersection
 	{
 	public:
-		float t;
+		f32 t;
 		Sphere& obj;
 	public:
-		Intersection(float t, Sphere& obj);
+		Intersection(f32 t, Sphere& obj);
 
 		Intersection(const Intersection& other);
 		Intersection& operator=(const Intersection& other);
@@ -82,7 +82,7 @@ namespace LRT
 	};
 
 	std::vector<Intersection> LRTAPI intersect(const Ray& ray, Sphere& obj);
-	uint32_t LRTAPI hit(const std::vector<Intersection>& Intersections);
+	u32 LRTAPI hit(const std::vector<Intersection>& Intersections);
 
 	class LRTAPI World
 	{

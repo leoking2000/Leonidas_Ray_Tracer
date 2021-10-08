@@ -34,7 +34,7 @@ namespace LRT
 
     /////////////////////////////////////////////////////////////////
 
-    size_t Sphere::id_count = 0;
+    u64 Sphere::id_count = 0;
 
     Sphere::Sphere()
         :
@@ -121,20 +121,20 @@ namespace LRT
 
         LRT::vec3 sphere_to_ray = t_ray.origin - LRT::vec3::zero();
 
-        float a = LRT::vec3::dot(t_ray.direction, t_ray.direction);
-        float b = 2 * LRT::vec3::dot(t_ray.direction, sphere_to_ray);
-        float c = LRT::vec3::dot(sphere_to_ray, sphere_to_ray) - 1.0f;
+        f32 a = LRT::vec3::dot(t_ray.direction, t_ray.direction);
+        f32 b = 2 * LRT::vec3::dot(t_ray.direction, sphere_to_ray);
+        f32 c = LRT::vec3::dot(sphere_to_ray, sphere_to_ray) - 1.0f;
 
-        float discriminect = b * b - 4 * a * c;
+        f32 discriminect = b * b - 4 * a * c;
         if (discriminect < 0.0f)
         {
             return intersetions;
         }
 
-        float discriminect_root = std::sqrtf(discriminect);
+        f32 discriminect_root = std::sqrtf(discriminect);
 
-        float t1 = (-b - discriminect_root) / (2 * a);
-        float t2 = (-b + discriminect_root) / (2 * a);
+        f32 t1 = (-b - discriminect_root) / (2 * a);
+        f32 t2 = (-b + discriminect_root) / (2 * a);
 
         if (t1 < t2)
         {
@@ -150,14 +150,14 @@ namespace LRT
         return intersetions;
     }
 
-    uint32_t LRTAPI hit(const std::vector<Intersection>& intersections)
+    u32 LRTAPI hit(const std::vector<Intersection>& intersections)
     {
-        uint32_t currHitIndex = -1;
-        float min_t = std::numeric_limits<float>::max();
+        u32 currHitIndex = -1;
+        f32 min_t = std::numeric_limits<float>::max();
 
-        for (uint32_t i = 0; i < intersections.size(); i++)
+        for (u32 i = 0; i < intersections.size(); i++)
         {
-            float t = intersections[i].t;
+            f32 t = intersections[i].t;
 
             if (t < 0)
             {
@@ -189,13 +189,14 @@ namespace LRT
     {
         std::vector<Intersection> intersections;
 
-        for(int i = 0; i < objects.size(); i++)
+        for(u32 i = 0; i < objects.size(); i++)
         {
             std::vector<Intersection> inter = intersect(ray, objects[i]);
             std::copy(inter.begin(), inter.end(), std::back_inserter(intersections));
         }
 
-        std::sort(intersections.begin(), intersections.end(), [](const Intersection& i1, const Intersection& i2) { return i1.t < i2.t; });
+        std::sort(intersections.begin(), intersections.end(), 
+        [](const Intersection& i1, const Intersection& i2) { return i1.t < i2.t; });
 
         return intersections;
     }
@@ -216,7 +217,6 @@ namespace LRT
         return wolrd;
     }
 
-    
 }
 
 

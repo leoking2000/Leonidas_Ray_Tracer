@@ -3,7 +3,7 @@
 
 namespace LRT
 {
-    bool Equal(float a, float b, float epsilon)
+    bool Equal(f32 a, f32 b, f32 epsilon)
     {
         return std::abs(a - b) < epsilon;
     }
@@ -43,12 +43,12 @@ namespace LRT
         return vec3(0.0f, 0.0f, -1.0f);
     }
 
-    float vec3::distance(const vec3& a, const vec3& b)
+    f32 vec3::distance(const vec3& a, const vec3& b)
     {
         return (a - b).length();
     }
 
-    float vec3::dot(const vec3& a, const vec3& b)
+    f32 vec3::dot(const vec3& a, const vec3& b)
     {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
@@ -63,12 +63,12 @@ namespace LRT
         return a - 2.0f * normal * a.dot(normal);
     }
 
-    float vec3::sqrLength() const
+    f32 vec3::sqrLength() const
     {
         return this->dot(*this);
     }
 
-    float vec3::length() const
+    f32 vec3::length() const
     {
         return std::sqrt(this->dot(*this));
     }
@@ -78,12 +78,12 @@ namespace LRT
         return *this / this->length();
     }
 
-    float vec3::distance(const vec3& a) const
+    f32 vec3::distance(const vec3& a) const
     {
         return (*this - a).length();
     }
 
-    float vec3::dot(const vec3& a) const
+    f32 vec3::dot(const vec3& a) const
     {
         return dot(*this, a);
     }
@@ -143,7 +143,7 @@ namespace LRT
         return vec3(-x, -y, -z);
     }
 
-    vec3& vec3::operator*=(float num)
+    vec3& vec3::operator*=(f32 num)
     {
         x *= num;
         y *= num;
@@ -152,13 +152,13 @@ namespace LRT
         return *this;
     }
 
-    vec3 vec3::operator*(float num) const
+    vec3 vec3::operator*(f32 num) const
     {
         vec3 r(this->x * num, this->y * num, this->z * num);
         return r;
     }
 
-    vec3& vec3::operator/=(float num)
+    vec3& vec3::operator/=(f32 num)
     {
         x /= num;
         y /= num;
@@ -167,14 +167,14 @@ namespace LRT
         return *this;
     }
 
-    vec3 vec3::operator/(float num) const
+    vec3 vec3::operator/(f32 num) const
     {
         vec3 r(this->x / num, this->y / num, this->z / num);
 
         return r;
     }
 
-    float& vec3::operator[](int i)
+    f32& vec3::operator[](int i)
     {
         if (i == 0)
         {
@@ -190,7 +190,7 @@ namespace LRT
         }
     }
 
-    vec3 operator*(float num, const vec3& a)
+    vec3 operator*(f32 num, const vec3& a)
     {
         vec3 r(a.x * num, a.y * num, a.z * num);
         return r;
@@ -284,7 +284,7 @@ namespace LRT
         return vec4(-x, -y, -z, -w);
     }
 
-    vec4& vec4::operator*=(float num)
+    vec4& vec4::operator*=(f32 num)
     {
         x *= num;
         y *= num;
@@ -294,13 +294,13 @@ namespace LRT
         return *this;
     }
 
-    vec4 vec4::operator*(float num) const
+    vec4 vec4::operator*(f32 num) const
     {
         vec4 r(this->x * num, this->y * num, this->z * num, this->w * num);
         return r;
     }
 
-    vec4& vec4::operator/=(float num)
+    vec4& vec4::operator/=(f32 num)
     {
         x /= num;
         y /= num;
@@ -310,14 +310,14 @@ namespace LRT
         return *this;
     }
 
-    vec4 vec4::operator/(float num) const
+    vec4 vec4::operator/(f32 num) const
     {
         vec4 r(this->x / num, this->y / num, this->z / num, this->w / num);
 
         return r;
     }
 
-    float& vec4::operator[](int i)
+    f32& vec4::operator[](int i)
     {
         if (i == 0)
         {
@@ -337,7 +337,7 @@ namespace LRT
         }
     }
 
-    vec4 operator*(float num, const vec4& a)
+    vec4 operator*(f32 num, const vec4& a)
     {
         vec4 r(a.x * num, a.y * num, a.z * num, a.w * num);
         return r;

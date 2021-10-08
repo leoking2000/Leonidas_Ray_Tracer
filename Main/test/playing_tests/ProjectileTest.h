@@ -14,7 +14,7 @@ void ProjectileTest()
 	LRT::vec3 proj_vel(1.0f, 1.8f, 0.0f);
 	proj_vel.normalize();
 
-	const float initial_speed = 11.25f;
+	const f32 initial_speed = 11.25f;
 
 	proj_vel *= initial_speed; // speed
 
@@ -27,8 +27,8 @@ void ProjectileTest()
 	std::cout << "Proj Vel:  [" << proj_vel.x << ", " << proj_vel.y << ", " << proj_vel.z << "]\n";
 	std::cout << "Proj Speed: " << initial_speed << "\n";
 
-	const int MaxNumberOfTicks = 500;
-	int numberOfTicks = 0;
+	const u32 MaxNumberOfTicks = 500;
+	u32 numberOfTicks = 0;
 
 	LRT::Canvas cav(900, 550);
 
@@ -38,8 +38,8 @@ void ProjectileTest()
 		proj_vel = proj_vel + gravity + wind;
 
 
-		uint32_t c_x = (uint32_t)proj_pos.x;
-		uint32_t c_y = cav.GetHeight() - (uint32_t)(proj_pos.y);
+		u32 c_x = (u32)proj_pos.x;
+		u32 c_y = cav.GetHeight() - (u32)(proj_pos.y);
 
 		if(c_x >= 0 && c_x < cav.GetWidth() && c_y >= 0 && c_y < cav.GetHeight())
 			cav.SetPixel(c_x, c_y, LRT::Colors::green);
