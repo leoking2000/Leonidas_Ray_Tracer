@@ -27,4 +27,28 @@ namespace LRT
 
 		return ambient + diffuse + specular;
 	}
+	Color LRTAPI shadeHit(const World& w, const PreComputedValues& comps)
+	{
+		Color c(0.0f, 0.0f, 0.0f);
+
+		for (auto& light : w.lights)
+		{
+			c += lighting(comps.intersection.obj.material, light, comps.point, comps.view, comps.normal);
+		}
+
+		return c;
+	}
+
+	Color color_at(World& w, const Ray ray)
+	{
+		std::vector<Intersection> inters = intersect(ray, w);
+		u32 i = hit(inters);
+
+		if (i == -1)
+		{
+			return LRT::Colors::black;
+		}
+
+		return shadeHit(w, PreComputedValues(inters[i], ray));
+	}
 }

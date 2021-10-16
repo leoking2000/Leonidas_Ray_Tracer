@@ -188,6 +188,10 @@ namespace LRT
         {
             return z;
         }
+        else
+        {
+            return x;
+        }
     }
 
     vec3 operator*(f32 num, const vec3& a)
@@ -334,6 +338,10 @@ namespace LRT
         else if (i == 3)
         {
             return w;
+        }
+        else
+        {
+            return x;
         }
     }
 

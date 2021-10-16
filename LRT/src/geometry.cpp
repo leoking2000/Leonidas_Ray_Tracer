@@ -5,6 +5,8 @@
 
 namespace LRT
 {
+    /////////////////// RAY //////////////////////
+    
     Ray::Ray(const vec3& o, const vec3& dir)
         :
         origin(o),
@@ -17,12 +19,12 @@ namespace LRT
         return origin + t * direction;
     }
 
-    bool Ray::operator==(const Ray& other)
+    bool Ray::operator==(const Ray& other) const
     {
         return origin == other.origin && direction == other.direction;
     }
 
-    bool Ray::operator!=(const Ray& other)
+    bool Ray::operator!=(const Ray& other) const
     {
         return !(*this == other);
     }
@@ -32,21 +34,24 @@ namespace LRT
         return Ray(vec4(ray.origin, 1.0f) * mat, vec4(ray.direction, 0.0f) * mat);
     }
 
-    /////////////////////////////////////////////////////////////////
-
-    u64 Sphere::id_count = 0;
+    /////////////////////  Sphere  ///////////////////////////
 
     Sphere::Sphere()
         :
-        m_id(id_count),
         inv_transform(LRT::mat4::identity())
     {
-        id_count++;
+    }
+
+    Sphere::Sphere(const mat4 Transform, const Material& mat)
+        :
+        material(mat)
+    {
+        SetTransform(Transform);
     }
 
     bool Sphere::operator==(const Sphere& other) const
     {
-        return m_id == other.m_id;
+        return this == &other;
     }
 
     bool Sphere::operator!=(const Sphere& other) const
@@ -54,7 +59,7 @@ namespace LRT
         return !(*this == other);
     }
 
-    const mat4& Sphere::GetInverseTransform()
+    const mat4& Sphere::GetInverseTransform() const
     {
         return inv_transform;
     }
@@ -64,7 +69,7 @@ namespace LRT
         inv_transform = LRT::mat4::inverse(mat);
     }
 
-    LRT::vec3 Sphere::normalAt(const LRT::vec3& world_point)
+    LRT::vec3 Sphere::normalAt(const LRT::vec3& world_point) const
     {
         LRT::vec4 object_point = LRT::vec4(world_point, 1.0f) * inv_transform;
 
@@ -75,10 +80,9 @@ namespace LRT
         return LRT::vec3(world_normal.x, world_normal.y, world_normal.z).getNormalized();
     }
 
-    ////////////////////////////////////////////////////////////
+    /////////////////////  Intersection  ///////////////////////////
 
-
-    Intersection::Intersection(float t, Sphere& obj)
+    Intersection::Intersection(f32 t, Sphere& obj)
         :
         t(t),
         obj(obj)
@@ -100,18 +104,18 @@ namespace LRT
         return *this;
     }
 
-    bool Intersection::operator==(const Intersection& other)
+    bool Intersection::operator==(const Intersection& other) const
     {
         return this->t == other.t && this->obj == other.obj;
     }
 
-    bool Intersection::operator!=(const Intersection& other)
+    bool Intersection::operator!=(const Intersection& other) const
     {
         return !(*this == other);
     }
 
 
-    /////////////////////////////////////////////////////////////////////////////////
+    /////////////////////  functions  ///////////////////////////
 
     std::vector<Intersection> intersect(const Ray& ray, Sphere& obj)
     {
@@ -150,6 +154,22 @@ namespace LRT
         return intersetions;
     }
 
+    std::vector<Intersection> intersect(const Ray& ray, World& w)
+    {
+        std::vector<Intersection> intersections;
+
+        for (u32 i = 0; i < w.objects.size(); i++)
+        {
+            std::vector<Intersection> inter = intersect(ray, w.objects[i]);
+            std::copy(inter.begin(), inter.end(), std::back_inserter(intersections));
+        }
+
+        std::sort(intersections.begin(), intersections.end(),
+            [](const Intersection& i1, const Intersection& i2) { return i1.t < i2.t; });
+
+        return intersections;
+    }
+
     u32 LRTAPI hit(const std::vector<Intersection>& intersections)
     {
         u32 currHitIndex = -1;
@@ -171,50 +191,6 @@ namespace LRT
         }
 
         return currHitIndex;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    void World::AddPointLight(const vec3& pos, const Color col)
-    {
-        lights.emplace_back(pos, col);
-    }
-	void World::AddSphere(const mat4& transform, const Material& material)
-    {
-        objects.emplace_back();
-        objects.back().SetTransform(transform);
-    }
-
-	std::vector<Intersection> World::FindIntersections(const Ray& ray)
-    {
-        std::vector<Intersection> intersections;
-
-        for(u32 i = 0; i < objects.size(); i++)
-        {
-            std::vector<Intersection> inter = intersect(ray, objects[i]);
-            std::copy(inter.begin(), inter.end(), std::back_inserter(intersections));
-        }
-
-        std::sort(intersections.begin(), intersections.end(), 
-        [](const Intersection& i1, const Intersection& i2) { return i1.t < i2.t; });
-
-        return intersections;
-    }
-
-    World World::DefaultWorld()
-    {
-        LRT::World wolrd;
-
-        wolrd.AddPointLight(LRT::vec3(-10.0f, 10.0f, -10.0f), LRT::Colors::white);
-
-        LRT::Material mat;
-        mat.color = LRT::Color(0.8f, 1.0f, 0.6f);
-        mat.diffuse = 0.7f;
-        mat.specular = 0.2f;
-
-        wolrd.AddSphere(LRT::mat4::identity(), mat);
-        wolrd.AddSphere(LRT::mat4::scale(0.5f), mat);
-        return wolrd;
     }
 
 }

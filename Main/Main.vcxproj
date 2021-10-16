@@ -145,8 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="test\test.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LRT\LRT.vcxproj">
@@ -154,15 +153,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test\playing_tests\clockpositionsTest.h" />
-    <ClInclude Include="test\playing_tests\DrawSphereTest.h" />
-    <ClInclude Include="test\playing_tests\ProjectileTest.h" />
-    <ClInclude Include="test\test.h" />
-    <ClInclude Include="test\unit_tests\CanvasTest.h" />
-    <ClInclude Include="test\unit_tests\GraphicsTest.h" />
-    <ClInclude Include="test\unit_tests\MatrixTest.h" />
-    <ClInclude Include="test\unit_tests\GeometryTest.h" />
-    <ClInclude Include="test\unit_tests\VectorTest.h" />
+    <ClInclude Include="examples\clockpositionsTest.h" />
+    <ClInclude Include="examples\DrawSphereTest.h" />
+    <ClInclude Include="examples\ProjectileTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

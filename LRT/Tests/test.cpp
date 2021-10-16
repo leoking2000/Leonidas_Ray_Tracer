@@ -6,10 +6,6 @@
 #include "unit_tests/GeometryTest.h"
 #include "unit_tests/GraphicsTest.h"
 
-#include "playing_tests/ProjectileTest.h"
-#include "playing_tests/clockpositionsTest.h"
-#include "playing_tests/DrawSphereTest.h"
-
 void Test::UnitTest()
 {
 	VectorTest();
@@ -19,9 +15,3 @@ void Test::UnitTest()
 	GraphicsTest();
 }
 
-void Test::PlayingTest()
-{
-	//ProjectileTest();
-	//clockpositionsTest();
-	DrawSphereTest();
-}
