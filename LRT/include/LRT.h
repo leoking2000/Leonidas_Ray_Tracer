@@ -22,7 +22,7 @@ namespace LRT
 		bool isInside;
 	};
 
-	Color LRTAPI shadeHit(const World& w, const PreComputedValues& comps);
+	Color LRTAPI shadeHit(World& w, const PreComputedValues& comps);
 
 	Color LRTAPI color_at(World& w, const Ray ray);
 

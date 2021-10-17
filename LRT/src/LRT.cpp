@@ -33,7 +33,7 @@ namespace LRT
 		intersection(i),
 		point(ray(i.t)),
 		view(-ray.direction),
-		normal(i.obj.normalAt(point))
+		normal(i.obj->normalAt(point))
 	{
 		if (LRT::vec3::dot(normal, view) < 0)
 		{
@@ -46,13 +46,27 @@ namespace LRT
 		}
 	}
 
-	Color LRTAPI shadeHit(const World& w, const PreComputedValues& comps)
+	Color LRTAPI shadeHit(World& w, const PreComputedValues& comps)
 	{
 		Color c(0.0f, 0.0f, 0.0f);
 
 		for (auto& light : w.lights)
 		{
-			c += lighting(comps.intersection.obj.material, light, comps.point, comps.view, comps.normal);
+			LRT::vec3 dir = (light.position - comps.point).getNormalized();
+
+			Ray shadow_ray(comps.point + 0.01f * comps.normal, dir);
+			std::vector<Intersection> hits = intersect(shadow_ray, w);
+			u32 h = hit(hits);
+			
+			if (h == -1)
+			{
+				c += lighting(comps.intersection.obj->material, light, comps.point, comps.view, comps.normal);
+			}
+			else
+			{
+				c += comps.intersection.obj->material.color * light.color * comps.intersection.obj->material.ambient;
+			}
+			
 		}
 
 		return c;

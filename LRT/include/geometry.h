@@ -34,13 +34,23 @@ namespace LRT
 
 	Ray LRTAPI operator*(const Ray& ray, const mat4& mat);
 
-	struct Material
+	struct LRTAPI Material
 	{
-		Color color = LRT::Colors::white;
-		f32 ambient = 0.1f;
-		f32 diffuse = 0.9f;
-		f32 specular = 0.9f;
-		f32 shininess = 200.0f;
+		Material(const Color& color = Colors::white, f32 a = 0.1f, f32 d = 0.9f, f32 spe = 0.9f, f32 shi = 200.0f)
+			:
+			color(color),
+			ambient(a),
+			diffuse(d),
+			specular(spe),
+			shininess(shi)
+		{
+		}
+
+		Color color;
+		f32 ambient;
+		f32 diffuse;
+		f32 specular;
+		f32 shininess;
 	};
 
 	class LRTAPI Sphere
@@ -67,7 +77,7 @@ namespace LRT
 	{
 	public:
 		f32 t;
-		Sphere& obj;
+		Sphere* obj;
 	public:
 		Intersection(f32 t,Sphere& obj);
 

@@ -85,7 +85,7 @@ namespace LRT
     Intersection::Intersection(f32 t, Sphere& obj)
         :
         t(t),
-        obj(obj)
+        obj(&obj)
     {
     }
 
@@ -228,7 +228,7 @@ namespace LRT
         {
             f32 t = intersections[i].t;
 
-            if (t < 0)
+            if (t <= 0)
             {
                 continue;
             }

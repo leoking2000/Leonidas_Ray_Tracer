@@ -4,7 +4,7 @@
 int main()
 {
 #ifndef NDEBUG
-    Test::UnitTest();
+    //Test::UnitTest();
 #endif
 
     DrawSphereTest();
