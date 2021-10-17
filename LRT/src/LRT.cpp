@@ -27,6 +27,25 @@ namespace LRT
 
 		return ambient + diffuse + specular;
 	}
+
+	PreComputedValues::PreComputedValues(const Intersection& i, const Ray& ray)
+		:
+		intersection(i),
+		point(ray(i.t)),
+		view(-ray.direction),
+		normal(i.obj.normalAt(point))
+	{
+		if (LRT::vec3::dot(normal, view) < 0)
+		{
+			isInside = true;
+			normal = -normal;
+		}
+		else
+		{
+			isInside = false;
+		}
+	}
+
 	Color LRTAPI shadeHit(const World& w, const PreComputedValues& comps)
 	{
 		Color c(0.0f, 0.0f, 0.0f);
@@ -50,5 +69,22 @@ namespace LRT
 		}
 
 		return shadeHit(w, PreComputedValues(inters[i], ray));
+	}
+
+	Canvas Render(const Camera& cam, World& w)
+	{
+		Canvas image(cam.Width(), cam.Height());
+
+		for (u32 y = 0; y < cam.Height(); y++)
+		{
+			for (u32 x = 0; x < cam.Width(); x++)
+			{
+				Ray r = cam.RayForPixel(x, y);
+				Color c = color_at(w, r);
+				image.SetPixel(x, y, c);
+			}
+		}
+
+		return image;
 	}
 }

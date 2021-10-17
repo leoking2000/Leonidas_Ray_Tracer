@@ -197,43 +197,16 @@ void GeometryTest()
 		assert(comps.isInside == true);
 	}
 
-	// shadeHit
 	{
-		LRT::World w = LRT::DefaultWorld();
-		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		LRT::Intersection inter(4.0f, w.objects[0]);
+		LRT::Camera cam(201, 101);
 
-		assert(LRT::shadeHit(w, LRT::PreComputedValues(inter, ray)) == LRT::Color(0.38066f, 0.47583f, 0.2855f));
-	}
+		assert(cam.RayForPixel(100, 50) == LRT::Ray(LRT::vec3(0.0f, 0.0f, 0.0f), LRT::vec3(0.0f, 0.0f, -1.0f)));
+		assert(cam.RayForPixel(0, 0) == LRT::Ray(LRT::vec3(0.0f, 0.0f, 0.0f), LRT::vec3(0.66519f, 0.33259f, -0.66851f)));
 
-	{
-		LRT::World w = LRT::DefaultWorld();
-		w.lights[0] = LRT::PointLight(LRT::vec3(0.0f, 0.25f, 0.0f));
-		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, 0.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		LRT::Intersection inter(0.5f, w.objects[1]);
+		float num = std::sqrtf(2.0f) / 2.0f;
 
-		assert(LRT::shadeHit(w, LRT::PreComputedValues(inter, ray)) == LRT::Color(0.90498f, 0.90498f, 0.90498f));
-
-	}
-
-	// color at
-	{
-		LRT::World w = LRT::DefaultWorld();
-		LRT::Ray r(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 1.0f, 0.0f));
-		assert(LRT::color_at(w, r) == LRT::Color(0.0f, 0.0f, 0.0f));
-	}
-	{
-		LRT::World w = LRT::DefaultWorld();
-		LRT::Ray r(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		assert(LRT::color_at(w, r) == LRT::Color(0.38066f, 0.47583f, 0.2855f));
-	}
-	{
-		LRT::World w = LRT::DefaultWorld();
-		w.objects[0].material.ambient = 1.0f;
-		w.objects[1].material.ambient = 1.0f;
-
-		LRT::Ray r(LRT::vec3(0.0f, 0.0f, 0.75f), LRT::vec3(0.0f, 0.0f, -1.0f));
-		assert(LRT::color_at(w, r) == w.objects[1].material.color);
+		cam.SetTransform(LRT::mat4::Translation3D(0.0f, -2.0f, 5.0f) * LRT::mat4::rotationY(LRT::PI / 4.0f));
+		assert(cam.RayForPixel(100, 50) == LRT::Ray(LRT::vec3(0.0f, 2.0f, -5.0f), LRT::vec3(num, 0.0f, -num)));
 	}
 
 	std::cout << "OK\n";

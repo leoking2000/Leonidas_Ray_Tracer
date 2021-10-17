@@ -13,23 +13,7 @@ namespace LRT
 
 	struct PreComputedValues
 	{
-		PreComputedValues(const Intersection& i, const Ray& ray)
-			:
-			intersection(i),
-			point(ray(i.t)),
-			view(-ray.direction),
-			normal(i.obj.normalAt(point))
-		{
-			if (LRT::vec3::dot(normal, view) < 0)
-			{
-				isInside = true;
-				normal = -normal;
-			}
-			else
-			{
-				isInside = false;
-			}
-		}
+		PreComputedValues(const Intersection& i, const Ray& ray);
 
 		Intersection intersection;
 		vec3 point;
@@ -41,4 +25,6 @@ namespace LRT
 	Color LRTAPI shadeHit(const World& w, const PreComputedValues& comps);
 
 	Color LRTAPI color_at(World& w, const Ray ray);
+
+	Canvas LRTAPI Render(const Camera& cam, World& w);
 }

@@ -447,6 +447,49 @@ void MatrixTest()
 		assert(p * A * B * C == p_tr);
 	}
 
+	{
+		LRT::vec3 pos(0.0f, 0.0f, 0.0f);
+		LRT::vec3 look_pos(0.0f, 0.0f, -1.0f);
+		LRT::vec3 up(0.0f, 1.0f, 0.0f);
+
+		LRT::mat4 view = LRT::mat4::ViewTransform(pos, look_pos, up);
+		assert(view == LRT::mat4::identity());
+	}
+
+	{
+		LRT::vec3 pos(0.0f, 0.0f, 0.0f);
+		LRT::vec3 look_pos(0.0f, 0.0f, 1.0f);
+		LRT::vec3 up(0.0f, 1.0f, 0.0f);
+
+		LRT::mat4 view = LRT::mat4::ViewTransform(pos, look_pos, up);
+		assert(view == LRT::mat4::scale(-1.0f, 1.0f, -1.0f));
+	}
+
+	{
+		LRT::vec3 pos(0.0f, 0.0f, 8.0f);
+		LRT::vec3 look_pos(0.0f, 0.0f, 0.0f);
+		LRT::vec3 up(0.0f, 1.0f, 0.0f);
+
+		LRT::mat4 view = LRT::mat4::ViewTransform(pos, look_pos, up);
+		assert(view == LRT::mat4::Translation3D(0.0f, 0.0f, -8.0f));
+	}
+
+	{
+		LRT::vec3 pos(1.0f, 3.0f, 2.0f);
+		LRT::vec3 look_pos(4.0f, -2.0f, 8.0f);
+		LRT::vec3 up(1.0f, 1.0f, 0.0f);
+
+		LRT::mat4 view = LRT::mat4::ViewTransform(pos, look_pos, up);
+		LRT::mat4 exp = {
+			-0.50709f, 0.76772f, -0.35857f, 0.0f,
+			 0.50709f, 0.60609f,  0.59761f, 0.0f,
+			 0.67612f, 0.12122f, -0.71714f, 0.0f,
+			-2.36643f, -2.82843f,     0.0f, 1.0f
+		};
+
+		assert(view == exp);
+	}
+
 
 	std::cout << "OK\n";
 }

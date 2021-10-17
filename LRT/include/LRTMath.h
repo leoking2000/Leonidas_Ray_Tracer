@@ -443,6 +443,23 @@ namespace LRT
 			};
 		}
 
+		static inline mat<4> ViewTransform(const vec3& pos, const vec3& look, const vec3& up)
+		{
+			vec3 forward = (look - pos).getNormalized();
+			vec3 up_normalized = up.getNormalized();
+			vec3 left = vec3::cross(forward, up_normalized);
+			vec3 true_up = vec3::cross(left, forward);
+
+			mat<4> orientation = {
+				left.x, true_up.x, -forward.x, 0.0f,
+				left.y, true_up.y, -forward.y, 0.0f,
+				left.z, true_up.z, -forward.z, 0.0f,
+				  0.0f,      0.0f,       0.0f, 1.0f
+			};
+
+			return Translation3D(-pos.x, -pos.y, -pos.z) * orientation;
+		}
+
 		static mat<S - 1> subMatrix(const mat<S> mat, u32 row, u32 col)
 		{
 			LRT::mat<S - 1> sub;
