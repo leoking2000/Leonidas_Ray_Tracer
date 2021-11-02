@@ -145,4 +145,6 @@ namespace LRT
 
 	u32 LRTAPI hit(const std::vector<Intersection>& Intersections);
 
+	bool LRTAPI isShadowed(World& w, const vec3 lightPos, const vec3 point);
+
 }

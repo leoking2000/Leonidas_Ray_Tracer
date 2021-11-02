@@ -9,7 +9,8 @@ namespace LRT
 						  const PointLight& light, 
 					      const LRT::vec3& point, 
 						  const LRT::vec3& view, 
-						  const LRT::vec3& normal);
+						  const LRT::vec3& normal,
+						  bool inShadow = false);
 
 	struct PreComputedValues
 	{

@@ -242,6 +242,31 @@ namespace LRT
         return currHitIndex;
     }
 
+    bool LRTAPI isShadowed(World& w, const vec3 lightPos, const vec3 point)
+    {
+        LRT::vec3 ptl = lightPos - point; // point to light
+
+        f32 distance = ptl.length();
+        LRT::vec3 direction = ptl.getNormalized();
+
+        LRT::Ray shadow_ray(point, direction);
+        std::vector<Intersection> hits = intersect(shadow_ray, w);
+        u32 h = hit(hits);
+
+        if (h == -1)
+        {
+            return false; // no Intersection
+        }
+
+        if (hits[h].t >= distance)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
 
 

@@ -71,6 +71,15 @@ void GraphicsTest()
 			assert(color == LRT::Color(0.1f, 0.1f, 0.1f));
 		}
 
+		{
+			LRT::vec3 view(0.0f, 0.0f, -1.0f);
+			LRT::vec3 normal(0.0f, 0.0f, -1.0f);
+
+			LRT::PointLight light(LRT::vec3(0.0f, 0.0f, 1.0f));
+
+			assert(LRT::Colors::white * 0.1f == LRT::lighting(mat, light, p, view, normal, true));
+		}
+
 	}
 
 	// shadeHit

@@ -209,5 +209,15 @@ void GeometryTest()
 		assert(cam.RayForPixel(100, 50) == LRT::Ray(LRT::vec3(0.0f, 2.0f, -5.0f), LRT::vec3(num, 0.0f, -num)));
 	}
 
+	// isShadowed
+	{
+		LRT::World w = LRT::DefaultWorld();
+
+		assert(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(0.0f, 10.0f, 0.0f))     == false);
+		assert(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(10.0f, -10.0f, 0.0f))   == true);
+		assert(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(-20.0f, 20.0f, -20.0f)) == false);
+		assert(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(-2.0f, 2.0f, 2.0f))     == false);
+	}
+
 	std::cout << "OK\n";
 }

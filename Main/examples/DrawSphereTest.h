@@ -14,17 +14,18 @@ void DrawSphereTest()
 
 	LRT::Material blue(LRT::Colors::blue);
 
-	LRT::Material matte({1.0f, 0.9f, 0.9f}, 0.1f, 0.9f, 0.0f);
+	LRT::Material matte({1.0f, 0.9f, 0.9f}, 0.1f, 0.9f, 0.7f, 100.0f);
 
 	LRT::World w;
 	// floor
-	w.objects.emplace_back(LRT::mat4::scale(10.0f, 0.01f, 10.0f), matte);
+	w.objects.emplace_back(LRT::mat4::scale(10.0f, 0.5f, 10.0f) *
+		LRT::mat4::Translation3D(0.0f, -0.5f, 0.0f), matte);
 	// left wall
-	w.objects.emplace_back(LRT::mat4::scale(10.0f, 0.01f, 10.0f) *
+	w.objects.emplace_back(LRT::mat4::scale(10.0f, 0.5f, 10.0f) *
 						   LRT::mat4::rotationX(LRT::PI / 2.0f) * LRT::mat4::rotationY(-LRT::PI / 4.0f) *
 						   LRT::mat4::Translation3D(0.0f, 0.0f, 5.0f), matte);
 	// right wall
-	w.objects.emplace_back(LRT::mat4::scale(10.0f, 0.01f, 10.0f) *
+	w.objects.emplace_back(LRT::mat4::scale(10.0f, 0.5f, 10.0f) *
 						   LRT::mat4::rotationX(LRT::PI / 2.0f) * LRT::mat4::rotationY(LRT::PI / 4.0f) *
 						   LRT::mat4::Translation3D(0.0f, 0.0f, 5.0f), matte);
 

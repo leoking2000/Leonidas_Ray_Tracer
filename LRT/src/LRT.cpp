@@ -3,13 +3,14 @@
 
 namespace LRT
 {
-	LRT::Color lighting(const Material& mat, const PointLight& light, const LRT::vec3& point, const LRT::vec3& view, const LRT::vec3& normal)
+	LRT::Color lighting(const Material& mat, const PointLight& light, const LRT::vec3& point, const LRT::vec3& view, const LRT::vec3& normal, bool inShadow)
 	{
 		LRT::Color base_color = mat.color * light.color;
 
-		LRT::vec3 light_dir = (light.position - point).getNormalized();
-
 		LRT::Color ambient = base_color * mat.ambient;
+		if (inShadow) return ambient;
+
+		LRT::vec3 light_dir = (light.position - point).getNormalized();
 
 		f32 light_dot_normal = light_dir.dot(normal);
 
@@ -50,23 +51,14 @@ namespace LRT
 	{
 		Color c(0.0f, 0.0f, 0.0f);
 
+		constexpr f32 EPSILON = 0.01f;
+
 		for (auto& light : w.lights)
 		{
-			LRT::vec3 dir = (light.position - comps.point).getNormalized();
+			bool inShadow = isShadowed(w, light.position, comps.point + EPSILON * comps.normal);
 
-			Ray shadow_ray(comps.point + 0.01f * comps.normal, dir);
-			std::vector<Intersection> hits = intersect(shadow_ray, w);
-			u32 h = hit(hits);
-			
-			if (h == -1)
-			{
-				c += lighting(comps.intersection.obj->material, light, comps.point, comps.view, comps.normal);
-			}
-			else
-			{
-				c += comps.intersection.obj->material.color * light.color * comps.intersection.obj->material.ambient;
-			}
-			
+			c += lighting(comps.intersection.obj->material, 
+				light, comps.point, comps.view, comps.normal,inShadow);
 		}
 
 		return c;
