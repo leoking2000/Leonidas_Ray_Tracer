@@ -77,7 +77,7 @@ void GraphicsTest()
 
 			LRT::PointLight light(LRT::vec3(0.0f, 0.0f, 1.0f));
 
-			assert(LRT::Colors::white * 0.1f == LRT::lighting(mat, light, p, view, normal, true));
+			assert(LRT::Colors::white * 0.1f == LRT::lighting(m, light, p, view, normal, true));
 		}
 
 	}

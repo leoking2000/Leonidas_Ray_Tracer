@@ -14,8 +14,9 @@ namespace LRT
 
 	struct PreComputedValues
 	{
-		PreComputedValues(const Intersection& i, const Ray& ray);
+		PreComputedValues(const Intersection& i, const Ray& ray, World& w);
 
+		World& world;
 		Intersection intersection;
 		vec3 point;
 		vec3 view;
@@ -23,7 +24,7 @@ namespace LRT
 		bool isInside;
 	};
 
-	Color LRTAPI shadeHit(World& w, const PreComputedValues& comps);
+	Color LRTAPI shadeHit(const PreComputedValues& comps);
 
 	Color LRTAPI color_at(World& w, const Ray ray);
 

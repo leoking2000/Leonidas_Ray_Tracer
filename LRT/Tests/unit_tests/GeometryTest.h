@@ -63,7 +63,7 @@ void GeometryTest()
 		assert(intersetions[0].t == -6.0f);
 		assert(intersetions[1].t == -4.0f);
 
-		assert(intersetions[0].obj == sphere);
+		assert(*intersetions[0].obj == sphere);
 	}
 
 	// hit function test

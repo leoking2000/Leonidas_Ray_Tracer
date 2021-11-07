@@ -5,8 +5,10 @@
 
 namespace LRT
 {
-    /////////////////// RAY //////////////////////
-    
+    //////////////////////////////////////////////////
+    //                  RAY                         //
+    //////////////////////////////////////////////////
+
     Ray::Ray(const vec3& o, const vec3& dir)
         :
         origin(o),
@@ -34,79 +36,35 @@ namespace LRT
         return Ray(vec4(ray.origin, 1.0f) * mat, vec4(ray.direction, 0.0f) * mat);
     }
 
-    /////////////////////  Sphere  ///////////////////////////
+    //////////////////////////////////////////////////
+    //               Intersection                   //
+    //////////////////////////////////////////////////
 
-    Sphere::Sphere()
-        :
-        inv_transform(LRT::mat4::identity())
-    {
-    }
-
-    Sphere::Sphere(const mat4 Transform, const Material& mat)
-        :
-        material(mat)
-    {
-        SetTransform(Transform);
-    }
-
-    bool Sphere::operator==(const Sphere& other) const
-    {
-        return this == &other;
-    }
-
-    bool Sphere::operator!=(const Sphere& other) const
-    {
-        return !(*this == other);
-    }
-
-    const mat4& Sphere::GetInverseTransform() const
-    {
-        return inv_transform;
-    }
-
-    void Sphere::SetTransform(const mat4& mat)
-    {
-        inv_transform = LRT::mat4::inverse(mat);
-    }
-
-    LRT::vec3 Sphere::normalAt(const LRT::vec3& world_point) const
-    {
-        LRT::vec4 object_point = LRT::vec4(world_point, 1.0f) * inv_transform;
-
-        LRT::vec4 object_normal = object_point - LRT::vec4::point(0.0f, 0.0f, 0.0f);
-
-        LRT::vec4 world_normal = object_normal * inv_transform.transpose();
-        
-        return LRT::vec3(world_normal.x, world_normal.y, world_normal.z).getNormalized();
-    }
-
-    /////////////////////  Intersection  ///////////////////////////
-
-    Intersection::Intersection(f32 t, Sphere& obj)
+    Intersection::Intersection(f32 t, u32 index)
         :
         t(t),
-        obj(&obj)
+        shapeID(index)
     {
     }
 
     Intersection::Intersection(const Intersection& other)
         :
         t(other.t),
-        obj(other.obj)
+        shapeID(other.shapeID)
     {
     }
 
     Intersection& Intersection::operator=(const Intersection& other)
     {
         this->t = other.t;
-        this->obj = other.obj;
+        this->shapeID = other.shapeID;
 
         return *this;
     }
 
     bool Intersection::operator==(const Intersection& other) const
     {
-        return this->t == other.t && this->obj == other.obj;
+        return this->t == other.t && this->shapeID == other.shapeID;
     }
 
     bool Intersection::operator!=(const Intersection& other) const
@@ -114,7 +72,155 @@ namespace LRT
         return !(*this == other);
     }
 
-    /////////////////////  Camera  ///////////////////////////
+    //////////////////////////////////////////////////
+    //                  Shape                       //
+    //////////////////////////////////////////////////
+
+    Shape::Shape(u32 id)
+        :
+        id(id),
+        inv_modelMatrix(mat4::identity())
+    {
+    }
+
+    Shape::Shape(u32 id, const mat4& modelMatrix)
+        :
+        id(id),
+        inv_modelMatrix(mat4::inverse(modelMatrix))
+    {
+    }
+
+    bool Shape::operator==(const Shape& other) const
+    {
+        return (id == other.id);
+    }
+
+    bool Shape::operator!=(const Shape& other) const
+    {
+        return !(*this == other);
+    }
+
+    const mat4& Shape::GetInverseModelMatrix() const
+    {
+        return inv_modelMatrix;
+    }
+
+    void Shape::SetModelMatrix(const mat4& modelMatrix)
+    {
+        inv_modelMatrix = mat4::inverse(modelMatrix);
+    }
+
+    vec3 Shape::normalAt(const vec3& world_point) const
+    {
+        vec4 local_point  = vec4(world_point, 1.0f) * inv_modelMatrix;
+        vec4 local_normal = vec4(local_normalAt(local_point), 0.0f);
+        vec4 world_nornal = local_normal * inv_modelMatrix.transpose();
+        return vec3(world_nornal);
+    }
+
+    std::vector<Intersection> Shape::intersect(const Ray& ray) const
+    {
+        Ray local_Ray = ray * inv_modelMatrix;
+        return local_intersect(local_Ray);
+    }
+
+    //////////////////////////////////////////////////
+    //                 Sphere                       //
+    //////////////////////////////////////////////////
+
+    Sphere::Sphere(u32 id)
+        :
+        Shape(id)
+    {
+    }
+
+    Sphere::Sphere(u32 id, const mat4 Transform, const Material& mat)
+        :
+        Shape(id, Transform)
+    {
+        material = mat;
+    }
+
+    vec3 Sphere::local_normalAt(const vec3& local_point) const
+    {
+        return local_point.getNormalized();
+    }
+
+    std::vector<Intersection> Sphere::local_intersect(const Ray& ray) const
+    {
+        std::vector<Intersection> intersetions;
+
+        vec3 sphere_to_ray = ray.origin - vec3::zero();
+
+        f32 a = vec3::dot(ray.direction, ray.direction);
+        f32 b = 2 * vec3::dot(ray.direction, sphere_to_ray);
+        f32 c = vec3::dot(sphere_to_ray, sphere_to_ray) - 1.0f;
+
+        f32 discriminect = b * b - 4 * a * c;
+        if (discriminect < 0.0f)
+        {
+            return intersetions;
+        }
+
+        f32 discriminect_root = std::sqrtf(discriminect);
+        f32 t1 = (-b - discriminect_root) / (2 * a);
+        f32 t2 = (-b + discriminect_root) / (2 * a);
+
+        if (t1 < t2)
+        {
+            intersetions.emplace_back(t1, id);
+            intersetions.emplace_back(t2, id);
+        }
+        else
+        {
+            intersetions.emplace_back(t2, id);
+            intersetions.emplace_back(t1, id);
+        }
+
+        return intersetions;
+    }
+
+    //////////////////////////////////////////////////
+    //                  Plane                      //
+    //////////////////////////////////////////////////
+
+    Plane::Plane(u32 id)
+        :
+        Shape(id)
+    {
+    }
+
+    Plane::Plane(u32 id, const mat4 Transform, const Material& mat)
+        :
+        Shape(id, Transform)
+    {
+        material = mat;
+    }
+
+    vec3 Plane::local_normalAt(const vec3& local_point) const
+    {
+        return vec3(0.0f, 1.0f, 0.0f);
+    }
+
+    std::vector<Intersection> Plane::local_intersect(const Ray& ray) const
+    {
+        std::vector<Intersection> intersetions;
+
+        constexpr f32 EPSILON = 0.01f;
+
+        if (std::abs(ray.direction.y) < EPSILON) return intersetions;
+
+        f32 t = (-ray.origin.y) / ray.direction.y;
+
+        intersetions.emplace_back(t, id);
+
+        return intersetions;
+    }
+
+
+    //////////////////////////////////////////////////
+    //                  Camera                      //
+    //////////////////////////////////////////////////
 
     Camera::Camera(u32 width, u32 height, mat4 transform, f32 fov)
         :
@@ -158,50 +264,15 @@ namespace LRT
         f32 worldX = m_half_width - xoffset;
         f32 worldY = m_half_height - yoffset;
 
-        LRT::vec3 pixel = LRT::vec4::point(worldX, worldY, -1.0f) * m_Invtransform;
-        LRT::vec3 origin = LRT::vec4::point(0.0f, 0.0f, 0.0f) * m_Invtransform;
+        vec3 pixel = vec4::point(worldX, worldY, -1.0f) * m_Invtransform;
+        vec3 origin = vec4::point(0.0f, 0.0f, 0.0f) * m_Invtransform;
 
         return Ray(origin, (pixel - origin).getNormalized());
     }
 
-    /////////////////////  functions  ///////////////////////////
-
-    std::vector<Intersection> intersect(const Ray& ray, Sphere& obj)
-    {
-        std::vector<Intersection> intersetions;
-
-        LRT::Ray t_ray = ray * obj.GetInverseTransform();
-
-        LRT::vec3 sphere_to_ray = t_ray.origin - LRT::vec3::zero();
-
-        f32 a = LRT::vec3::dot(t_ray.direction, t_ray.direction);
-        f32 b = 2 * LRT::vec3::dot(t_ray.direction, sphere_to_ray);
-        f32 c = LRT::vec3::dot(sphere_to_ray, sphere_to_ray) - 1.0f;
-
-        f32 discriminect = b * b - 4 * a * c;
-        if (discriminect < 0.0f)
-        {
-            return intersetions;
-        }
-
-        f32 discriminect_root = std::sqrtf(discriminect);
-
-        f32 t1 = (-b - discriminect_root) / (2 * a);
-        f32 t2 = (-b + discriminect_root) / (2 * a);
-
-        if (t1 < t2)
-        {
-            intersetions.emplace_back(t1, obj);
-            intersetions.emplace_back(t2, obj);
-        }
-        else
-        {
-            intersetions.emplace_back(t2, obj);
-            intersetions.emplace_back(t1, obj);
-        }
-
-        return intersetions;
-    }
+    //////////////////////////////////////////////////
+    //               functions                      //
+    //////////////////////////////////////////////////
 
     std::vector<Intersection> intersect(const Ray& ray, World& w)
     {
@@ -209,7 +280,7 @@ namespace LRT
 
         for (u32 i = 0; i < w.objects.size(); i++)
         {
-            std::vector<Intersection> inter = intersect(ray, w.objects[i]);
+            std::vector<Intersection> inter = w.objects[i]->intersect(ray);
             std::copy(inter.begin(), inter.end(), std::back_inserter(intersections));
         }
 
@@ -244,12 +315,12 @@ namespace LRT
 
     bool LRTAPI isShadowed(World& w, const vec3 lightPos, const vec3 point)
     {
-        LRT::vec3 ptl = lightPos - point; // point to light
+        vec3 ptl = lightPos - point; // point to light
 
         f32 distance = ptl.length();
-        LRT::vec3 direction = ptl.getNormalized();
+        vec3 direction = ptl.getNormalized();
 
-        LRT::Ray shadow_ray(point, direction);
+        Ray shadow_ray(point, direction);
         std::vector<Intersection> hits = intersect(shadow_ray, w);
         u32 h = hit(hits);
 
@@ -265,7 +336,6 @@ namespace LRT
 
         return true;
     }
-
 
 }
 

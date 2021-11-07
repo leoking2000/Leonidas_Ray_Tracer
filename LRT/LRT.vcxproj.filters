@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\LRT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Canvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -36,16 +33,13 @@
     <ClInclude Include="Tests\unit_tests\CanvasTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\unit_tests\GeometryTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tests\unit_tests\GraphicsTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tests\unit_tests\MatrixTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tests\unit_tests\VectorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LRT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

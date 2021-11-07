@@ -150,8 +150,6 @@
     <ClInclude Include="include\defines.h" />
     <ClInclude Include="Tests\test.h" />
     <ClInclude Include="Tests\unit_tests\CanvasTest.h" />
-    <ClInclude Include="Tests\unit_tests\GeometryTest.h" />
-    <ClInclude Include="Tests\unit_tests\GraphicsTest.h" />
     <ClInclude Include="Tests\unit_tests\MatrixTest.h" />
     <ClInclude Include="Tests\unit_tests\VectorTest.h" />
   </ItemGroup>

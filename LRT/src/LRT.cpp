@@ -29,12 +29,13 @@ namespace LRT
 		return ambient + diffuse + specular;
 	}
 
-	PreComputedValues::PreComputedValues(const Intersection& i, const Ray& ray)
+	PreComputedValues::PreComputedValues(const Intersection& i, const Ray& ray, World& w)
 		:
+		world(w),
 		intersection(i),
 		point(ray(i.t)),
 		view(-ray.direction),
-		normal(i.obj->normalAt(point))
+		normal(w.objects[i.shapeID]->normalAt(point))
 	{
 		if (LRT::vec3::dot(normal, view) < 0)
 		{
@@ -47,17 +48,19 @@ namespace LRT
 		}
 	}
 
-	Color LRTAPI shadeHit(World& w, const PreComputedValues& comps)
+	Color LRTAPI shadeHit(const PreComputedValues& comps)
 	{
 		Color c(0.0f, 0.0f, 0.0f);
 
 		constexpr f32 EPSILON = 0.01f;
 
-		for (auto& light : w.lights)
+		for (auto& light : comps.world.lights)
 		{
-			bool inShadow = isShadowed(w, light.position, comps.point + EPSILON * comps.normal);
+			bool inShadow = isShadowed(comps.world, light.position, comps.point + EPSILON * comps.normal);
 
-			c += lighting(comps.intersection.obj->material, 
+			u32 id = comps.intersection.shapeID;
+
+			c += lighting(comps.world.objects[id]->material,
 				light, comps.point, comps.view, comps.normal,inShadow);
 		}
 
@@ -74,7 +77,7 @@ namespace LRT
 			return LRT::Colors::black;
 		}
 
-		return shadeHit(w, PreComputedValues(inters[i], ray));
+		return shadeHit(PreComputedValues(inters[i], ray, w));
 	}
 
 	Canvas Render(const Camera& cam, World& w)
