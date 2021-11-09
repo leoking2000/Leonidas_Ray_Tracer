@@ -148,17 +148,15 @@
     <ClInclude Include="include\LRT.h" />
     <ClInclude Include="include\LRTMath.h" />
     <ClInclude Include="include\defines.h" />
-    <ClInclude Include="Tests\test.h" />
-    <ClInclude Include="Tests\unit_tests\CanvasTest.h" />
-    <ClInclude Include="Tests\unit_tests\MatrixTest.h" />
-    <ClInclude Include="Tests\unit_tests\VectorTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\geometry.cpp" />
     <ClCompile Include="src\Canvas.cpp" />
     <ClCompile Include="src\LRT.cpp" />
     <ClCompile Include="src\LRTMath.cpp" />
-    <ClCompile Include="Tests\test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

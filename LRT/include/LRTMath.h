@@ -13,13 +13,13 @@ namespace LRT
 	template<typename T>
 	inline constexpr const T& clamp(const T& v, const T& lo, const T& hi)
 	{
-		return v < lo ? lo : hi < v ? hi : v;
+		return v < lo ? lo : ( hi < v ? hi : v );
 	}
 
 	template<typename T>
 	inline T Interpolate(const T& a, const T& b, f32 alpha)
 	{
-		return a + (b - a) * alpha;
+		return (1 - alpha) * a + b * alpha;
 	}
 
 	// 3D dimensional mathematical row vector (using float)
@@ -236,12 +236,19 @@ namespace LRT
 
 	// Matrix with size SxS
 	template<u32 S>
-	class mat
+	class LRTAPI mat
 	{
 	public:
 		f32 data[S * S] = { 0 };
 	public:
 		mat() = default;
+		mat(std::initializer_list<f32> list)
+		{
+			for (int i = 0; i < list.size(); i++)
+			{
+				data[i] = *(list.begin() + i);
+			}
+		}
 
 		inline f32 operator()(u32 row, u32 col) const
 		{
