@@ -20,7 +20,7 @@ namespace LRT
 
 	struct LRTAPI Material
 	{
-		Material(const Color& color = Colors::white, f32 a = 0.1f, f32 d = 0.9f, f32 spe = 0.9f, f32 shi = 50.0f)
+		Material(const Color& color = Colors::white, f32 a = 0.1f, f32 d = 0.9f, f32 spe = 0.9f, f32 shi = 200.0f)
 			:
 			color(color),
 			ambient(a),

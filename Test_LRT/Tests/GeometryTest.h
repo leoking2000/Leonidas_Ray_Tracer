@@ -1,7 +1,7 @@
 #pragma once
 #include "gtest/gtest.h"
 
-#include "LRT.h"
+#include "geometry.h"
 
 TEST(GeometryTest, ray_creations)
 {
@@ -195,98 +195,6 @@ TEST(GeometryTest, Computing_the_Normal_on_a_Sphere)
 	n = s.normalAt(LRT::vec3(0.0f, num, -num));
 	EXPECT_EQ(n, LRT::vec3(0.0f, 0.97014f, -0.24254f));
 	EXPECT_EQ(n.getNormalized(), n);
-}
-
-class DefaultWorldTest : public ::testing::Test {
-protected:
-	void SetUp() override 
-	{
-		LRT::Material m1;
-		m1.color = LRT::Color(0.8f, 1.0f, 0.6f);
-		m1.diffuse = 0.7f;
-		m1.specular = 0.2f;
-
-		LRT::Material m2;
-
-		LRT::Sphere* s0 = new LRT::Sphere(0, LRT::mat4::identity(), m1);
-		LRT::Sphere* s1 = new LRT::Sphere(1, LRT::mat4::scale(0.5f), m2);
-
-		w.objects.emplace_back(s0);
-		w.objects.emplace_back(s1);
-		w.lights.emplace_back(LRT::vec3(-10.0f, 10.0f, -10.0f), LRT::Colors::white);
-
-	}
-
-	void TearDown() override 
-	{
-		for (int i = 0; i < w.objects.size(); i++)
-		{
-			delete w.objects[i];
-		}
-	}
-
-	LRT::World w;
-};
-
-TEST_F(DefaultWorldTest, wolrd_test1)
-{
-	LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-
-	std::vector<LRT::Intersection> xs = LRT::intersect(ray, w);
-
-	EXPECT_EQ(xs.size(), 4);
-	EXPECT_EQ(xs[0].t, 4.0f);
-	EXPECT_EQ(xs[1].t, 4.5f);
-	EXPECT_EQ(xs[2].t, 5.5f);
-	EXPECT_EQ(xs[3].t, 6.0f);
-}
-
-TEST_F(DefaultWorldTest, isShadowed)
-{
-	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(0.0f, 10.0f, 0.0f)));
-	EXPECT_TRUE(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(10.0f, -10.0f, 10.0f)));
-	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(-20.0f, 20.0f, -20.0f)));
-	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(-2.0f, 2.0f, -2.0f)));
-}
-
-TEST(GeometryTest, PreComputedValues)
-{
-	{
-		LRT::World w;
-
-		LRT::Sphere obj(0);
-		w.objects.emplace_back(&obj);
-
-		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		LRT::Intersection inter(4.0f, 0);
-		LRT::PreComputedValues comps(inter, ray, w);
-
-		EXPECT_EQ(comps.intersection.t, inter.t);
-		EXPECT_EQ(comps.intersection.shapeID, inter.shapeID);
-		EXPECT_EQ(comps.point, LRT::vec3(0.0f, 0.0f, -1.0f));
-		EXPECT_EQ(comps.view, LRT::vec3(0.0f, 0.0f, -1.0f));
-		EXPECT_EQ(comps.normal, LRT::vec3(0.0f, 0.0f, -1.0f));
-		EXPECT_EQ(comps.isInside, false);
-	}
-
-	{
-		LRT::World w;
-		LRT::Sphere obj(0);
-
-		w.objects.emplace_back(&obj);
-
-		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, 0.0f), LRT::vec3(0.0f, 0.0f, 1.0f));	
-		LRT::Intersection inter(1.0f, 0);
-		LRT::PreComputedValues comps(inter, ray, w);
-
-		EXPECT_EQ(comps.intersection.t, inter.t);
-		EXPECT_EQ(comps.intersection.shapeID, inter.shapeID);
-		EXPECT_EQ(comps.point, LRT::vec3(0.0f, 0.0f, 1.0f));
-		EXPECT_EQ(comps.view, LRT::vec3(0.0f, 0.0f, -1.0f));
-		EXPECT_EQ(comps.normal, LRT::vec3(0.0f, 0.0f, -1.0f));
-		EXPECT_EQ(comps.isInside, true);
-	}
-
 }
 
 TEST(GeometryTest, camera)

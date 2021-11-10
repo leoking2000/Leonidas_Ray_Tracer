@@ -1,126 +1,133 @@
 #pragma once
-#include <iostream>
-#include <assert.h>
+#include "gtest/gtest.h"
 
 #include "LRT.h"
 
-void GraphicsTest()
+
+TEST(GraphicsTest, point_light_creation)
 {
-	std::cout << "Graphics Test.....";
+	LRT::PointLight light({ 1.0f, 1.0f, 0.0f });
 
-	// creating a point light
+	EXPECT_EQ(light.position, LRT::vec3(1.0f, 1.0f, 0.0f));
+	EXPECT_EQ(light.color, LRT::Colors::white);
+}
+
+TEST(GraphicsTest, PreComputedValues)
+{
 	{
-		LRT::PointLight light({ 1.0f, 1.0f, 0.0f });
+		LRT::World w;
 
-		assert(light.position == LRT::vec3(1.0f, 1.0f, 0.0f));
-		assert(light.color == LRT::Colors::white);
-	} 
+		LRT::Sphere obj(0);
+		w.objects.emplace_back(&obj);
 
-	// lighting function
-	{
-		LRT::Material m;
-		LRT::vec3 p = LRT::vec3::zero();
-
-		{
-			LRT::vec3 view(0.0f, 0.0f, -1.0f);
-			LRT::vec3 normal(0.0f, 0.0f, -1.0f);
-
-			LRT::PointLight light(LRT::vec3(0.0f, 0.0f, -10.0f));
-
-			LRT::Color color = LRT::lighting(m, light, p, view, normal);
-			assert(color == LRT::Color(1.9f, 1.9f, 1.9f));
-		}
-
-		{
-			LRT::vec3 view(0.0f, std::sqrtf(2.0f)/2.0f, -std::sqrtf(2.0f) / 2.0f);
-			LRT::vec3 normal(0.0f, 0.0f, -1.0f);
-
-			LRT::PointLight light(LRT::vec3(0.0f, 0.0f, -10.0f));
-
-			LRT::Color color = LRT::lighting(m, light, p, view, normal);
-			assert(color == LRT::Color(1.0f, 1.0f, 1.0f));
-		}
-
-		{
-			LRT::vec3 view(0.0f, 0.0f, -1.0f);
-			LRT::vec3 normal(0.0f, 0.0f, -1.0f);
-
-			LRT::PointLight light(LRT::vec3(0.0f, 10.0f, -10.0f));
-
-			LRT::Color color = LRT::lighting(m, light, p, view, normal);
-			assert(color == LRT::Color(0.7364f, 0.7364f, 0.7364f));
-		}
-
-		{
-			LRT::vec3 view(0.0f, -std::sqrtf(2.0f) / 2.0f, -std::sqrtf(2.0f) / 2.0f);
-			LRT::vec3 normal(0.0f, 0.0f, -1.0f);
-
-			LRT::PointLight light(LRT::vec3(0.0f, 10.0f, -10.0f));
-
-			LRT::Color color = LRT::lighting(m, light, p, view, normal);
-			assert(color == LRT::Color(1.63638f, 1.63638f, 1.63638f));
-		}
-
-		{
-			LRT::vec3 view(0.0f, 0.0f, -1.0f);
-			LRT::vec3 normal(0.0f, 0.0f, -1.0f);
-
-			LRT::PointLight light(LRT::vec3(0.0f, 0.0f, 10.0f));
-
-			LRT::Color color = LRT::lighting(m, light, p, view, normal);
-			assert(color == LRT::Color(0.1f, 0.1f, 0.1f));
-		}
-
-		{
-			LRT::vec3 view(0.0f, 0.0f, -1.0f);
-			LRT::vec3 normal(0.0f, 0.0f, -1.0f);
-
-			LRT::PointLight light(LRT::vec3(0.0f, 0.0f, 1.0f));
-
-			assert(LRT::Colors::white * 0.1f == LRT::lighting(m, light, p, view, normal, true));
-		}
-
-	}
-
-	// shadeHit
-	{
-		LRT::World w = LRT::DefaultWorld();
 		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		LRT::Intersection inter(4.0f, w.objects[0]);
+		LRT::Intersection inter(4.0f, 0);
+		LRT::PreComputedValues comps(inter, ray, w);
 
-		assert(LRT::shadeHit(w, LRT::PreComputedValues(inter, ray)) == LRT::Color(0.38066f, 0.47583f, 0.2855f));
+		EXPECT_EQ(comps.intersection.t, inter.t);
+		EXPECT_EQ(comps.intersection.shapeID, inter.shapeID);
+		EXPECT_EQ(comps.point, LRT::vec3(0.0f, 0.0f, -1.0f));
+		EXPECT_EQ(comps.view, LRT::vec3(0.0f, 0.0f, -1.0f));
+		EXPECT_EQ(comps.normal, LRT::vec3(0.0f, 0.0f, -1.0f));
+		EXPECT_EQ(comps.isInside, false);
 	}
 
 	{
-		LRT::World w = LRT::DefaultWorld();
-		w.lights[0] = LRT::PointLight(LRT::vec3(0.0f, 0.25f, 0.0f));
+		LRT::World w;
+		LRT::Sphere obj(0);
+
+		w.objects.emplace_back(&obj);
+
 		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, 0.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		LRT::Intersection inter(0.5f, w.objects[1]);
+		LRT::Intersection inter(1.0f, 0);
+		LRT::PreComputedValues comps(inter, ray, w);
 
-		assert(LRT::shadeHit(w, LRT::PreComputedValues(inter, ray)) == LRT::Color(0.90498f, 0.90498f, 0.90498f));
-
+		EXPECT_EQ(comps.intersection.t, inter.t);
+		EXPECT_EQ(comps.intersection.shapeID, inter.shapeID);
+		EXPECT_EQ(comps.point, LRT::vec3(0.0f, 0.0f, 1.0f));
+		EXPECT_EQ(comps.view, LRT::vec3(0.0f, 0.0f, -1.0f));
+		EXPECT_EQ(comps.normal, LRT::vec3(0.0f, 0.0f, -1.0f));
+		EXPECT_EQ(comps.isInside, true);
 	}
 
-	// color at
+}
+
+class LightingFunctionTest : public ::testing::Test
+{
+protected:
+	void SetUp() override
 	{
-		LRT::World w = LRT::DefaultWorld();
-		LRT::Ray r(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 1.0f, 0.0f));
-		assert(LRT::color_at(w, r) == LRT::Color(0.0f, 0.0f, 0.0f));
 	}
+
+	void TearDown() override
 	{
-		LRT::World w = LRT::DefaultWorld();
-		LRT::Ray r(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		assert(LRT::color_at(w, r) == LRT::Color(0.38066f, 0.47583f, 0.2855f));
 	}
-	{
-		LRT::World w = LRT::DefaultWorld();
-		w.objects[0].material.ambient = 1.0f;
-		w.objects[1].material.ambient = 1.0f;
+protected:
+	LRT::Material m;
+	LRT::vec3 p = LRT::vec3::zero();
+};
 
-		LRT::Ray r(LRT::vec3(0.0f, 0.0f, 0.75f), LRT::vec3(0.0f, 0.0f, -1.0f));
-		assert(LRT::color_at(w, r) == w.objects[1].material.color);
-	}
+TEST_F(LightingFunctionTest, LFT_1)
+{
+	LRT::vec3 view(0.0f, 0.0f, -1.0f);
+	LRT::vec3 normal(0.0f, 0.0f, -1.0f);
 
+	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, -10.0f));
 
-	std::cout << "OK\n";
+	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	EXPECT_EQ(color, LRT::Color(1.9f, 1.9f, 1.9f));
+}
+
+TEST_F(LightingFunctionTest, LFT_2)
+{
+	LRT::vec3 view(0.0f, std::sqrtf(2.0f) / 2.0f, -std::sqrtf(2.0f) / 2.0f);
+	LRT::vec3 normal(0.0f, 0.0f, -1.0f);
+
+	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, -10.0f));
+
+	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	EXPECT_EQ(color, LRT::Color(1.0f, 1.0f, 1.0f));
+}
+
+TEST_F(LightingFunctionTest, LFT_3)
+{
+	LRT::vec3 view(0.0f, 0.0f, -1.0f);
+	LRT::vec3 normal(0.0f, 0.0f, -1.0f);
+
+	LRT::PointLight light(LRT::vec3(0.0f, 10.0f, -10.0f));
+
+	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	EXPECT_EQ(color, LRT::Color(0.7364f, 0.7364f, 0.7364f));
+}
+
+TEST_F(LightingFunctionTest, LFT_4)
+{
+	LRT::vec3 view(0.0f, -std::sqrtf(2.0f) / 2.0f, -std::sqrtf(2.0f) / 2.0f);
+	LRT::vec3 normal(0.0f, 0.0f, -1.0f);
+
+	LRT::PointLight light(LRT::vec3(0.0f, 10.0f, -10.0f));
+
+	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	EXPECT_EQ(color, LRT::Color(1.63638f, 1.63638f, 1.63638f));
+}
+
+TEST_F(LightingFunctionTest, LFT_5)
+{
+	LRT::vec3 view(0.0f, 0.0f, -1.0f);
+	LRT::vec3 normal(0.0f, 0.0f, -1.0f);
+
+	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, 10.0f));
+
+	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	EXPECT_EQ(color, LRT::Color(0.1f, 0.1f, 0.1f));
+}
+
+TEST_F(LightingFunctionTest, LFT_6)
+{
+	LRT::vec3 view(0.0f, 0.0f, -1.0f);
+	LRT::vec3 normal(0.0f, 0.0f, -1.0f);
+
+	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, 1.0f));
+
+	EXPECT_EQ(LRT::Colors::white * m.ambient, LRT::lighting(m, light, p, view, normal, true));
 }

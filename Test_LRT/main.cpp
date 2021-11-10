@@ -3,6 +3,8 @@
 #include "Tests/MathTest.h"
 #include "Tests/CanvasTest.h"
 #include "Tests/GeometryTest.h"
+#include "Tests/GraphicsTest.h"
+#include "Tests/DefaultWorldTest.h"
 
 #include "examples/ProjectileTest.h"
 #include "examples/clockpositionsTest.h"
@@ -17,8 +19,8 @@ int main(int argc, char** argv)
 	int r = RUN_ALL_TESTS();
 
 #if RUN_EXAMPLES
-	//ProjectileTest();
-	//clockpositionsTest();
+	ProjectileTest();
+	clockpositionsTest();
 	DrawSphereTest();
 #endif
 
