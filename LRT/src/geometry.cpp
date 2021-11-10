@@ -115,7 +115,7 @@ namespace LRT
         vec4 local_point  = vec4(world_point, 1.0f) * inv_modelMatrix;
         vec4 local_normal = vec4(local_normalAt(local_point), 0.0f);
         vec4 world_nornal = local_normal * inv_modelMatrix.transpose();
-        return vec3(world_nornal);
+        return vec3(world_nornal).getNormalized();
     }
 
     std::vector<Intersection> Shape::intersect(const Ray& ray) const

@@ -1,7 +1,6 @@
 #pragma once
 #include "LRTMath.h"
 #include <vector>
-#include <memory>
 
 namespace LRT
 {
@@ -150,26 +149,6 @@ namespace LRT
 		std::vector<Shape*> objects;
 		std::vector<PointLight> lights;
 	};
-
-	/*
-	inline World DefaultWorld()
-	{
-		World w;
-
-		Material m1;
-		m1.color = Color(0.8f, 1.0f, 0.6f);
-		m1.diffuse = 0.7f;
-		m1.specular = 0.2f;
-		w.objects.emplace_back(0, mat4::identity(), m1);
-
-		Material m2;
-		w.objects.emplace_back(1, mat4::scale(0.5f), m2);
-
-		w.lights.emplace_back(vec3(-10.0f, 10.0f, -10.0f), Colors::white);
-
-		return w;
-	}
-	*/
 
 	std::vector<Intersection> LRTAPI intersect(const Ray& ray, World& w);
 

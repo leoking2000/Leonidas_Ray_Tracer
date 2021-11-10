@@ -12,7 +12,7 @@ namespace LRT
 						  const LRT::vec3& normal,
 						  bool inShadow = false);
 
-	struct PreComputedValues
+	struct LRTAPI PreComputedValues
 	{
 		PreComputedValues(const Intersection& i, const Ray& ray, World& w);
 
