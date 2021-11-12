@@ -30,6 +30,9 @@
     <ClInclude Include="include\LRT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\patterns.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Canvas.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\LRT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\patterns.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

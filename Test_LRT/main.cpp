@@ -5,6 +5,7 @@
 #include "Tests/GeometryTest.h"
 #include "Tests/GraphicsTest.h"
 #include "Tests/DefaultWorldTest.h"
+#include "Tests/PattenTest.h"
 
 #include "examples/ProjectileTest.h"
 #include "examples/clockpositionsTest.h"

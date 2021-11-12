@@ -10,11 +10,11 @@ void DrawSphereTest()
 
 	LRT::Material red(LRT::Colors::red, 0.05f);
 
-	LRT::Material green(LRT::Colors::green);
+	LRT::Material green(LRT::Colors::green, 0.1f);
 
-	LRT::Material blue({ 0.0f, 0.0f, 0.5f });
+	LRT::Material blue({ 0.0f, 0.0f, 0.5f }, 0.1f);
 
-	LRT::Material pink({ 1.0f, 0.71372862f, 0.7568276f });
+	LRT::Material pink({ 1.0f, 0.71372862f, 0.7568276f }, 0.1f);
 
 	LRT::Material matte({1.0f, 0.9f, 0.9f}, 0.1f, 0.9f, 1.0f, 200.0f);
 

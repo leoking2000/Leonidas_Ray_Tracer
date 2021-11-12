@@ -8,10 +8,7 @@ class DefaultWorldTest : public ::testing::Test
 protected:
 	void SetUp() override
 	{
-		LRT::Material m1;
-		m1.color = LRT::Color(0.8f, 1.0f, 0.6f);
-		m1.diffuse = 0.7f;
-		m1.specular = 0.2f;
+		LRT::Material m1(LRT::Color(0.8f, 1.0f, 0.6f), 0.1f, 0.7f, 0.2f, 200.0f);
 
 		LRT::Material m2;
 
@@ -97,7 +94,7 @@ TEST_F(DefaultWorldTest, color_at3)
 	w.objects[1]->material.ambient = 1.0f;
 
 	LRT::Ray r(LRT::vec3(0.0f, 0.0f, 0.75f), LRT::vec3(0.0f, 0.0f, -1.0f));
-	EXPECT_EQ(LRT::color_at(w, r), w.objects[1]->material.color);
+	EXPECT_EQ(LRT::color_at(w, r), LRT::Colors::white);
 
 	w.objects[0]->material.ambient = 0.1f;
 	w.objects[1]->material.ambient = 0.1f;

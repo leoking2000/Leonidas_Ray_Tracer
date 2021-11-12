@@ -41,6 +41,7 @@
     <ClInclude Include="Tests\GeometryTest.h" />
     <ClInclude Include="Tests\GraphicsTest.h" />
     <ClInclude Include="Tests\MathTest.h" />
+    <ClInclude Include="Tests\PattenTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

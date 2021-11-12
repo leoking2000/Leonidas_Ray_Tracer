@@ -1,6 +1,7 @@
 #pragma once
-#include "LRTMath.h"
+#include "patterns.h"
 #include <vector>
+#include <memory>
 
 namespace LRT
 {
@@ -18,11 +19,34 @@ namespace LRT
 		}
 	};
 
+	template class LRTAPI std::shared_ptr<Pattern>;
+
 	struct LRTAPI Material
 	{
-		Material(const Color& color = Colors::white, f32 a = 0.1f, f32 d = 0.9f, f32 spe = 0.9f, f32 shi = 200.0f)
+	public:
+		Material()
 			:
-			color(color),
+			pattern(std::make_shared<OneColor>(LRT::Colors::white)),
+			ambient(0.1f),
+			diffuse(0.9f),
+			specular(0.9f),
+			shininess(200.0f)
+		{
+		}
+		// OneColor Mat
+		Material(const Color& color, f32 a = 0.1f, f32 d = 0.9f, f32 spe = 0.9f, f32 shi = 200.0f)
+			:
+			pattern(std::make_shared<OneColor>(color)),
+			ambient(a),
+			diffuse(d),
+			specular(spe),
+			shininess(shi)
+		{
+		}
+		// StripedPattern Mat
+		Material(const Color& f, const Color& s, f32 a = 0.1f, f32 d = 0.9f, f32 spe = 0.9f, f32 shi = 200.0f)
+			:
+			pattern(std::make_shared<StripedPattern>(f, s)),
 			ambient(a),
 			diffuse(d),
 			specular(spe),
@@ -30,11 +54,16 @@ namespace LRT
 		{
 		}
 
-		Color color;
+		inline const Pattern& GetPatten() const { return *pattern; }
+		inline Pattern& GetPatten() { return *pattern; }
+
+	public:
 		f32 ambient;
 		f32 diffuse;
 		f32 specular;
 		f32 shininess;
+	private:
+		std::shared_ptr<Pattern> pattern;
 	};
 
 	////////////////////////////////////////////
@@ -103,7 +132,7 @@ namespace LRT
 	{
 	public:
 		Sphere(u32 id); // unit sphere at the world origin.
-		Sphere(u32 id, const mat4 Transform, const Material& mat);
+		Sphere(u32 id, const mat4 Transform, Material mat);
 	protected:
 		vec3 local_normalAt(const vec3& local_point) const override;
 		std::vector<Intersection> local_intersect(const Ray& ray) const override;
@@ -113,7 +142,7 @@ namespace LRT
 	{
 	public:
 		Plane(u32 id); // is the xz plane with a (0, 1, 0) normal.
-		Plane(u32 id, const mat4 Transform, const Material& mat);
+		Plane(u32 id, const mat4 Transform, Material mat);
 	protected:
 		vec3 local_normalAt(const vec3& local_point) const override;
 		std::vector<Intersection> local_intersect(const Ray& ray) const override;

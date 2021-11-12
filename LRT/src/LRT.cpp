@@ -5,7 +5,7 @@ namespace LRT
 {
 	LRT::Color lighting(const Material& mat, const PointLight& light, const LRT::vec3& point, const LRT::vec3& view, const LRT::vec3& normal, bool inShadow)
 	{
-		LRT::Color base_color = mat.color * light.color;
+		LRT::Color base_color = mat.GetPatten().colorAt(point) * light.color;
 
 		LRT::Color ambient = base_color * mat.ambient;
 		if (inShadow) return ambient;

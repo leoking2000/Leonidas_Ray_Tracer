@@ -134,11 +134,11 @@ namespace LRT
     {
     }
 
-    Sphere::Sphere(u32 id, const mat4 Transform, const Material& mat)
+    Sphere::Sphere(u32 id, const mat4 Transform, Material mat)
         :
         Shape(id, Transform)
     {
-        material = mat;
+        material = std::move(mat);
     }
 
     vec3 Sphere::local_normalAt(const vec3& local_point) const
@@ -190,11 +190,11 @@ namespace LRT
     {
     }
 
-    Plane::Plane(u32 id, const mat4 Transform, const Material& mat)
+    Plane::Plane(u32 id, const mat4 Transform, Material mat)
         :
         Shape(id, Transform)
     {
-        material = mat;
+        material = std::move(mat);
     }
 
     vec3 Plane::local_normalAt(const vec3& local_point) const
@@ -336,7 +336,6 @@ namespace LRT
 
         return true;
     }
-
 }
 
 

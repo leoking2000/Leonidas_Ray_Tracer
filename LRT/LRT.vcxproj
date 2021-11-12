@@ -148,8 +148,10 @@
     <ClInclude Include="include\LRT.h" />
     <ClInclude Include="include\LRTMath.h" />
     <ClInclude Include="include\defines.h" />
+    <ClInclude Include="include\patterns.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\patterns.cpp" />
     <ClCompile Include="src\geometry.cpp" />
     <ClCompile Include="src\Canvas.cpp" />
     <ClCompile Include="src\LRT.cpp" />
