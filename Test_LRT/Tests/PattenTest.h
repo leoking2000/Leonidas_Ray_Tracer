@@ -66,12 +66,41 @@ TEST_F(StripedPattenTest, alternatesX)
 
 TEST_F(StripedPattenTest, lighting_stripedpattern)
 {
-	LRT::Material m(white, black, 1.0f, 0.0f, 0.0f, 200.0f);
+	auto mat = LRT::Material::StripedPatternMat(white, black, 1.0f, 0.0f, 0.0f, 200.0f);
 
+	LRT::Sphere sphere(0, mat);
 	LRT::vec3 view(0.0f, 0.0f, -1.0f);
 	LRT::vec3 normal(0.0f, 0.0f, -1.0f);
 	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, -10.0f));
 
-	EXPECT_EQ(LRT::lighting(m, light, LRT::vec3(0.9f, 0.0f, 0.0f), view, normal, false), white);
-	EXPECT_EQ(LRT::lighting(m, light, LRT::vec3(1.1f, 0.0f, 0.0f), view, normal, false), black);
+	EXPECT_EQ(LRT::lighting(sphere, light, LRT::vec3(0.9f, 0.0f, 0.0f), view, normal, false), white);
+	EXPECT_EQ(LRT::lighting(sphere, light, LRT::vec3(1.1f, 0.0f, 0.0f), view, normal, false), black);
 }
+
+TEST_F(StripedPattenTest, object_transformation)
+{
+	LRT::Sphere sphere(0, LRT::Material::StripedPatternMat(white, black), LRT::mat4::scale(2.0f));
+
+	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec4(1.5f, 0.0f, 0.0f, 1.0f) * sphere.GetInverseModelMatrix()), white);
+}
+
+TEST_F(StripedPattenTest, patten_transformation1)
+{
+	auto patten = std::unique_ptr<LRT::Pattern>(new LRT::StripedPattern(white, black, LRT::mat4::scale(2.0f)));
+
+	LRT::Sphere sphere(0, LRT::Material::Create(std::move(patten)));
+
+	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec4(1.5f, 0.0f, 0.0f, 1.0f) * sphere.GetInverseModelMatrix()), white);
+}
+
+TEST_F(StripedPattenTest, patten_transformation2)
+{
+	auto patten = std::unique_ptr<LRT::Pattern>(new LRT::StripedPattern(white, black, LRT::mat4::Translation3D(0.5f, 0.0f, 0.0f)));
+
+	LRT::Sphere sphere(0, LRT::Material::Create(std::move(patten)), LRT::mat4::scale(2.0f));
+
+	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec4(2.5f, 0.0f, 0.0f, 1.0f) * sphere.GetInverseModelMatrix()), white);
+}
+
+
+

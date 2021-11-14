@@ -1,7 +1,5 @@
 #pragma once
 
-#define LRTAPI __declspec(dllexport)
-
 // int types
 
 // 8 bit interger

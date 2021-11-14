@@ -3,28 +3,30 @@
 
 namespace LRT
 {
-	LRT::Color lighting(const Material& mat, const PointLight& light, const LRT::vec3& point, const LRT::vec3& view, const LRT::vec3& normal, bool inShadow)
+	LRT::Color lighting(const Shape& obj, const PointLight& light, const vec3& point, const vec3& view, const vec3& normal, bool inShadow)
 	{
-		LRT::Color base_color = mat.GetPatten().colorAt(point) * light.color;
+		const Material& mat = obj.GetMaterial();
 
-		LRT::Color ambient = base_color * mat.ambient;
+		Color base_color = mat.colorAt(LRT::vec4(point, 1.0f) * obj.GetInverseModelMatrix()) * light.color;
+
+		Color ambient = base_color * mat.ambient;
 		if (inShadow) return ambient;
 
-		LRT::vec3 light_dir = (light.position - point).getNormalized();
+		vec3 light_dir = (light.position - point).getNormalized();
 
 		f32 light_dot_normal = light_dir.dot(normal);
 
 		if (light_dot_normal < 0) return ambient;
 
-		LRT::Color diffuse = base_color * mat.diffuse * light_dot_normal;
+		Color diffuse = base_color * mat.diffuse * light_dot_normal;
 
-		LRT::vec3 reflect = LRT::vec3::reflect(-light_dir, normal);
+		vec3 reflect = LRT::vec3::reflect(-light_dir, normal);
 		f32 reflect_dot_view = reflect.dot(view);
 
 		if (reflect_dot_view <= 0) return ambient + diffuse;
 
 		f32 factor = std::pow(reflect_dot_view, mat.shininess);
-		LRT::Color specular = light.color * mat.specular * factor;
+		Color specular = light.color * mat.specular * factor;
 
 		return ambient + diffuse + specular;
 	}
@@ -48,7 +50,7 @@ namespace LRT
 		}
 	}
 
-	Color LRTAPI shadeHit(const PreComputedValues& comps)
+	Color  shadeHit(const PreComputedValues& comps)
 	{
 		Color c(0.0f, 0.0f, 0.0f);
 
@@ -60,7 +62,7 @@ namespace LRT
 
 			u32 id = comps.intersection.shapeID;
 
-			c += lighting(comps.world.objects[id]->material,
+			c += lighting(*comps.world.objects[id],
 				light, comps.point, comps.view, comps.normal,inShadow);
 		}
 

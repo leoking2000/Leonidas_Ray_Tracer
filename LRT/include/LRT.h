@@ -5,14 +5,14 @@
 namespace LRT
 {
 
-	Color LRTAPI lighting(const Material& mat, 
-						  const PointLight& light, 
-					      const LRT::vec3& point, 
-						  const LRT::vec3& view, 
-						  const LRT::vec3& normal,
-						  bool inShadow = false);
+	Color lighting(const Shape& mat, 
+				   const PointLight& light, 
+				   const LRT::vec3& point, 
+				   const LRT::vec3& view, 
+				   const LRT::vec3& normal,
+				   bool inShadow = false);
 
-	struct LRTAPI PreComputedValues
+	struct PreComputedValues
 	{
 		PreComputedValues(const Intersection& i, const Ray& ray, World& w);
 
@@ -24,9 +24,9 @@ namespace LRT
 		bool isInside;
 	};
 
-	Color LRTAPI shadeHit(const PreComputedValues& comps);
+	Color shadeHit(const PreComputedValues& comps);
 
-	Color LRTAPI color_at(World& w, const Ray ray);
+	Color color_at(World& w, const Ray ray);
 
-	Canvas LRTAPI Render(const Camera& cam, World& w);
+	Canvas Render(const Camera& cam, World& w);
 }

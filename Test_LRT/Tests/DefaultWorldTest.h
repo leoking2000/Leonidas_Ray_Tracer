@@ -8,12 +8,12 @@ class DefaultWorldTest : public ::testing::Test
 protected:
 	void SetUp() override
 	{
-		LRT::Material m1(LRT::Color(0.8f, 1.0f, 0.6f), 0.1f, 0.7f, 0.2f, 200.0f);
+		auto m1 = LRT::Material::OneColorMat(LRT::Color(0.8f, 1.0f, 0.6f), 0.1f, 0.7f, 0.2f, 200.0f);
 
-		LRT::Material m2;
+		auto m2 = LRT::Material::Default();
 
-		LRT::Sphere* s0 = new LRT::Sphere(0, LRT::mat4::identity(), m1);
-		LRT::Sphere* s1 = new LRT::Sphere(1, LRT::mat4::scale(0.5f), m2);
+		LRT::Sphere* s0 = new LRT::Sphere(0, std::move(m1), LRT::mat4::identity());
+		LRT::Sphere* s1 = new LRT::Sphere(1, std::move(m2), LRT::mat4::scale(0.5f));
 
 		w.objects.emplace_back(s0);
 		w.objects.emplace_back(s1);
@@ -90,12 +90,12 @@ TEST_F(DefaultWorldTest, color_at2)
 
 TEST_F(DefaultWorldTest, color_at3)
 {
-	w.objects[0]->material.ambient = 1.0f;
-	w.objects[1]->material.ambient = 1.0f;
+	w.objects[0]->GetMaterial().ambient = 1.0f;
+	w.objects[1]->GetMaterial().ambient = 1.0f;
 
 	LRT::Ray r(LRT::vec3(0.0f, 0.0f, 0.75f), LRT::vec3(0.0f, 0.0f, -1.0f));
 	EXPECT_EQ(LRT::color_at(w, r), LRT::Colors::white);
 
-	w.objects[0]->material.ambient = 0.1f;
-	w.objects[1]->material.ambient = 0.1f;
+	w.objects[0]->GetMaterial().ambient = 0.1f;
+	w.objects[1]->GetMaterial().ambient = 0.1f;
 }

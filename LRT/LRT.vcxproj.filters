@@ -30,7 +30,7 @@
     <ClInclude Include="include\LRT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\patterns.h">
+    <ClInclude Include="include\graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClCompile Include="src\LRT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\patterns.cpp">
+    <ClCompile Include="src\graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

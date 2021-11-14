@@ -26,7 +26,7 @@ TEST(GeometryTest, ray_sphere_intersection)
 	LRT::Ray r({ 0.0f, 0.0f, -5.0f }, { 0.0f, 0.0f, 1.0f });
 
 	u32 sphere_id = 0;
-	LRT::Sphere sphere(sphere_id);
+	LRT::Sphere sphere(sphere_id, LRT::Material::Default());
 
 	EXPECT_EQ(sphere.ID(), sphere_id);
 
@@ -70,7 +70,7 @@ TEST(GeometryTest, ray_plane_intersection)
 	LRT::Ray r({ 5.0f, 10.0f, 1.0f }, { 0.0f, -1.0f, 0.0f });
 
 	u32 plane_id = 0;
-	LRT::Plane plane(plane_id);
+	LRT::Plane plane(plane_id, LRT::Material::Default());
 
 	EXPECT_EQ(plane.ID(), plane_id);
 
@@ -147,9 +147,10 @@ TEST(GeometryTest, transforming_rays)
 
 TEST(GeometryTest, transforming_sphere)
 {
+	auto mat = LRT::Material::Default();
 	{
 		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		LRT::Sphere sphere(0);
+		LRT::Sphere sphere(0, mat);
 
 		sphere.SetModelMatrix(LRT::mat4::scale(2.0f));
 
@@ -162,7 +163,7 @@ TEST(GeometryTest, transforming_sphere)
 
 	{
 		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-		LRT::Sphere sphere(0);
+		LRT::Sphere sphere(0, mat);
 
 		sphere.SetModelMatrix(LRT::mat4::Translation3D(5.0f, 0.0f, 0.0f));
 
@@ -175,7 +176,7 @@ TEST(GeometryTest, transforming_sphere)
 
 TEST(GeometryTest, Computing_the_Normal_on_a_Sphere)
 {
-	LRT::Sphere s(0);
+	LRT::Sphere s(0, LRT::Material::Default());
 
 	EXPECT_EQ(s.normalAt(LRT::vec3(1.0f, 0.0f, 0.0f)), LRT::vec3(1.0f, 0.0f, 0.0f));
 	EXPECT_EQ(s.normalAt(LRT::vec3(0.0f, 1.0f, 0.0f)), LRT::vec3(0.0f, 1.0f, 0.0f));

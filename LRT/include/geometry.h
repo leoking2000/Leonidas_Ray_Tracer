@@ -1,74 +1,10 @@
 #pragma once
-#include "patterns.h"
+#include "graphics.h"
 #include <vector>
-#include <memory>
 
 namespace LRT
 {
-	class LRTAPI PointLight
-	{
-	public:
-		vec3 position;
-		Color color;
-	public:
-		PointLight(const vec3& pos, const Color& c = Colors::white)
-			:
-			position(pos),
-			color(c)
-		{
-		}
-	};
-
-	template class LRTAPI std::shared_ptr<Pattern>;
-
-	struct LRTAPI Material
-	{
-	public:
-		Material()
-			:
-			pattern(std::make_shared<OneColor>(LRT::Colors::white)),
-			ambient(0.1f),
-			diffuse(0.9f),
-			specular(0.9f),
-			shininess(200.0f)
-		{
-		}
-		// OneColor Mat
-		Material(const Color& color, f32 a = 0.1f, f32 d = 0.9f, f32 spe = 0.9f, f32 shi = 200.0f)
-			:
-			pattern(std::make_shared<OneColor>(color)),
-			ambient(a),
-			diffuse(d),
-			specular(spe),
-			shininess(shi)
-		{
-		}
-		// StripedPattern Mat
-		Material(const Color& f, const Color& s, f32 a = 0.1f, f32 d = 0.9f, f32 spe = 0.9f, f32 shi = 200.0f)
-			:
-			pattern(std::make_shared<StripedPattern>(f, s)),
-			ambient(a),
-			diffuse(d),
-			specular(spe),
-			shininess(shi)
-		{
-		}
-
-		inline const Pattern& GetPatten() const { return *pattern; }
-		inline Pattern& GetPatten() { return *pattern; }
-
-	public:
-		f32 ambient;
-		f32 diffuse;
-		f32 specular;
-		f32 shininess;
-	private:
-		std::shared_ptr<Pattern> pattern;
-	};
-
-	////////////////////////////////////////////
-
-	class LRTAPI Ray
+	class Ray
 	{
 	public:
 		vec3 origin;
@@ -82,9 +18,10 @@ namespace LRT
 		bool operator!=(const Ray& other) const;
 	};
 
-	Ray LRTAPI operator*(const Ray& ray, const mat4& mat);
+	Ray  operator*(const Ray& ray, const mat4& mat);
 
-	class LRTAPI Intersection
+
+	class Intersection
 	{
 	public:
 		f32 t;
@@ -101,11 +38,12 @@ namespace LRT
 		bool operator!=(const Intersection& other) const;
 	};
 
-	class LRTAPI Shape
+
+	class Shape
 	{
 	public:
-		Shape(u32 id);
-		Shape(u32 id, const mat4& modelMatrix);
+		Shape(u32 id, std::shared_ptr<Material> material);
+		Shape(u32 id, std::shared_ptr<Material> material, const mat4& modelMatrix);
 
 		bool operator==(const Shape& other) const;
 		bool operator!=(const Shape& other) const;
@@ -113,12 +51,16 @@ namespace LRT
 		const mat4& GetInverseModelMatrix() const; // world space -> local space
 		void SetModelMatrix(const mat4& modelMatrix); // modelMatrix : local space -> world space
 
-		inline u32 ID() { return id; } // TODO: it will be used to index the scene
+		inline u32 ID() const { return id; } // TODO: it will be used to index the scene
 
 		vec3 normalAt(const vec3& world_point) const;
 		std::vector<Intersection> intersect(const Ray& ray) const;
-	public:
-		Material material;
+
+		const Material& GetMaterial() const { return *material; }
+		Material& GetMaterial() { return *material; }
+
+	private:
+		std::shared_ptr<Material> material;
 	protected:
 		virtual vec3 local_normalAt(const vec3& local_point) const = 0;
 		virtual std::vector<Intersection> local_intersect(const Ray& ray) const = 0;
@@ -127,28 +69,28 @@ namespace LRT
 		mat4 inv_modelMatrix; // world space -> local space
 	};
 
-	
-	class LRTAPI Sphere : public Shape
+
+	class Sphere : public Shape
 	{
 	public:
-		Sphere(u32 id); // unit sphere at the world origin.
-		Sphere(u32 id, const mat4 Transform, Material mat);
+		Sphere(u32 id, std::shared_ptr<Material> material); // unit sphere at the world origin.
+		Sphere(u32 id, std::shared_ptr<Material> material, const mat4 Transform);
 	protected:
 		vec3 local_normalAt(const vec3& local_point) const override;
 		std::vector<Intersection> local_intersect(const Ray& ray) const override;
 	};
 
-	class LRTAPI Plane : public Shape
+	class  Plane : public Shape
 	{
 	public:
-		Plane(u32 id); // is the xz plane with a (0, 1, 0) normal.
-		Plane(u32 id, const mat4 Transform, Material mat);
+		Plane(u32 id, std::shared_ptr<Material> material); // is the xz plane with a (0, 1, 0) normal.
+		Plane(u32 id, std::shared_ptr<Material> material, const mat4 Transform);
 	protected:
 		vec3 local_normalAt(const vec3& local_point) const override;
 		std::vector<Intersection> local_intersect(const Ray& ray) const override;
 	};
 
-	class LRTAPI Camera
+	class Camera
 	{
 	public:
 		Camera(u32 width, u32 height, mat4 transform = mat4::identity(), f32 fov = PI / 2.0f);
@@ -179,10 +121,10 @@ namespace LRT
 		std::vector<PointLight> lights;
 	};
 
-	std::vector<Intersection> LRTAPI intersect(const Ray& ray, World& w);
+	std::vector<Intersection> intersect(const Ray& ray, World& w);
 
-	u32 LRTAPI hit(const std::vector<Intersection>& Intersections);
+	u32 hit(const std::vector<Intersection>& Intersections);
 
-	bool LRTAPI isShadowed(World& w, const vec3 lightPos, const vec3 point);
+	bool isShadowed(World& w, const vec3 lightPos, const vec3 point);
 
 }

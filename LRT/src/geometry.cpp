@@ -76,17 +76,19 @@ namespace LRT
     //                  Shape                       //
     //////////////////////////////////////////////////
 
-    Shape::Shape(u32 id)
+    Shape::Shape(u32 id, std::shared_ptr<Material> material)
         :
         id(id),
-        inv_modelMatrix(mat4::identity())
+        inv_modelMatrix(mat4::identity()),
+        material(material)
     {
     }
 
-    Shape::Shape(u32 id, const mat4& modelMatrix)
+    Shape::Shape(u32 id, std::shared_ptr<Material> material, const mat4& modelMatrix)
         :
         id(id),
-        inv_modelMatrix(mat4::inverse(modelMatrix))
+        inv_modelMatrix(mat4::inverse(modelMatrix)),
+        material(material)
     {
     }
 
@@ -128,17 +130,16 @@ namespace LRT
     //                 Sphere                       //
     //////////////////////////////////////////////////
 
-    Sphere::Sphere(u32 id)
+    Sphere::Sphere(u32 id, std::shared_ptr<Material> material)
         :
-        Shape(id)
+        Shape(id, material)
     {
     }
 
-    Sphere::Sphere(u32 id, const mat4 Transform, Material mat)
+    Sphere::Sphere(u32 id, std::shared_ptr<Material> material, const mat4 Transform)
         :
-        Shape(id, Transform)
+        Shape(id, material, Transform)
     {
-        material = std::move(mat);
     }
 
     vec3 Sphere::local_normalAt(const vec3& local_point) const
@@ -184,17 +185,16 @@ namespace LRT
     //                  Plane                      //
     //////////////////////////////////////////////////
 
-    Plane::Plane(u32 id)
+    Plane::Plane(u32 id, std::shared_ptr<Material> material)
         :
-        Shape(id)
+        Shape(id, material)
     {
     }
 
-    Plane::Plane(u32 id, const mat4 Transform, Material mat)
+    Plane::Plane(u32 id, std::shared_ptr<Material> material, const mat4 Transform)
         :
-        Shape(id, Transform)
+        Shape(id, material, Transform)
     {
-        material = std::move(mat);
     }
 
     vec3 Plane::local_normalAt(const vec3& local_point) const
@@ -290,7 +290,7 @@ namespace LRT
         return intersections;
     }
 
-    u32 LRTAPI hit(const std::vector<Intersection>& intersections)
+    u32  hit(const std::vector<Intersection>& intersections)
     {
         u32 currHitIndex = -1;
         f32 min_t = std::numeric_limits<float>::max();
@@ -313,7 +313,7 @@ namespace LRT
         return currHitIndex;
     }
 
-    bool LRTAPI isShadowed(World& w, const vec3 lightPos, const vec3 point)
+    bool  isShadowed(World& w, const vec3 lightPos, const vec3 point)
     {
         vec3 ptl = lightPos - point; // point to light
 

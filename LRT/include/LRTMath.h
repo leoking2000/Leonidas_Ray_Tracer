@@ -8,7 +8,7 @@ namespace LRT
 {
 	constexpr f32 PI = 3.14159265f;
 
-	bool LRTAPI Equal(f32 a, f32 b, f32 epsilon = 0.00001f);
+	bool Equal(f32 a, f32 b, f32 epsilon = 0.00001f);
 
 	template<typename T>
 	inline constexpr const T& clamp(const T& v, const T& lo, const T& hi)
@@ -23,7 +23,7 @@ namespace LRT
 	}
 
 	// 3D dimensional mathematical row vector (using float)
-	class LRTAPI vec3
+	class vec3
 	{
 	public:
 		union
@@ -139,12 +139,12 @@ namespace LRT
 
 	};
 
-	LRTAPI vec3 operator* (f32 num, const vec3& a);
+	 vec3 operator* (f32 num, const vec3& a);
 
 	typedef vec3 Color;
 
 	// Hadamard Product
-	LRTAPI Color operator* (const Color& c1, const Color& c2);
+	Color operator* (const Color& c1, const Color& c2);
 
 	namespace Colors
 	{
@@ -159,7 +159,7 @@ namespace LRT
 		static constexpr Color yellow = Color(1.0f, 0.92f, 0.016f);
 	}
 
-	class LRTAPI vec4 : public vec3
+	class vec4 : public vec3
 	{
 	public:
 		f32 w;
@@ -232,11 +232,11 @@ namespace LRT
 		f32& operator[](int i);
 	};
 
-	LRTAPI vec4 operator* (f32 num, const vec4& a);
+	 vec4 operator* (f32 num, const vec4& a);
 
 	// Matrix with size SxS
 	template<u32 S>
-	class LRTAPI mat
+	class mat
 	{
 	public:
 		f32 data[S * S] = { 0 };

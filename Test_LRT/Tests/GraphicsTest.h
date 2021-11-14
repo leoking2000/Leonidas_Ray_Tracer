@@ -14,10 +14,11 @@ TEST(GraphicsTest, point_light_creation)
 
 TEST(GraphicsTest, PreComputedValues)
 {
+	auto mat = LRT::Material::Default();
 	{
 		LRT::World w;
 
-		LRT::Sphere obj(0);
+		LRT::Sphere obj(0, mat);
 		w.objects.emplace_back(&obj);
 
 		LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
@@ -34,7 +35,7 @@ TEST(GraphicsTest, PreComputedValues)
 
 	{
 		LRT::World w;
-		LRT::Sphere obj(0);
+		LRT::Sphere obj(0, mat);
 
 		w.objects.emplace_back(&obj);
 
@@ -57,13 +58,15 @@ class LightingFunctionTest : public ::testing::Test
 protected:
 	void SetUp() override
 	{
+		sphere = new LRT::Sphere(0, LRT::Material::Default());
 	}
 
 	void TearDown() override
 	{
+		delete sphere;
 	}
 protected:
-	LRT::Material m;
+	LRT::Shape* sphere;
 	LRT::vec3 p = LRT::vec3::zero();
 };
 
@@ -74,7 +77,7 @@ TEST_F(LightingFunctionTest, LFT_1)
 
 	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, -10.0f));
 
-	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	LRT::Color color = LRT::lighting(*sphere, light, p, view, normal);
 	EXPECT_EQ(color, LRT::Color(1.9f, 1.9f, 1.9f));
 }
 
@@ -85,7 +88,7 @@ TEST_F(LightingFunctionTest, LFT_2)
 
 	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, -10.0f));
 
-	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	LRT::Color color = LRT::lighting(*sphere, light, p, view, normal);
 	EXPECT_EQ(color, LRT::Color(1.0f, 1.0f, 1.0f));
 }
 
@@ -96,7 +99,7 @@ TEST_F(LightingFunctionTest, LFT_3)
 
 	LRT::PointLight light(LRT::vec3(0.0f, 10.0f, -10.0f));
 
-	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	LRT::Color color = LRT::lighting(*sphere, light, p, view, normal);
 	EXPECT_EQ(color, LRT::Color(0.7364f, 0.7364f, 0.7364f));
 }
 
@@ -107,7 +110,7 @@ TEST_F(LightingFunctionTest, LFT_4)
 
 	LRT::PointLight light(LRT::vec3(0.0f, 10.0f, -10.0f));
 
-	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	LRT::Color color = LRT::lighting(*sphere, light, p, view, normal);
 	EXPECT_EQ(color, LRT::Color(1.63638f, 1.63638f, 1.63638f));
 }
 
@@ -118,7 +121,7 @@ TEST_F(LightingFunctionTest, LFT_5)
 
 	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, 10.0f));
 
-	LRT::Color color = LRT::lighting(m, light, p, view, normal);
+	LRT::Color color = LRT::lighting(*sphere, light, p, view, normal);
 	EXPECT_EQ(color, LRT::Color(0.1f, 0.1f, 0.1f));
 }
 
@@ -129,5 +132,5 @@ TEST_F(LightingFunctionTest, LFT_6)
 
 	LRT::PointLight light(LRT::vec3(0.0f, 0.0f, 1.0f));
 
-	EXPECT_EQ(LRT::Colors::white * m.ambient, LRT::lighting(m, light, p, view, normal, true));
+	EXPECT_EQ(LRT::Colors::white * sphere->GetMaterial().ambient, LRT::lighting(*sphere, light, p, view, normal, true));
 }

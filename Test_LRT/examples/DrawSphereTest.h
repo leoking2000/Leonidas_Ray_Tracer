@@ -8,30 +8,33 @@ void DrawSphereTest()
 {
 	std::cout << "Draw Sphere Test\n";
 
-	LRT::Material red(LRT::Colors::red, 0.05f);
+	using namespace LRT;
 
-	LRT::Material green(LRT::Colors::green, 0.1f);
+	Pattern* patten = new StripedPattern(Colors::red, Colors::white, mat4::scale(0.1f) * mat4::rotationZ(LRT::PI / 2.0f));
+	auto red = Material::Create(std::unique_ptr<Pattern>(patten));
 
-	LRT::Material blue({ 0.0f, 0.0f, 0.5f }, 0.1f);
+	auto green = Material::OneColorMat(LRT::Colors::green);
 
-	LRT::Material pink({ 1.0f, 0.71372862f, 0.7568276f }, 0.1f);
+	auto blue = Material::OneColorMat({ 0.0f, 0.0f, 0.5f });
 
-	LRT::Material matte({1.0f, 0.9f, 0.9f}, 0.1f, 0.9f, 1.0f, 200.0f);
+	auto pink = Material::OneColorMat({ 1.0f, 0.71372862f, 0.7568276f });
+
+	Pattern* w_b = new StripedPattern(Colors::white, Colors::black, mat4::scale(0.1f));
+	auto white_black = Material::Create(std::unique_ptr<Pattern>(w_b));
+
+	auto matte = Material::StripedPatternMat({1.0f, 0.9f, 0.9f}, { 0.5f, 0.45f, 0.45f }, 0.1f, 0.9f, 1.0f, 200.0f);
 
 	// floor
-	LRT::Plane floor(0, LRT::mat4::Translation3D(0.0f, -1.0f, 0.0f), blue);
+	LRT::Plane floor(0, matte, LRT::mat4::Translation3D(0.0f, -1.0f, 0.0f));
 
 	// background
-	LRT::Plane background(1, LRT::mat4::rotationX(-LRT::PI / 2.0f) * LRT::mat4::Translation3D(0.0f, 0.0f, 2.0f), matte);
+	LRT::Plane background(1, matte, LRT::mat4::rotationX(-LRT::PI / 2.0f) * LRT::mat4::Translation3D(0.0f, 0.0f, 2.0f));
 
-	// red sphere
-	LRT::Sphere r_sphere(2, LRT::mat4::scale(0.2f, 1.0f, 0.2f) * LRT::mat4::rotationZ(-LRT::PI / 6.0f) * LRT::mat4::Translation3D(-0.5f, 1.0f, 0.5f), red);
+	LRT::Sphere r_sphere(2, red, LRT::mat4::scale(0.2f, 1.0f, 0.2f) * LRT::mat4::rotationZ(-LRT::PI / 6.0f) * LRT::mat4::Translation3D(-0.5f, 1.0f, 0.5f));
 
-	// green sphere
-	LRT::Sphere g_sphere(3, LRT::mat4::scale(0.2f) * LRT::mat4::Translation3D(2.5f, 1.0f, 0.0f), green);
+	LRT::Sphere g_sphere(3, green, LRT::mat4::scale(0.2f) * LRT::mat4::Translation3D(2.5f, 1.0f, 0.0f));
 
-	// pink sphere
-	LRT::Sphere b_sphere(4, LRT::mat4::scale(1.0f) * LRT::mat4::Translation3D(-2.0f, 0.2f, -1.0f), pink);
+	LRT::Sphere b_sphere(4, white_black, LRT::mat4::scale(1.0f) * LRT::mat4::Translation3D(-2.5f, 0.2f, -1.0f));
 
 
 	LRT::World w;

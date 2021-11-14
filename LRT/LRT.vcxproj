@@ -40,13 +40,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -148,10 +148,10 @@
     <ClInclude Include="include\LRT.h" />
     <ClInclude Include="include\LRTMath.h" />
     <ClInclude Include="include\defines.h" />
-    <ClInclude Include="include\patterns.h" />
+    <ClInclude Include="include\graphics.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\patterns.cpp" />
+    <ClCompile Include="src\graphics.cpp" />
     <ClCompile Include="src\geometry.cpp" />
     <ClCompile Include="src\Canvas.cpp" />
     <ClCompile Include="src\LRT.cpp" />

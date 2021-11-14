@@ -3,7 +3,7 @@
 
 namespace LRT
 {
-	class LRTAPI Canvas
+	class Canvas
 	{
 	public:
 		Canvas(u32 width, u32 height, Color c = LRT::Colors::black);
