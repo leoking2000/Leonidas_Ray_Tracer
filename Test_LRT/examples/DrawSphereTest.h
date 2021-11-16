@@ -10,31 +10,27 @@ void DrawSphereTest()
 
 	using namespace LRT;
 
-	Pattern* patten = new StripedPattern(Colors::red, Colors::white, mat4::scale(0.1f) * mat4::rotationZ(LRT::PI / 2.0f));
-	auto red = Material::Create(std::unique_ptr<Pattern>(patten));
-
-	auto green = Material::OneColorMat(LRT::Colors::green);
-
-	auto blue = Material::OneColorMat({ 0.0f, 0.0f, 0.5f });
-
-	auto pink = Material::OneColorMat({ 1.0f, 0.71372862f, 0.7568276f });
-
-	Pattern* w_b = new StripedPattern(Colors::white, Colors::black, mat4::scale(0.1f));
-	auto white_black = Material::Create(std::unique_ptr<Pattern>(w_b));
-
-	auto matte = Material::StripedPatternMat({1.0f, 0.9f, 0.9f}, { 0.5f, 0.45f, 0.45f }, 0.1f, 0.9f, 1.0f, 200.0f);
+	Pattern* patten0 = new CheckerPattern(Colors::white, Colors::black, mat4::scale(0.5f));
+	auto r = Material::Create(std::unique_ptr<Pattern>(patten0));
 
 	// floor
-	LRT::Plane floor(0, matte, LRT::mat4::Translation3D(0.0f, -1.0f, 0.0f));
+	LRT::Plane floor(0, r, mat4::Translation3D(0.0f, -1.0f, 0.0f));
 
 	// background
-	LRT::Plane background(1, matte, LRT::mat4::rotationX(-LRT::PI / 2.0f) * LRT::mat4::Translation3D(0.0f, 0.0f, 2.0f));
+	auto matte = Material::StripedPatternMat({ 1.0f, 0.9f, 0.9f }, { 0.5f, 0.45f, 0.45f }, 0.1f, 0.9f, 1.0f, 200.0f);
+	LRT::Plane background(1, matte, mat4::rotationX(-LRT::PI / 2.0f) * mat4::Translation3D(0.0f, 0.0f, 2.0f));
 
-	LRT::Sphere r_sphere(2, red, LRT::mat4::scale(0.2f, 1.0f, 0.2f) * LRT::mat4::rotationZ(-LRT::PI / 6.0f) * LRT::mat4::Translation3D(-0.5f, 1.0f, 0.5f));
+	Pattern* patten1 = new StripedPattern(Colors::red, Colors::white, mat4::scale(0.1f) * mat4::rotationZ(LRT::PI / 2.0f));
+	auto red = Material::Create(std::unique_ptr<Pattern>(patten1));
+	LRT::Sphere r_sphere(2, red, mat4::scale(0.2f, 1.0f, 0.2f) * mat4::rotationZ(-LRT::PI / 6.0f) * mat4::Translation3D(-0.5f, 1.0f, 0.5f));
 
-	LRT::Sphere g_sphere(3, green, LRT::mat4::scale(0.2f) * LRT::mat4::Translation3D(2.5f, 1.0f, 0.0f));
+	Pattern* patten2 = new GradientPattern(Colors::green, Colors::red);
+	auto green = Material::Create(std::unique_ptr<Pattern>(patten2));
+	LRT::Sphere g_sphere(3, green, mat4::rotationY(LRT::PI / 6.0f) * mat4::Translation3D(2.5f, 1.0f, 0.0f));
 
-	LRT::Sphere b_sphere(4, white_black, LRT::mat4::scale(1.0f) * LRT::mat4::Translation3D(-2.5f, 0.2f, -1.0f));
+	Pattern* patten3 = new StripedPattern(Colors::white, Colors::black, mat4::scale(0.1f));
+	auto white_black = Material::Create(std::unique_ptr<Pattern>(patten3));
+	LRT::Sphere b_sphere(4, r, mat4::scale(1.0f) * mat4::Translation3D(-2.5f, 0.2f, -1.0f));
 
 
 	LRT::World w;
@@ -50,7 +46,7 @@ void DrawSphereTest()
 #ifndef NDEBUG
 	LRT::Camera cam(192, 108, LRT::mat4::ViewTransform({ 0.0f, 1.5f, -5.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }));
 #else
-	LRT::Camera cam(1920, 1080, LRT::mat4::ViewTransform({ 0.0f, 1.5f, -5.0f }, { 0.0f, 1.0f, 0.0f }, {0.0f, 1.0f, 0.0f}));
+	LRT::Camera cam(1920, 1080, LRT::mat4::ViewTransform({ 0.0f, 1.5f, -15.0f }, { 0.0f, 1.0f, 0.0f }, {0.0f, 1.0f, 0.0f}));
 #endif
 
 	LRT::Canvas can = LRT::Render(cam, w);

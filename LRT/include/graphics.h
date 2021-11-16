@@ -50,6 +50,54 @@ namespace LRT
 		mat4 inv_modelMatrix; // world space -> local space
 	};
 
+	class GradientPattern : public Pattern
+	{
+	public:
+		GradientPattern(const Color& first, const Color& second, const mat4& mat = mat4::identity());
+
+		Color colorAt(const vec3& point) const override;
+
+		const mat4& GetInverseModelMatrix() const; // world space -> local space
+		void SetModelMatrix(const mat4& modelMatrix); // modelMatrix : local space -> world space
+	public:
+		Color firstColor;
+		Color secondColor;
+	private:
+		mat4 inv_modelMatrix; // world space -> local space
+	};
+
+	class RingPatten : public Pattern
+	{
+	public:
+		RingPatten(const Color& first, const Color& second, const mat4& mat = mat4::identity());
+
+		Color colorAt(const vec3& point) const override;
+
+		const mat4& GetInverseModelMatrix() const; // world space -> local space
+		void SetModelMatrix(const mat4& modelMatrix); // modelMatrix : local space -> world space
+	public:
+		Color firstColor;
+		Color secondColor;
+	private:
+		mat4 inv_modelMatrix; // world space -> local space
+	};
+
+	class CheckerPattern : public Pattern
+	{
+	public:
+		CheckerPattern(const Color& first, const Color& second, const mat4& mat = mat4::identity());
+
+		Color colorAt(const vec3& point) const override;
+
+		const mat4& GetInverseModelMatrix() const; // world space -> local space
+		void SetModelMatrix(const mat4& modelMatrix); // modelMatrix : local space -> world space
+	public:
+		Color firstColor;
+		Color secondColor;
+	private:
+		mat4 inv_modelMatrix; // world space -> local space
+	};
+
 	class Material
 	{
 	public:
