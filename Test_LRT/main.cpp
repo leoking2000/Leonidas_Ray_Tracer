@@ -11,7 +11,7 @@
 #include "examples/clockpositionsTest.h"
 #include "examples/DrawSphereTest.h"
 
-#define RUN_EXAMPLES 1
+#define RUN_EXAMPLES 0
 
 int main(int argc, char** argv) 
 {
