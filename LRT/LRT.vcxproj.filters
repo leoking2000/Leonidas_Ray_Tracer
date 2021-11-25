@@ -15,39 +15,66 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Canvas.h">
+    <ClInclude Include="src\graphics\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\LRTMath.h">
+    <ClInclude Include="src\graphics\pattern.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\defines.h">
+    <ClInclude Include="src\graphics\light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\geometry.h">
+    <ClInclude Include="src\geometry\Ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\LRT.h">
+    <ClInclude Include="src\graphics\Canvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\graphics.h">
+    <ClInclude Include="src\geometry\Intersection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry\Shape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LRTMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LRT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Canvas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\LRTMath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\geometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\LRT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics.cpp">
+    <ClCompile Include="src\graphics\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\pattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\Ray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Canvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\Intersection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\Shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

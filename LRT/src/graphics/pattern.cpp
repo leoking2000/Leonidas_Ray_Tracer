@@ -1,4 +1,4 @@
-#include "graphics.h"
+#include "pattern.h"
 
 namespace LRT
 {
@@ -27,7 +27,7 @@ namespace LRT
 	{
 		vec3 local_point = vec4(point, 1.0f) * inv_modelMatrix;
 
-		if (Equal(std::fmodf(std::floorf(local_point.x), 2.0f),0.0f))
+		if (Equal(std::fmodf(std::floorf(local_point.x), 2.0f), 0.0f))
 		{
 			return firstColor;
 		}
@@ -62,11 +62,11 @@ namespace LRT
 		f32 x = std::fabsf(local_point.x);
 		f32 floor_x = std::floorf(x);
 
-		if (Equal(std::fmodf(floor_x, 2.0f),0.0f))
+		if (Equal(std::fmodf(floor_x, 2.0f), 0.0f))
 		{
 			return Interpolate(firstColor, secondColor, x - floor_x);
 		}
-		
+
 		return Interpolate(secondColor, firstColor, x - floor_x);
 	}
 
@@ -94,7 +94,7 @@ namespace LRT
 	{
 		vec3 local_point = vec4(point, 1.0f) * inv_modelMatrix;
 
-		if (Equal(std::fmodf(std::floorf(std::sqrtf(local_point.x * local_point.x + local_point.z * local_point.z)), 2.0f),0.0f))
+		if (Equal(std::fmodf(std::floorf(std::sqrtf(local_point.x * local_point.x + local_point.z * local_point.z)), 2.0f), 0.0f))
 		{
 			return firstColor;
 		}
@@ -149,5 +149,3 @@ namespace LRT
 	}
 
 }
-
-

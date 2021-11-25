@@ -1,7 +1,7 @@
 #pragma once
 #include "gtest/gtest.h"
 
-#include "geometry.h"
+#include "LRT.h"
 
 TEST(GeometryTest, ray_creations)
 {

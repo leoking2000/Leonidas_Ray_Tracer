@@ -81,7 +81,7 @@ TEST_F(StripedPattenTest, object_transformation)
 {
 	LRT::Sphere sphere(0, LRT::Material::StripedPatternMat(white, black), LRT::mat4::scale(2.0f));
 
-	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec4(1.5f, 0.0f, 0.0f, 1.0f) * sphere.GetInverseModelMatrix()), white);
+	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec3(1.5f, 0.0f, 0.0f), sphere.GetInverseModelMatrix()), white);
 }
 
 TEST_F(StripedPattenTest, patten_transformation1)
@@ -90,7 +90,7 @@ TEST_F(StripedPattenTest, patten_transformation1)
 
 	LRT::Sphere sphere(0, LRT::Material::Create(std::move(patten)));
 
-	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec4(1.5f, 0.0f, 0.0f, 1.0f) * sphere.GetInverseModelMatrix()), white);
+	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec3(1.5f, 0.0f, 0.0f), sphere.GetInverseModelMatrix()), white);
 }
 
 TEST_F(StripedPattenTest, patten_transformation2)
@@ -99,7 +99,7 @@ TEST_F(StripedPattenTest, patten_transformation2)
 
 	LRT::Sphere sphere(0, LRT::Material::Create(std::move(patten)), LRT::mat4::scale(2.0f));
 
-	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec4(2.5f, 0.0f, 0.0f, 1.0f) * sphere.GetInverseModelMatrix()), white);
+	EXPECT_EQ(sphere.GetMaterial().colorAt(LRT::vec3(2.5f, 0.0f, 0.0f), sphere.GetInverseModelMatrix()), white);
 }
 /*
 TEST(test_image, image1)

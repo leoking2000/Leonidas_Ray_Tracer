@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Start\Dev\Γραφικα υπολογιστον\Leonidas_Ray_Tracer\LRT\include;C:\Start\Dev\Γραφικα υπολογιστον\Leonidas_Ray_Tracer\LRT\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\LRT\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Start\Dev\Γραφικα υπολογιστον\Leonidas_Ray_Tracer\LRT\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\LRT\src;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -143,19 +143,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\Canvas.h" />
-    <ClInclude Include="include\geometry.h" />
-    <ClInclude Include="include\LRT.h" />
-    <ClInclude Include="include\LRTMath.h" />
-    <ClInclude Include="include\defines.h" />
-    <ClInclude Include="include\graphics.h" />
+    <ClInclude Include="src\geometry\Intersection.h" />
+    <ClInclude Include="src\geometry\Shape.h" />
+    <ClInclude Include="src\graphics\Camera.h" />
+    <ClInclude Include="src\graphics\Canvas.h" />
+    <ClInclude Include="src\LRT.h" />
+    <ClInclude Include="src\LRTMath.h" />
+    <ClInclude Include="src\defines.h" />
+    <ClInclude Include="src\geometry\Ray.h" />
+    <ClInclude Include="src\graphics\light.h" />
+    <ClInclude Include="src\graphics\Material.h" />
+    <ClInclude Include="src\graphics\pattern.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\graphics.cpp" />
-    <ClCompile Include="src\geometry.cpp" />
-    <ClCompile Include="src\Canvas.cpp" />
+    <ClCompile Include="src\geometry\Intersection.cpp" />
+    <ClCompile Include="src\geometry\Shape.cpp" />
+    <ClCompile Include="src\graphics\Camera.cpp" />
+    <ClCompile Include="src\graphics\Canvas.cpp" />
+    <ClCompile Include="src\geometry\Ray.cpp" />
     <ClCompile Include="src\LRT.cpp" />
     <ClCompile Include="src\LRTMath.cpp" />
+    <ClCompile Include="src\graphics\Material.cpp" />
+    <ClCompile Include="src\graphics\pattern.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

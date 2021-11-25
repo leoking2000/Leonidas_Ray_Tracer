@@ -1,13 +1,64 @@
 #include "LRT.h"
-
+#include <limits>
+#include <iterator>
+#include <algorithm>
 
 namespace LRT
 {
+	Canvas Render(const Camera& cam, World& w)
+	{
+		Canvas image(cam.Width(), cam.Height());
+
+		for (u32 y = 0; y < cam.Height(); y++)
+		{
+			for (u32 x = 0; x < cam.Width(); x++)
+			{
+				Ray r = cam.RayForPixel(x, y);
+				Color c = color_at(w, r);
+				image.SetPixel(x, y, c);
+			}
+		}
+
+		return image;
+	}
+
+	Color color_at(World& w, const Ray ray)
+	{
+		std::vector<Intersection> inters = intersect(ray, w);
+		u32 i = hit(inters);
+
+		if (i == -1)
+		{
+			return LRT::Colors::black;
+		}
+
+		return shadeHit(PreComputedValues(inters[i], ray, w));
+	}
+
+	Color  shadeHit(const PreComputedValues& comps)
+	{
+		Color c(0.0f, 0.0f, 0.0f);
+
+		constexpr f32 EPSILON = 0.01f;
+
+		for (auto& light : comps.world.lights)
+		{
+			bool inShadow = isShadowed(comps.world, light.position, comps.point + EPSILON * comps.normal);
+
+			u32 id = comps.intersection.shapeID;
+
+			c += lighting(*comps.world.objects[id],
+				light, comps.point, comps.view, comps.normal, inShadow);
+		}
+
+		return c;
+	}
+
 	LRT::Color lighting(const Shape& obj, const PointLight& light, const vec3& point, const vec3& view, const vec3& normal, bool inShadow)
 	{
 		const Material& mat = obj.GetMaterial();
 
-		Color base_color = mat.colorAt(LRT::vec4(point, 1.0f) * obj.GetInverseModelMatrix()) * light.color;
+		Color base_color = mat.colorAt(point, obj.GetInverseModelMatrix()) * light.color;
 
 		Color ambient = base_color * mat.ambient;
 		if (inShadow) return ambient;
@@ -50,52 +101,66 @@ namespace LRT
 		}
 	}
 
-	Color  shadeHit(const PreComputedValues& comps)
+	std::vector<Intersection> intersect(const Ray& ray, World& w)
 	{
-		Color c(0.0f, 0.0f, 0.0f);
+		std::vector<Intersection> intersections;
 
-		constexpr f32 EPSILON = 0.01f;
-
-		for (auto& light : comps.world.lights)
+		for (u32 i = 0; i < w.objects.size(); i++)
 		{
-			bool inShadow = isShadowed(comps.world, light.position, comps.point + EPSILON * comps.normal);
-
-			u32 id = comps.intersection.shapeID;
-
-			c += lighting(*comps.world.objects[id],
-				light, comps.point, comps.view, comps.normal,inShadow);
+			std::vector<Intersection> inter = w.objects[i]->intersect(ray);
+			std::copy(inter.begin(), inter.end(), std::back_inserter(intersections));
 		}
 
-		return c;
+		std::sort(intersections.begin(), intersections.end(),
+			[](const Intersection& i1, const Intersection& i2) { return i1.t < i2.t; });
+
+		return intersections;
 	}
 
-	Color color_at(World& w, const Ray ray)
+	u32  hit(const std::vector<Intersection>& intersections)
 	{
-		std::vector<Intersection> inters = intersect(ray, w);
-		u32 i = hit(inters);
+		u32 currHitIndex = -1;
+		f32 min_t = std::numeric_limits<float>::max();
 
-		if (i == -1)
+		for (u32 i = 0; i < intersections.size(); i++)
 		{
-			return LRT::Colors::black;
-		}
+			f32 t = intersections[i].t;
 
-		return shadeHit(PreComputedValues(inters[i], ray, w));
-	}
-
-	Canvas Render(const Camera& cam, World& w)
-	{
-		Canvas image(cam.Width(), cam.Height());
-
-		for (u32 y = 0; y < cam.Height(); y++)
-		{
-			for (u32 x = 0; x < cam.Width(); x++)
+			if (t <= 0)
 			{
-				Ray r = cam.RayForPixel(x, y);
-				Color c = color_at(w, r);
-				image.SetPixel(x, y, c);
+				continue;
+			}
+			else if (t < min_t)
+			{
+				min_t = t;
+				currHitIndex = i;
 			}
 		}
 
-		return image;
+		return currHitIndex;
+	}
+
+	bool  isShadowed(World& w, const vec3 lightPos, const vec3 point)
+	{
+		vec3 ptl = lightPos - point; // point to light
+
+		f32 distance = ptl.length();
+		vec3 direction = ptl.getNormalized();
+
+		Ray shadow_ray(point, direction);
+		std::vector<Intersection> hits = intersect(shadow_ray, w);
+		u32 h = hit(hits);
+
+		if (h == -1)
+		{
+			return false; // no Intersection
+		}
+
+		if (hits[h].t >= distance)
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

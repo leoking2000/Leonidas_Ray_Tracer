@@ -1,7 +1,7 @@
 #pragma once
 #include "gtest/gtest.h"
 
-#include "Canvas.h"
+#include "LRT.h"
 
 TEST(CanvasTest, Create_canvas)
 {
