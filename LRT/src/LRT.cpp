@@ -5,6 +5,8 @@
 
 namespace LRT
 {
+	constexpr f32 EPSILON = 0.01f;
+
 	Canvas Render(const Camera& cam, World& w)
 	{
 		Canvas image(cam.Width(), cam.Height());
@@ -14,7 +16,7 @@ namespace LRT
 			for (u32 x = 0; x < cam.Width(); x++)
 			{
 				Ray r = cam.RayForPixel(x, y);
-				Color c = color_at(w, r);
+				Color c = color_at(w, r, 4);
 				image.SetPixel(x, y, c);
 			}
 		}
@@ -22,7 +24,7 @@ namespace LRT
 		return image;
 	}
 
-	Color color_at(World& w, const Ray ray)
+	Color color_at(World& w, const Ray ray, u32 limit)
 	{
 		std::vector<Intersection> inters = intersect(ray, w);
 		u32 i = hit(inters);
@@ -32,14 +34,12 @@ namespace LRT
 			return LRT::Colors::black;
 		}
 
-		return shadeHit(PreComputedValues(inters[i], ray, w));
+		return shadeHit(PreComputedValues(inters[i], ray, w), limit);
 	}
 
-	Color  shadeHit(const PreComputedValues& comps)
+	Color  shadeHit(const PreComputedValues& comps, u32 limit)
 	{
 		Color c(0.0f, 0.0f, 0.0f);
-
-		constexpr f32 EPSILON = 0.01f;
 
 		for (auto& light : comps.world.lights)
 		{
@@ -49,9 +49,26 @@ namespace LRT
 
 			c += lighting(*comps.world.objects[id],
 				light, comps.point, comps.view, comps.normal, inShadow);
+
+			c += Reflected_color(comps, comps.world, limit);
 		}
 
 		return c;
+	}
+
+	Color Reflected_color(const PreComputedValues& comps, World& w, u32 limit)
+	{
+		f32 reflect = w.objects[comps.intersection.shapeID]->GetMaterial().reflective;
+
+		if (LRT::Equal(reflect, 0.0f) || limit == 0)
+		{
+			return LRT::Colors::black;
+		}
+
+		LRT::Ray reflect_ray(comps.point + EPSILON * comps.normal, comps.reflectv);
+		LRT::Color c = color_at(w, reflect_ray, limit - 1);
+
+		return c * reflect;
 	}
 
 	LRT::Color lighting(const Shape& obj, const PointLight& light, const vec3& point, const vec3& view, const vec3& normal, bool inShadow)
@@ -99,6 +116,8 @@ namespace LRT
 		{
 			isInside = false;
 		}
+
+		reflectv = LRT::vec3::reflect(ray.direction, normal);
 	}
 
 	std::vector<Intersection> intersect(const Ray& ray, World& w)

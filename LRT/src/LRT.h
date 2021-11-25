@@ -15,7 +15,7 @@ namespace LRT
 
 	Canvas Render(const Camera& cam, World& w);
 
-	Color color_at(World& w, const Ray ray);
+	Color color_at(World& w, const Ray ray, u32 limit = 0.0f);
 
 	struct PreComputedValues
 	{
@@ -27,8 +27,11 @@ namespace LRT
 		vec3 view;
 		vec3 normal;
 		bool isInside;
+		vec3 reflectv;
 	};
-	Color shadeHit(const PreComputedValues& comps);
+	Color shadeHit(const PreComputedValues& comps, u32 limit = 0.0f);
+
+	Color Reflected_color(const PreComputedValues& comps, World& w, u32 limit = 0.0f);
 
 	Color lighting(const Shape& mat, 
 				   const PointLight& light, 

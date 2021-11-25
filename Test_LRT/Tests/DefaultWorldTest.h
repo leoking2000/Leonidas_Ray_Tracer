@@ -99,3 +99,39 @@ TEST_F(DefaultWorldTest, color_at3)
 	w.objects[0]->GetMaterial().ambient = 0.1f;
 	w.objects[1]->GetMaterial().ambient = 0.1f;
 }
+
+
+TEST_F(DefaultWorldTest, non_reflective_matirial)
+{
+	LRT::Ray ray({ 0.0f, 0.0f, 0.0f }, LRT::vec3(0.0f, 0.0f, 1.0f));
+
+	LRT::Shape* shape = w.objects[1];
+
+	shape->GetMaterial().ambient = 1.0f;
+
+	LRT::Intersection i(1.0f, 1);
+	LRT::PreComputedValues comps(i, ray, w);
+
+	EXPECT_EQ(LRT::Reflected_color(comps, w), LRT::Colors::black);
+}
+
+TEST_F(DefaultWorldTest, reflective_matirial)
+{
+	LRT::Plane plane(2, LRT::Material::Default(), LRT::mat4::Translation3D(0.0f, -1.0f, 0.0f));
+	plane.GetMaterial().reflective = 0.5f;
+	w.objects.push_back(&plane);
+
+	f32 num = std::sqrtf(2.0f) / 2.0f;
+	LRT::Ray ray({ 0.0f, 0.0f, -3.0f }, { 0.0f, -num, num });
+
+	LRT::Intersection i(std::sqrtf(2.0f), 2);
+	LRT::PreComputedValues comps(i, ray, w);
+
+	LRT::Color c = LRT::Reflected_color(comps, w);
+
+	//EXPECT_EQ(c, LRT::Color(0.19255f, 0.24f, 0.14404f));
+
+	w.objects.pop_back();
+}
+
+//TEST_F(DefaultWorldTest, reflective_matirial)

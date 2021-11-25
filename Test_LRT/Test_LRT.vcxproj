@@ -42,6 +42,7 @@
     <ClInclude Include="Tests\GraphicsTest.h" />
     <ClInclude Include="Tests\MathTest.h" />
     <ClInclude Include="Tests\PattenTest.h" />
+    <ClInclude Include="Tests\ReflectionTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
