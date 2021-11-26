@@ -16,7 +16,7 @@ namespace LRT
 			for (u32 x = 0; x < cam.Width(); x++)
 			{
 				Ray r = cam.RayForPixel(x, y);
-				Color c = color_at(w, r, 4);
+				Color c = color_at(w, r, 15);
 				image.SetPixel(x, y, c);
 			}
 		}
@@ -47,10 +47,12 @@ namespace LRT
 
 			u32 id = comps.intersection.shapeID;
 
-			c += lighting(*comps.world.objects[id],
+			Color light_color = lighting(*comps.world.objects[id],
 				light, comps.point, comps.view, comps.normal, inShadow);
 
-			c += Reflected_color(comps, comps.world, limit);
+			Color reflection_color = Reflected_color(comps, comps.world, limit);
+
+			c += light_color + reflection_color;
 		}
 
 		return c;

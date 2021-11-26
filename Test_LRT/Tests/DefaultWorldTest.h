@@ -124,12 +124,16 @@ TEST_F(DefaultWorldTest, reflective_matirial)
 	f32 num = std::sqrtf(2.0f) / 2.0f;
 	LRT::Ray ray({ 0.0f, 0.0f, -3.0f }, { 0.0f, -num, num });
 
-	LRT::Intersection i(std::sqrtf(2.0f), 2);
-	LRT::PreComputedValues comps(i, ray, w);
+	std::vector<LRT::Intersection> inters = LRT::intersect(ray, w);
+	u32 i = LRT::hit(inters);
+
+	LRT::PreComputedValues comps(LRT::Intersection(std::sqrtf(2.0f), 2), ray, w);
 
 	LRT::Color c = LRT::Reflected_color(comps, w);
 
-	//EXPECT_EQ(c, LRT::Color(0.19255f, 0.24f, 0.14404f));
+	EXPECT_TRUE(LRT::Equal(c.r, 0.19032f, 0.01f) &&
+				LRT::Equal(c.g, 0.2379f , 0.01f) &&
+				LRT::Equal(c.b, 0.14274f, 0.01f));
 
 	w.objects.pop_back();
 }

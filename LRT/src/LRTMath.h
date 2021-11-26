@@ -8,21 +8,34 @@ namespace LRT
 {
 	constexpr f32 PI = 3.14159265f;
 
-	bool Equal(f32 a, f32 b, f32 epsilon = 0.00001f);
+	// abs(a - b) < epsilon
+	// default epsilon = 0.00001f
+	bool Equal(f32 a, f32 b, f32 epsilon = 0.00001f); 
 
+	// clamps value between low and high
+	// returns value if low < value < high
+	// returns low if value <= low
+	// returns high if value >= high
 	template<typename T>
-	inline constexpr const T& clamp(const T& v, const T& lo, const T& hi)
+	inline constexpr T clamp(const T& value, const T& low, const T& high)
 	{
-		return v < lo ? lo : ( hi < v ? hi : v );
+		return value < low ? low : ( high < value ? high : value );
 	}
 
+	// Linear Interpolation
+	// (1 - alpha) * a + b * alpha
+	// alpha = 0 -> returns a
+	// alpha = 1 -> returns b
 	template<typename T>
-	inline T Interpolate(const T& a, const T& b, f32 alpha)
+	inline constexpr T Interpolate(const T& a, const T& b, f32 alpha)
 	{
 		return (1 - alpha) * a + b * alpha;
 	}
 
-	// 3D dimensional mathematical row vector (using float)
+
+	/// <summary>
+	/// 3D dimensional mathematical row vector (using float)
+	/// </summary>
 	class vec3
 	{
 	public:
@@ -139,8 +152,9 @@ namespace LRT
 
 	};
 
-	 vec3 operator* (f32 num, const vec3& a);
+	vec3 operator* (f32 num, const vec3& a);
 
+	// RGB color
 	typedef vec3 Color;
 
 	// Hadamard Product
@@ -159,6 +173,9 @@ namespace LRT
 		static constexpr Color yellow = Color(1.0f, 0.92f, 0.016f);
 	}
 
+	/// <summary>
+	/// 4D dimensional mathematical row vector (using float)
+	/// </summary>
 	class vec4 : public vec3
 	{
 	public:
@@ -234,7 +251,9 @@ namespace LRT
 
 	 vec4 operator* (f32 num, const vec4& a);
 
-	// Matrix with size SxS
+	/// <summary>
+	/// Matrix with size SxS
+	/// </summary>
 	template<u32 S>
 	class mat
 	{

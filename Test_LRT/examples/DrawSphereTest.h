@@ -15,28 +15,45 @@ void DrawSphereTest()
 	LRT::Plane floor(0, matte_floor, mat4::Translation3D(0.0f, -1.0f, 0.0f));
 
 	// background
-	auto matte = Material::StripedPatternMat({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, 0.1f, 0.9f, 1.0f, 200.0f, 0.0f);
-	LRT::Plane background(1, matte, mat4::rotationX(-LRT::PI / 2.0f) * mat4::Translation3D(0.0f, 0.0f, 2.0f));
+	//auto matte = Material::StripedPatternMat({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, 0.1f, 0.9f, 1.0f, 200.0f, 0.0f);
+	auto matte = Material::OneColorMat(LRT::Colors::gray, 0.1f, 0.1f, 0.9f, 200.0f, 0.5f);
+	LRT::Plane background1(1, matte, mat4::rotationX(-LRT::PI / 2.0f) * mat4::Translation3D(0.0f, 0.0f, 2.0f));
+	LRT::Plane background2(2, matte, mat4::rotationX(LRT::PI / 2.0f) * mat4::Translation3D(0.0f, 0.0f, -11.0f));
+
+	auto ring_pattern = std::unique_ptr<Pattern>(new LRT::RingPatten({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, LRT::mat4::scale(2.0f)));
+	auto mat = Material::Create(std::move(ring_pattern), 0.1f, 0.9f, 1.0f, 200.0f, 0.0f);
+
+	// left wall
+	LRT::Plane left_wall(3, mat, mat4::rotationZ(LRT::PI / 2.0f) * mat4::Translation3D(-11.0f, 0.0f, 0.0f));
+	// right wall
+	LRT::Plane right_wall(4, mat, mat4::rotationZ(-LRT::PI / 2.0f) * mat4::Translation3D(11.0f, 0.0f, 0.0f));
+	// celing
+	LRT::Plane celing(5, mat, mat4::rotationZ(LRT::PI) * mat4::Translation3D(0.0f, 12.0f, 0.0f));
 
 	Pattern* patten1 = new StripedPattern(Colors::red, Colors::white, mat4::scale(0.1f) * mat4::rotationZ(LRT::PI / 2.0f));
 	auto red = Material::Create(std::unique_ptr<Pattern>(patten1));
-	LRT::Sphere r_sphere(2, red, mat4::scale(0.2f, 1.0f, 0.2f) * mat4::rotationZ(-LRT::PI / 6.0f) * mat4::Translation3D(-0.5f, 0.0f, -1.5f));
+	LRT::Sphere r_sphere(6, red, mat4::scale(0.2f, 1.0f, 0.2f) * mat4::rotationZ(-LRT::PI / 6.0f) * mat4::Translation3D(-0.5f, 0.0f, -1.5f));
 	red->reflective = 0.1f;
 
 	Pattern* patten2 = new GradientPattern(Colors::green, Colors::red);
 	auto green = Material::Create(std::unique_ptr<Pattern>(patten2));
-	LRT::Sphere g_sphere(3, green, mat4::rotationY(LRT::PI / 6.0f) * mat4::Translation3D(2.5f, 1.0f, 0.0f));
+	LRT::Sphere g_sphere(7, green, mat4::rotationY(LRT::PI / 6.0f) * mat4::Translation3D(2.5f, 1.0f, 0.0f));
 	green->reflective = 0.05f;
 
 	Pattern* patten3 = new StripedPattern(Colors::white, Colors::black, mat4::scale(0.1f));
 	auto white_black = Material::Create(std::unique_ptr<Pattern>(patten3));
-	LRT::Sphere b_sphere(4, white_black, mat4::scale(1.0f) * mat4::Translation3D(-2.5f, 0.2f, -1.0f));
+	LRT::Sphere b_sphere(8, white_black, mat4::scale(1.0f) * mat4::Translation3D(-2.5f, 0.2f, -1.0f));
 	white_black->reflective = 0.05f;
 
 
 	LRT::World w;
 	w.objects.emplace_back(&floor);
-	w.objects.emplace_back(&background);
+	w.objects.emplace_back(&background1);
+	w.objects.emplace_back(&background2);
+	w.objects.emplace_back(&left_wall);
+	w.objects.emplace_back(&right_wall);
+	w.objects.emplace_back(&celing);
+
 	w.objects.emplace_back(&r_sphere);
 	w.objects.emplace_back(&g_sphere);
 	w.objects.emplace_back(&b_sphere);
