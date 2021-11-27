@@ -13,7 +13,7 @@ namespace LRT
 		std::vector<PointLight> lights;
 	};
 
-	Canvas Render(const Camera& cam, World& w);
+	Canvas Render(const Camera& cam, World& w, u32 limit);
 
 	Color color_at(World& w, const Ray ray, u32 limit = 0);
 

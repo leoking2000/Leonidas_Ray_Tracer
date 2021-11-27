@@ -7,7 +7,7 @@ namespace LRT
 {
 	constexpr f32 EPSILON = 0.01f;
 
-	Canvas Render(const Camera& cam, World& w)
+	Canvas Render(const Camera& cam, World& w, u32 limit)
 	{
 		Canvas image(cam.Width(), cam.Height());
 
@@ -16,7 +16,7 @@ namespace LRT
 			for (u32 x = 0; x < cam.Width(); x++)
 			{
 				Ray r = cam.RayForPixel(x, y);
-				Color c = color_at(w, r, 15);
+				Color c = color_at(w, r, limit);
 				image.SetPixel(x, y, c);
 			}
 		}
