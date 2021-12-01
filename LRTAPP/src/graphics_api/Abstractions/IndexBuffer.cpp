@@ -1,5 +1,5 @@
 #include "IndexBuffer.h"
-#include "OpenGL.h"
+#include "../OpenGL.h"
 
 using namespace graphics;
 

@@ -1,4 +1,5 @@
 #include "Shape.h"
+#include <limits>
 
 namespace LRT
 {
@@ -112,7 +113,7 @@ namespace LRT
     }
 
     //////////////////////////////////////////////////
-    //                  Plane                      //
+    //                  Plane                       //
     //////////////////////////////////////////////////
 
     Plane::Plane(u32 id, std::shared_ptr<Material> material)
@@ -145,5 +146,79 @@ namespace LRT
         intersetions.emplace_back(t, id);
 
         return intersetions;
+    }
+
+    //////////////////////////////////////////////////
+    //                   Cube                       //
+    //////////////////////////////////////////////////
+
+    Cube::Cube(u32 id, std::shared_ptr<Material> material)
+        :
+        Shape(id, material)
+    {
+    }
+
+    Cube::Cube(u32 id, std::shared_ptr<Material> material, const mat4 Transform)
+        :
+        Shape(id, material, Transform)
+    {
+    }
+
+    vec3 Cube::local_normalAt(const vec3& local_point) const
+    {
+        f32 maxc = std::max(fabsf(local_point.x), std::max(fabsf(local_point.y), fabsf(local_point.z)));
+
+        if (maxc == fabsf(local_point.x))
+        {
+            return vec3(local_point.x, 0.0f, 0.0f);
+        }
+        else if (maxc == fabsf(local_point.y))
+        {
+            return vec3(0.0f, local_point.y, 0.0f);
+        }
+        return vec3(0.0f, 0.0f, local_point.z);
+    }
+
+    std::vector<Intersection> Cube::local_intersect(const Ray& ray) const
+    {
+        AxisIntersection xAxis = check_axis(ray.origin.x, ray.direction.x);
+        AxisIntersection yAxis = check_axis(ray.origin.y, ray.direction.y);
+        AxisIntersection zAxis = check_axis(ray.origin.z, ray.direction.z);
+
+        f32 tmin = std::max(xAxis.tmin,std::max(yAxis.tmin, zAxis.tmin));
+        f32 tmax = std::min(xAxis.tmax,std::min(yAxis.tmax, zAxis.tmax));
+
+        std::vector<Intersection> inters;
+
+        if (tmin > tmax) return inters;
+
+        inters.emplace_back(tmin, id);
+        inters.emplace_back(tmax, id);
+
+        return inters;
+    }
+
+    Cube::AxisIntersection Cube::check_axis(f32 origin, f32 dir) const
+    {
+        constexpr f32 EPSILON = 0.0001f;
+
+        f32 tmin_numerator = (-1 - origin);
+        f32 tmax_numerator = ( 1 - origin);
+
+        f32 tmin = tmin_numerator * std::numeric_limits<float>::max();
+        f32 tmax = tmax_numerator * std::numeric_limits<float>::max();
+
+        if (std::abs(dir) >= EPSILON)
+        {
+            tmin = tmin_numerator / dir;
+            tmax = tmax_numerator / dir;
+        }
+
+        if (tmin > tmax) 
+        {
+            std::swap(tmin, tmax);
+        }
+
+        return { tmin, tmax };
     }
 }

@@ -151,9 +151,7 @@
     <ClCompile Include="src\graphics_api\MainWindow.cpp" />
     <ClCompile Include="src\graphics_api\OpenGL.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\utilities\Log.cpp" />
-    <ClCompile Include="src\utilities\MainWindow.cpp" />
-    <ClCompile Include="src\utilities\OpenGL.cpp" />
+    <ClCompile Include="src\graphics_api\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Editor.h" />
@@ -164,9 +162,7 @@
     <ClInclude Include="src\graphics_api\Abstractions\VertexBuffer.h" />
     <ClInclude Include="src\graphics_api\MainWindow.h" />
     <ClInclude Include="src\graphics_api\OpenGL.h" />
-    <ClInclude Include="src\utilities\Log.h" />
-    <ClInclude Include="src\utilities\MainWindow.h" />
-    <ClInclude Include="src\utilities\OpenGL.h" />
+    <ClInclude Include="src\graphics_api\Log.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

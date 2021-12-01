@@ -54,5 +54,23 @@ namespace LRT
 		vec3 local_normalAt(const vec3& local_point) const override;
 		std::vector<Intersection> local_intersect(const Ray& ray) const override;
 	};
+
+	class  Cube : public Shape
+	{
+	public:
+		Cube(u32 id, std::shared_ptr<Material> material); // is the xz plane with a (0, 1, 0) normal.
+		Cube(u32 id, std::shared_ptr<Material> material, const mat4 Transform);
+	protected:
+		vec3 local_normalAt(const vec3& local_point) const override;
+		std::vector<Intersection> local_intersect(const Ray& ray) const override;
+	private:
+		struct AxisIntersection
+		{
+			f32 tmin;
+			f32 tmax;
+		};
+
+		AxisIntersection check_axis(f32 origin, f32 dir) const;
+	};
 }
 

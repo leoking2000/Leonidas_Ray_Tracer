@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <assert.h>
 
 #include "LRT.h"
 
@@ -37,7 +36,7 @@ void DrawSphereTest()
 
 	Pattern* patten2 = new GradientPattern(Colors::green, Colors::red);
 	auto green = Material::Create(std::unique_ptr<Pattern>(patten2));
-	LRT::Sphere g_sphere(7, green, mat4::rotationY(LRT::PI / 6.0f) * mat4::Translation3D(4.0f, 1.0f, -6.0f));
+	LRT::Cube g_sphere(7, green, mat4::rotationY(LRT::PI / 6.0f) * mat4::Translation3D(0.0f, 0.2f, -1.0f));
 	green->reflective = 0.5f;
 
 	Pattern* patten3 = new StripedPattern(Colors::white, Colors::gray, mat4::scale(0.1f));
@@ -67,7 +66,7 @@ void DrawSphereTest()
 	LRT::Camera cam(1920, 1080, LRT::mat4::ViewTransform({ 0.0f, 1.5f, -10.0f }, { 0.0f, 1.5f, 0.0f }, {0.0f, 1.0f, 0.0f}));
 #endif
 
-	LRT::Canvas can = LRT::Render(cam, w, 10);
+	LRT::Canvas can = LRT::Render(cam, w, 5);
 
 	can.SaveToFile("Output/TestSphere.PPM");
 	std::cout << "file saved in TestSphere.PPM\n";

@@ -1,6 +1,6 @@
 #include "OpenGL.h"
 #include <string>
-#include "../utilities/Log.h"
+#include "Log.h"
 
 bool InitOpenGL()
 {

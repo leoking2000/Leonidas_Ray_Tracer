@@ -1,6 +1,6 @@
 #include "Shader.h"
-#include "OpenGL.h"
-#include "Log.h"
+#include "../OpenGL.h"
+#include "../Log.h"
 
 #include <malloc.h>
 #include <fstream>
@@ -122,12 +122,12 @@ bool graphics::Shader::SetUniform(const char* name, int i) const
 	return false;
 }
 
-bool graphics::Shader::SetUniform(const char* name, const glm::mat4& mat) const
+bool graphics::Shader::SetUniform(const char* name, const LRT::mat4& mat) const
 {
 	int32_t location = GetLocation(name);
 	if (location != -1)
 	{
-		glCall(glProgramUniformMatrix4fv(m_id, location, 1, GL_FALSE, glm::value_ptr(mat)));
+		glCall(glProgramUniformMatrix4fv(m_id, location, 1, GL_FALSE, mat.data));
 		return true;
 	}
 	std::string msg = "uniform error ";

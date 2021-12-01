@@ -1,6 +1,6 @@
 #pragma once
 #include <cinttypes>
-#include "leo_math.h"
+#include "LRTMath.h"
 
 namespace graphics
 {
@@ -29,7 +29,7 @@ namespace graphics
 
 		bool SetUniform(const char* name, int i) const;
 
-		bool SetUniform(const char* name, const glm::mat4& mat) const;
+		bool SetUniform(const char* name, const LRT::mat4& mat) const;
 
 	private:
 		static uint32_t CreateProgramShader(const char* filename);

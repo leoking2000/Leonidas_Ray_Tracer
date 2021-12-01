@@ -1,6 +1,6 @@
 #include "OpenGL.h"
 #include "MainWindow.h"
-#include "../utilities/Log.h"
+#include "Log.h"
 
 namespace Editor
 {
