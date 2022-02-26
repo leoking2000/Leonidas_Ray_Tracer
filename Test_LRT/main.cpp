@@ -16,15 +16,15 @@
 
 int main(int argc, char** argv) 
 {
-	::testing::InitGoogleTest(&argc, argv);
+	//::testing::InitGoogleTest(&argc, argv);
 
-	int r = RUN_ALL_TESTS();
+	int r = 0;//RUN_ALL_TESTS();
 
 #if RUN_EXAMPLES
 	//ProjectileTest();
 	//clockpositionsTest();
-	//DrawSphereTest();
-	TableTest();
+	DrawSphereTest();
+	//TableTest();
 #endif
 
 

@@ -14,9 +14,9 @@ void DrawSphereTest()
 	LRT::Plane floor(0, matte_floor, mat4::Translation3D(0.0f, -1.0f, 0.0f));
 
 	// background
-	auto matte = Material::OneColorMat(LRT::Colors::gray, 0.1f, 0.1f, 0.0f, 200.0f, 0.1f);
-	LRT::Plane background1(1, matte, mat4::rotationX(-LRT::PI / 2.0f) * mat4::Translation3D(0.0f, 0.0f, 2.0f));
-	auto matte1 = Material::StripedPatternMat({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, 0.1f, 0.9f, 1.0f, 200.0f, 0.0f);
+	auto matte = Material::OneColorMat(LRT::Colors::gray, 0.1f, 0.1f, 0.0f, 200.0f, 2.0f);
+	LRT::Plane background1(1, matte, mat4::rotationX(-LRT::PI / 2.0f) * mat4::Translation3D(0.0f, 0.0f, 1.0f));
+	auto matte1 = Material::StripedPatternMat({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, 0.1f, 0.9f, 1.0f, 200.0f, 1.0f);
 	LRT::Plane background2(2, matte1, mat4::rotationX(LRT::PI / 2.0f) * mat4::Translation3D(0.0f, 0.0f, -11.0f));
 
 	auto ring_pattern = std::unique_ptr<Pattern>(new LRT::RingPatten({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, LRT::mat4::scale(2.0f)));
@@ -66,7 +66,7 @@ void DrawSphereTest()
 	LRT::Camera cam(1920, 1080, LRT::mat4::ViewTransform({ 0.0f, 1.5f, -10.0f }, { 0.0f, 1.5f, 0.0f }, {0.0f, 1.0f, 0.0f}));
 #endif
 
-	LRT::Canvas can = LRT::Render(cam, w, 5);
+	LRT::Canvas can = LRT::Render(cam, w, 10);
 
 	can.SaveToFile("Output/TestSphere.PPM");
 	std::cout << "file saved in TestSphere.PPM\n";
