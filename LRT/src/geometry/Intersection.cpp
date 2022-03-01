@@ -1,18 +1,19 @@
 #include "Intersection.h"
-
+#include "Primitive.h"
 
 namespace LRT
 {
-    Intersection::Intersection(f32 t, u32 index)
+    Intersection::Intersection(f32 distance, u64 pPrimitive)
         :
-        t(t),
-        shapeID(index)
+        m_distance(distance),
+        m_pPrimitive(pPrimitive)
     {
+
     }
 
     bool Intersection::operator==(const Intersection& other) const
     {
-        return this->t == other.t && this->shapeID == other.shapeID;
+        return this->m_distance == other.m_distance && this->m_pPrimitive == other.m_pPrimitive;
     }
 
     bool Intersection::operator!=(const Intersection& other) const

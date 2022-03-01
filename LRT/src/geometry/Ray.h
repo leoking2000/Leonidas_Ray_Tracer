@@ -6,16 +6,16 @@ namespace LRT
 	class Ray
 	{
 	public:
-		vec3 origin;
-		vec3 direction;
+		glm::vec3 origin;
+		glm::vec3 direction;
 	public:
-		Ray(const vec3& o, const vec3& dir);
+		Ray(const glm::vec3& o, const glm::vec3& dir);
 
-		vec3 operator()(float t) const;
+		glm::vec3 operator()(f32 t) const; // origin + t * direction
 
 		bool operator==(const Ray& other) const;
 		bool operator!=(const Ray& other) const;
 	};
 
-	Ray  operator*(const Ray& ray, const mat4& mat);
+	Ray operator*(const glm::mat4& mat, const Ray& ray);
 }

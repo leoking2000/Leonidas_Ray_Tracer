@@ -6,7 +6,7 @@ namespace LRT
 	class Pattern
 	{
 	public:
-		virtual Color colorAt(const vec3& point) const = 0;
+		virtual Color colorAt(const glm::vec3& point) const = 0;
 	};
 
 	class OneColor : public Pattern
@@ -14,7 +14,7 @@ namespace LRT
 	public:
 		OneColor(const Color& c = Colors::white);
 
-		Color colorAt(const vec3& point) const override;
+		Color colorAt(const glm::vec3& point) const override;
 	public:
 		Color color;
 	};
@@ -22,64 +22,64 @@ namespace LRT
 	class StripedPattern : public Pattern
 	{
 	public:
-		StripedPattern(const Color& first, const Color& second, const mat4& mat = mat4::identity());
+		StripedPattern(const Color& first, const Color& second, const glm::mat4& mat = glm::mat4(1.0f));
 
-		Color colorAt(const vec3& point) const override;
+		Color colorAt(const glm::vec3& point) const override;
 
-		const mat4& GetInverseModelMatrix() const; // world space -> local space
-		void SetModelMatrix(const mat4& modelMatrix); // modelMatrix : local space -> world space
+		const glm::mat4& GetInverseModelMatrix() const; // world space -> local space
+		void SetModelMatrix(const glm::mat4& modelMatrix); // modelMatrix : local space -> world space
 	public:
 		Color firstColor;
 		Color secondColor;
 	private:
-		mat4 inv_modelMatrix; // world space -> local space
+		glm::mat4 inv_modelMatrix; // world space -> local space
 	};
 
 	class GradientPattern : public Pattern
 	{
 	public:
-		GradientPattern(const Color& first, const Color& second, const mat4& mat = mat4::identity());
+		GradientPattern(const Color& first, const Color& second, const glm::mat4& mat = glm::mat4(1.0f));
 
-		Color colorAt(const vec3& point) const override;
+		Color colorAt(const glm::vec3& point) const override;
 
-		const mat4& GetInverseModelMatrix() const; // world space -> local space
-		void SetModelMatrix(const mat4& modelMatrix); // modelMatrix : local space -> world space
+		const glm::mat4& GetInverseModelMatrix() const; // world space -> local space
+		void SetModelMatrix(const glm::mat4& modelMatrix); // modelMatrix : local space -> world space
 	public:
 		Color firstColor;
 		Color secondColor;
 	private:
-		mat4 inv_modelMatrix; // world space -> local space
+		glm::mat4 inv_modelMatrix; // world space -> local space
 	};
 
 	class RingPatten : public Pattern
 	{
 	public:
-		RingPatten(const Color& first, const Color& second, const mat4& mat = mat4::identity());
+		RingPatten(const Color& first, const Color& second, const glm::mat4& mat = glm::mat4(1.0f));
 
-		Color colorAt(const vec3& point) const override;
+		Color colorAt(const glm::vec3& point) const override;
 
-		const mat4& GetInverseModelMatrix() const; // world space -> local space
-		void SetModelMatrix(const mat4& modelMatrix); // modelMatrix : local space -> world space
+		const glm::mat4& GetInverseModelMatrix() const; // world space -> local space
+		void SetModelMatrix(const glm::mat4& modelMatrix); // modelMatrix : local space -> world space
 	public:
 		Color firstColor;
 		Color secondColor;
 	private:
-		mat4 inv_modelMatrix; // world space -> local space
+		glm::mat4 inv_modelMatrix; // world space -> local space
 	};
 
 	class CheckerPattern : public Pattern
 	{
 	public:
-		CheckerPattern(const Color& first, const Color& second, const mat4& mat = mat4::identity());
+		CheckerPattern(const Color& first, const Color& second, const glm::mat4& mat = glm::mat4(1.0f));
 
-		Color colorAt(const vec3& point) const override;
+		Color colorAt(const glm::vec3& point) const override;
 
-		const mat4& GetInverseModelMatrix() const; // world space -> local space
-		void SetModelMatrix(const mat4& modelMatrix); // modelMatrix : local space -> world space
+		const glm::mat4& GetInverseModelMatrix() const; // world space -> local space
+		void SetModelMatrix(const glm::mat4& modelMatrix); // modelMatrix : local space -> world space
 	public:
 		Color firstColor;
 		Color secondColor;
 	private:
-		mat4 inv_modelMatrix; // world space -> local space
+		glm::mat4 inv_modelMatrix; // world space -> local space
 	};
 }

@@ -2,12 +2,12 @@
 
 namespace LRT
 {
-    Camera::Camera(u32 width, u32 height, mat4 transform, f32 fov)
+    Camera::Camera(u32 width, u32 height, glm::mat4 transform, f32 fov)
         :
         m_width(width),
         m_height(height),
         m_fov(fov),
-        m_Invtransform(mat4::inverse(transform))
+        m_Invtransform(glm::inverse(transform))
     {
         f32 half_view = std::tan(fov / 2.0f);
         f32 aspect = (f32)m_width / (f32)m_height;
@@ -26,14 +26,9 @@ namespace LRT
         m_pixel_size = (m_half_width * 2.0f) / (f32)m_width;
     }
 
-    mat4 Camera::GetInvtransform() const
+    void Camera::SetTransform(const glm::mat4& transform)
     {
-        return m_Invtransform;
-    }
-
-    void Camera::SetTransform(const mat4& transform)
-    {
-        m_Invtransform = mat4::inverse(transform);
+        m_Invtransform = glm::inverse(transform);
     }
 
     Ray Camera::RayForPixel(u32 x, u32 y) const
@@ -44,9 +39,9 @@ namespace LRT
         f32 worldX = m_half_width - xoffset;
         f32 worldY = m_half_height - yoffset;
 
-        vec3 pixel = vec4::point(worldX, worldY, -1.0f) * m_Invtransform;
-        vec3 origin = vec4::point(0.0f, 0.0f, 0.0f) * m_Invtransform;
+        glm::vec3 pixel  = m_Invtransform * glm::vec4(worldX, worldY, -1.0f, 1.0f);
+        glm::vec3 origin = m_Invtransform * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
-        return Ray(origin, (pixel - origin).getNormalized());
+        return Ray(origin, glm::normalize(pixel - origin));
     }
 }

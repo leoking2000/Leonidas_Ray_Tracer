@@ -39,7 +39,7 @@ namespace LRT
 		}
 
 	public:
-		Color colorAt(const vec3& point, const mat4 InverseModelMatrix) const;
+		Color colorAt(const glm::vec3& point, const glm::mat4 InverseModelMatrix) const;
 	private:
 		std::unique_ptr<Pattern> pattern;
 	private:

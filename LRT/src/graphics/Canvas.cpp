@@ -4,6 +4,10 @@
 #include <fstream>
 #include <string>
 
+#define _CRT_SECURE_NO_WARNINGS
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 LRT::Canvas::Canvas(u32 width, u32 height, Color c)
     :
     m_width(width),
@@ -102,7 +106,7 @@ void LRT::Canvas::Clear(const Color& c)
     }
 }
 
-LRT::Color LRT::Canvas::GetPixel(u32 x, u32 y) const
+Color LRT::Canvas::GetPixel(u32 x, u32 y) const
 {
     assert(x >= 0);
     assert(x < m_width);
@@ -122,7 +126,7 @@ void LRT::Canvas::SetPixel(u32 x, u32 y, const Color& c)
     m_data[y * m_width + x] = c;
 }
 
-void LRT::Canvas::SaveToFile(const char* filename)
+void LRT::Canvas::SaveToFilePPM(const char* filename)
 {
     // the PPM file format must have 70 characters per line or less.
     // a pixel will take at maximum 12 characters.  example: "255 255 255 "
@@ -142,9 +146,9 @@ void LRT::Canvas::SaveToFile(const char* filename)
     {
         Color* pixel = &m_data[i];
 
-        uint32_t r = LRT::clamp<u32>(u32(pixel->r * 255.0f), 0, 255);
-        uint32_t g = LRT::clamp<u32>(u32(pixel->g * 255.0f), 0, 255);
-        uint32_t b = LRT::clamp<u32>(u32(pixel->b * 255.0f), 0, 255);
+        uint32_t r = glm::clamp<u32>(u32(pixel->r * 255.0f), 0, 255);
+        uint32_t g = glm::clamp<u32>(u32(pixel->g * 255.0f), 0, 255);
+        uint32_t b = glm::clamp<u32>(u32(pixel->b * 255.0f), 0, 255);
 
         ppm_file << std::to_string(r) << " " << std::to_string(g) << " " << std::to_string(b) << " ";
 
@@ -159,4 +163,9 @@ void LRT::Canvas::SaveToFile(const char* filename)
     ppm_file << "\n";
 
     ppm_file.close();
+}
+
+void LRT::Canvas::SaveToFilePNG(const char* filename)
+{
+    //stbi_write_png(filename, m_width, m_height, 3, &m_data[0].x, m_width * 3 * 4);
 }

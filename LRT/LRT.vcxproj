@@ -144,25 +144,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\geometry\Intersection.h" />
-    <ClInclude Include="src\geometry\Shape.h" />
+    <ClInclude Include="src\geometry\Primitive.h" />
+    <ClInclude Include="src\geometry\Transform.h" />
     <ClInclude Include="src\graphics\Camera.h" />
     <ClInclude Include="src\graphics\Canvas.h" />
+    <ClInclude Include="src\graphics\stb_image_write.h" />
     <ClInclude Include="src\LRT.h" />
-    <ClInclude Include="src\LRTMath.h" />
     <ClInclude Include="src\defines.h" />
     <ClInclude Include="src\geometry\Ray.h" />
     <ClInclude Include="src\graphics\light.h" />
     <ClInclude Include="src\graphics\Material.h" />
     <ClInclude Include="src\graphics\pattern.h" />
+    <ClInclude Include="src\LRTMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\geometry\Intersection.cpp" />
-    <ClCompile Include="src\geometry\Shape.cpp" />
+    <ClCompile Include="src\geometry\Primitive.cpp" />
     <ClCompile Include="src\graphics\Camera.cpp" />
     <ClCompile Include="src\graphics\Canvas.cpp" />
     <ClCompile Include="src\geometry\Ray.cpp" />
     <ClCompile Include="src\LRT.cpp" />
-    <ClCompile Include="src\LRTMath.cpp" />
     <ClCompile Include="src\graphics\Material.cpp" />
     <ClCompile Include="src\graphics\pattern.cpp" />
   </ItemGroup>

@@ -8,16 +8,16 @@ class DefaultWorldTest : public ::testing::Test
 protected:
 	void SetUp() override
 	{
-		auto m1 = LRT::Material::OneColorMat(LRT::Color(0.8f, 1.0f, 0.6f), 0.1f, 0.7f, 0.2f, 200.0f);
+		auto m1 = LRT::Material::OneColorMat(Color(0.8f, 1.0f, 0.6f), 0.1f, 0.7f, 0.2f, 200.0f);
 
 		auto m2 = LRT::Material::Default();
 
-		LRT::Sphere* s0 = new LRT::Sphere(0, std::move(m1), LRT::mat4::identity());
-		LRT::Sphere* s1 = new LRT::Sphere(1, std::move(m2), LRT::mat4::scale(0.5f));
+		w.objects.emplace_back(new LRT::Sphere(std::move(m1), LRT::Transform()));
+		w.objects.emplace_back(new LRT::Sphere(std::move(m2), LRT::Transform()));
 
-		w.objects.emplace_back(s0);
-		w.objects.emplace_back(s1);
-		w.lights.emplace_back(LRT::vec3(-10.0f, 10.0f, -10.0f), LRT::Colors::white);
+		w.objects[1]->transform.SetScale(glm::vec3(0.5));
+
+		w.lights.emplace_back(glm::vec3(-10.0f, 10.0f, -10.0f), Colors::white);
 
 	}
 
@@ -34,58 +34,58 @@ protected:
 
 TEST_F(DefaultWorldTest, wolrd_test_intersect)
 {
-	LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
+	LRT::Ray ray(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
 	std::vector<LRT::Intersection> xs = LRT::intersect(ray, w);
 
 	EXPECT_EQ(xs.size(), 4);
-	EXPECT_EQ(xs[0].t, 4.0f);
-	EXPECT_EQ(xs[1].t, 4.5f);
-	EXPECT_EQ(xs[2].t, 5.5f);
-	EXPECT_EQ(xs[3].t, 6.0f);
+	EXPECT_EQ(xs[0].GetDistance(), 4.0f);
+	EXPECT_EQ(xs[1].GetDistance(), 4.5f);
+	EXPECT_EQ(xs[2].GetDistance(), 5.5f);
+	EXPECT_EQ(xs[3].GetDistance(), 6.0f);
 }
 
 TEST_F(DefaultWorldTest, isShadowed)
 {
-	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(0.0f, 10.0f, 0.0f)));
-	EXPECT_TRUE(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(10.0f, -10.0f, 10.0f)));
-	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(-20.0f, 20.0f, -20.0f)));
-	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, LRT::vec3(-2.0f, 2.0f, -2.0f)));
+	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, glm::vec3(0.0f, 10.0f, 0.0f)));
+	EXPECT_TRUE(LRT::isShadowed(w, w.lights[0].position, glm::vec3(10.0f, -10.0f, 10.0f)));
+	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, glm::vec3(-20.0f, 20.0f, -20.0f)));
+	EXPECT_FALSE(LRT::isShadowed(w, w.lights[0].position, glm::vec3(-2.0f, 2.0f, -2.0f)));
 }
 
 TEST_F(DefaultWorldTest, shadeHit1)
 {
-	LRT::Ray ray(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
+	LRT::Ray ray(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	LRT::Intersection inter(4.0f, w.objects[0]->ID());
 
 	LRT::PreComputedValues comps(inter, ray, w);
 
-	EXPECT_EQ(LRT::shadeHit(comps), LRT::Color(0.38066f, 0.47583f, 0.2855f));
+	EXPECT_EQ(LRT::shadeHit(comps), Color(0.38066f, 0.47583f, 0.2855f));
 }
 
 TEST_F(DefaultWorldTest, shadeHit2)
 {
-	w.lights[0] = LRT::PointLight(LRT::vec3(0.0f, 0.25f, 0.0f));
-	LRT::Ray ray(LRT::vec3(0.0f, 0.0f, 0.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
+	w.lights[0] = LRT::PointLight(glm::vec3(0.0f, 0.25f, 0.0f));
+	LRT::Ray ray(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	LRT::Intersection inter(0.5f, w.objects[1]->ID());
 
 	LRT::PreComputedValues comps(inter, ray, w);
 
-	EXPECT_EQ(LRT::shadeHit(comps), LRT::Color(0.90498f, 0.90498f, 0.90498f));
+	EXPECT_EQ(LRT::shadeHit(comps), Color(0.90498f, 0.90498f, 0.90498f));
 
-	w.lights[0] = LRT::PointLight(LRT::vec3(-10.0f, 10.0f, -10.0f), LRT::Colors::white);
+	w.lights[0] = LRT::PointLight(glm::vec3(-10.0f, 10.0f, -10.0f), Colors::white);
 }
 
 TEST_F(DefaultWorldTest, color_at1)
 {
-	LRT::Ray r(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 1.0f, 0.0f));
-	EXPECT_EQ(LRT::color_at(w, r), LRT::Color(0.0f, 0.0f, 0.0f));
+	LRT::Ray r(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	EXPECT_EQ(LRT::color_at(w, r), Color(0.0f, 0.0f, 0.0f));
 }
 
 TEST_F(DefaultWorldTest, color_at2)
 {
-	LRT::Ray r(LRT::vec3(0.0f, 0.0f, -5.0f), LRT::vec3(0.0f, 0.0f, 1.0f));
-	EXPECT_EQ(LRT::color_at(w, r), LRT::Color(0.38066f, 0.47583f, 0.2855f));
+	LRT::Ray r(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	EXPECT_EQ(LRT::color_at(w, r), Color(0.38066f, 0.47583f, 0.2855f));
 }
 
 TEST_F(DefaultWorldTest, color_at3)
@@ -93,8 +93,8 @@ TEST_F(DefaultWorldTest, color_at3)
 	w.objects[0]->GetMaterial().ambient = 1.0f;
 	w.objects[1]->GetMaterial().ambient = 1.0f;
 
-	LRT::Ray r(LRT::vec3(0.0f, 0.0f, 0.75f), LRT::vec3(0.0f, 0.0f, -1.0f));
-	EXPECT_EQ(LRT::color_at(w, r), LRT::Colors::white);
+	LRT::Ray r(glm::vec3(0.0f, 0.0f, 0.75f), glm::vec3(0.0f, 0.0f, -1.0f));
+	EXPECT_EQ(LRT::color_at(w, r), Colors::white);
 
 	w.objects[0]->GetMaterial().ambient = 0.1f;
 	w.objects[1]->GetMaterial().ambient = 0.1f;
@@ -103,21 +103,24 @@ TEST_F(DefaultWorldTest, color_at3)
 
 TEST_F(DefaultWorldTest, non_reflective_matirial)
 {
-	LRT::Ray ray({ 0.0f, 0.0f, 0.0f }, LRT::vec3(0.0f, 0.0f, 1.0f));
+	LRT::Ray ray({ 0.0f, 0.0f, 0.0f }, glm::vec3(0.0f, 0.0f, 1.0f));
 
-	LRT::Shape* shape = w.objects[1];
+	LRT::Primitive* shape = w.objects[1];
 
 	shape->GetMaterial().ambient = 1.0f;
 
 	LRT::Intersection i(1.0f, 1);
 	LRT::PreComputedValues comps(i, ray, w);
 
-	EXPECT_EQ(LRT::Reflected_color(comps, w), LRT::Colors::black);
+	EXPECT_EQ(LRT::Reflected_color(comps, w), Colors::black);
 }
 
 TEST_F(DefaultWorldTest, reflective_matirial)
 {
-	LRT::Plane plane(2, LRT::Material::Default(), LRT::mat4::Translation3D(0.0f, -1.0f, 0.0f));
+	LRT::Plane plane(LRT::Material::Default(), LRT::Transform());
+
+	plane.transform.SetPosition(glm::vec3(0.0f, -1.0f, 0.0f));
+
 	plane.GetMaterial().reflective = 0.5f;
 	w.objects.push_back(&plane);
 
@@ -129,11 +132,11 @@ TEST_F(DefaultWorldTest, reflective_matirial)
 
 	LRT::PreComputedValues comps(LRT::Intersection(std::sqrtf(2.0f), 2), ray, w);
 
-	LRT::Color c = LRT::Reflected_color(comps, w);
+	Color c = LRT::Reflected_color(comps, w);
 
-	EXPECT_TRUE(LRT::Equal(c.r, 0.19032f, 0.01f) &&
-				LRT::Equal(c.g, 0.2379f , 0.01f) &&
-				LRT::Equal(c.b, 0.14274f, 0.01f));
+	EXPECT_TRUE(glm::epsilonEqual(c.r, 0.19032f, 0.01f) &&
+				glm::epsilonEqual(c.g, 0.2379f , 0.01f) &&
+				glm::epsilonEqual(c.b, 0.14274f, 0.01f));
 
 	w.objects.pop_back();
 }

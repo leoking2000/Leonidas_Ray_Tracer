@@ -33,26 +33,29 @@
     <ClInclude Include="src\geometry\Intersection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\geometry\Shape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\graphics\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\LRT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\LRTMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\LRT.h">
+    <ClInclude Include="src\geometry\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry\Primitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\stb_image_write.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\LRTMath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\LRT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,10 +74,10 @@
     <ClCompile Include="src\geometry\Intersection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\geometry\Shape.cpp">
+    <ClCompile Include="src\graphics\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\Camera.cpp">
+    <ClCompile Include="src\geometry\Primitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

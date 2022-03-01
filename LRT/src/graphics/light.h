@@ -6,10 +6,10 @@ namespace LRT
 	class PointLight
 	{
 	public:
-		vec3 position;
+		glm::vec3 position;
 		Color color;
 	public:
-		PointLight(const vec3& pos, const Color& c = Colors::white)
+		PointLight(const glm::vec3& pos, const Color& c = Colors::white)
 			:
 			position(pos),
 			color(c)

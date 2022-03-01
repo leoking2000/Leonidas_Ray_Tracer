@@ -2,14 +2,14 @@
 #include "graphics/Canvas.h"
 #include "graphics/light.h"
 #include "graphics/Camera.h"
-#include "geometry/Shape.h"
+#include "geometry/Primitive.h"
 #include <vector>
 
 namespace LRT
 {
 	struct World
 	{
-		std::vector<Shape*> objects;
+		std::vector<Primitive*> objects;
 		std::vector<PointLight> lights;
 	};
 
@@ -23,21 +23,21 @@ namespace LRT
 
 		World& world;
 		Intersection intersection;
-		vec3 point;
-		vec3 view;
-		vec3 normal;
+		glm::vec3 point;
+		glm::vec3 view;
+		glm::vec3 normal;
 		bool isInside;
-		vec3 reflectv;
+		glm::vec3 reflectv;
 	};
 	Color shadeHit(const PreComputedValues& comps, u32 limit = 0);
 
 	Color Reflected_color(const PreComputedValues& comps, World& w, u32 limit = 1);
 
-	Color lighting(const Shape& mat, 
+	Color lighting(const Primitive& mat, 
 				   const PointLight& light, 
-				   const LRT::vec3& point, 
-				   const LRT::vec3& view, 
-				   const LRT::vec3& normal,
+				   const glm::vec3& point, 
+				   const glm::vec3& view, 
+				   const glm::vec3& normal,
 				   bool inShadow = false);
 
 
@@ -45,5 +45,5 @@ namespace LRT
 
 	u32 hit(const std::vector<Intersection>& Intersections);
 
-	bool isShadowed(World& w, const vec3 lightPos, const vec3 point);
+	bool isShadowed(World& w, const glm::vec3 lightPos, const glm::vec3 point);
 }

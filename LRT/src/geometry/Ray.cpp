@@ -3,14 +3,14 @@
 
 namespace LRT
 {
-    Ray::Ray(const vec3& o, const vec3& dir)
+    Ray::Ray(const glm::vec3& o, const glm::vec3& dir)
         :
         origin(o),
         direction(dir)
     {
     }
 
-    vec3 Ray::operator()(float t) const
+    glm::vec3 Ray::operator()(f32 t) const
     {
         return origin + t * direction;
     }
@@ -25,8 +25,8 @@ namespace LRT
         return !(*this == other);
     }
 
-    Ray operator*(const Ray& ray, const mat4& mat)
+    Ray operator*(const glm::mat4& mat, const Ray& ray)
     {
-        return Ray(vec4(ray.origin, 1.0f) * mat, vec4(ray.direction, 0.0f) * mat);
+        return Ray(mat * glm::vec4(ray.origin, 1.0f), mat * glm::vec4(ray.direction, 0.0f));
     }
 }

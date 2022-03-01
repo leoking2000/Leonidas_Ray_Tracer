@@ -6,10 +6,10 @@ namespace LRT
 	class Camera
 	{
 	public:
-		Camera(u32 width, u32 height, mat4 transform = mat4::identity(), f32 fov = PI / 2.0f);
+		Camera(u32 width, u32 height, glm::mat4 transform = glm::mat4(1.0f), f32 fov = PI / 2.0f);
 
-		mat4 GetInvtransform() const;
-		void SetTransform(const mat4& transform);
+		inline const glm::mat4& GetInvtransform() const { return m_Invtransform; };
+		void SetTransform(const glm::mat4& transform);
 
 		Ray RayForPixel(u32 x, u32 y) const;
 
@@ -25,6 +25,6 @@ namespace LRT
 		f32 m_half_width;
 		f32 m_half_height;
 
-		mat4 m_Invtransform;
+		glm::mat4 m_Invtransform;
 	};
 }

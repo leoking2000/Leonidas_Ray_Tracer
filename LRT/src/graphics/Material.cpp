@@ -2,9 +2,9 @@
 
 namespace LRT
 {
-	Color Material::colorAt(const vec3& point, const mat4 InverseModelMatrix) const
+	Color Material::colorAt(const glm::vec3& point, const glm::mat4 InverseModelMatrix) const
 	{
-		return pattern->colorAt(vec4(point, 1.0f) * InverseModelMatrix);
+		return pattern->colorAt(InverseModelMatrix * glm::vec4(point, 1.0f));
 	}
 
 	Material::Material()

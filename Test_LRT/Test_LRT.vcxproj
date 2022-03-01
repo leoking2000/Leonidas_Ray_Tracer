@@ -33,17 +33,10 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <ClInclude Include="examples\clockpositionsTest.h" />
     <ClInclude Include="examples\DrawSphereTest.h" />
-    <ClInclude Include="examples\ProjectileTest.h" />
     <ClInclude Include="examples\TableTest.h" />
     <ClInclude Include="Tests\CanvasTest.h" />
     <ClInclude Include="Tests\DefaultWorldTest.h" />
-    <ClInclude Include="Tests\GeometryTest.h" />
-    <ClInclude Include="Tests\GraphicsTest.h" />
-    <ClInclude Include="Tests\MathTest.h" />
-    <ClInclude Include="Tests\PattenTest.h" />
-    <ClInclude Include="Tests\ReflectionTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

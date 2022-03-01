@@ -6,7 +6,7 @@ namespace LRT
 	class Canvas
 	{
 	public:
-		Canvas(u32 width, u32 height, Color c = LRT::Colors::black);
+		Canvas(u32 width, u32 height, Color c = Colors::black);
 
 		Canvas(const Canvas& other);
 		Canvas& operator=(const Canvas& other);
@@ -28,7 +28,8 @@ namespace LRT
 		Color GetPixel(u32 x, u32 y) const;
 		void  SetPixel(u32 x, u32 y, const Color& c);
 
-		void SaveToFile(const char* filename); // saves the canvas into a ppm file.
+		void SaveToFilePPM(const char* filename); // saves the canvas into a ppm file.
+		void SaveToFilePNG(const char* filename); // use the stb_image
 
 	private:
 		u32 m_width;

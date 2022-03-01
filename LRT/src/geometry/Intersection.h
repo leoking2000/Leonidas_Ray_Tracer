@@ -1,18 +1,32 @@
 #pragma once
 #include "LRTMath.h"
+#include <memory>
 
 namespace LRT
 {
+	class Primitive;
+
 	class Intersection
 	{
 	public:
-		f32 t;
-		u32 shapeID; // this is an Index to find the shape of the intersection
-	public:
-		Intersection(f32 t, u32 index);
+		Intersection(f32 distance, u64 pPrimitive);
 
 		bool operator==(const Intersection& other) const;
 		bool operator!=(const Intersection& other) const;
+	public:
+		inline u64 GetPrimitiveID() const
+		{
+			return m_pPrimitive;
+		}
+
+		// from the ray origin to the point of Intersection
+		inline f32 GetDistance() const
+		{
+			return m_distance;
+		}
+	private:
+		f32 m_distance; 
+		u64 m_pPrimitive;
 	};
 }
 
