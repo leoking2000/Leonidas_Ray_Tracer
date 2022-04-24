@@ -25,7 +25,7 @@ TEST(CanvasTest, Create_canvas)
 	copy_cav.SetPixel(copy_cav.GetWidth() - 1, copy_cav.GetHeight() - 1, Colors::blue);
 	copy_cav.SetPixel(0, copy_cav.GetHeight() - 1, Colors::yellow);
 
-	copy_cav.SaveToFilePPM("Output/Test/CanvasTest.PPM");
+	copy_cav.SaveToFilePNG("Output/Test/CanvasTest1.png");
 }
 
 TEST(CanvasTest, test2)
@@ -40,5 +40,5 @@ TEST(CanvasTest, test2)
 		}
 	}
 
-	cav.SaveToFilePPM("Output/Test/Test.PPM");
+	cav.SaveToFilePNG("Output/Test/CanvasTest2.png");
 }

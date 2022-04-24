@@ -8,7 +8,7 @@ namespace LRT
 {
 	constexpr f32 EPSILON = 0.01f;
 
-	Canvas Render(const Camera& cam, World& w, u32 limit)
+	Canvas Render(const Camera& cam, Scene& s, u32 limit)
 	{
 		Canvas image(cam.Width(), cam.Height());
 
@@ -18,7 +18,7 @@ namespace LRT
 			for (u32 x = 0; x < cam.Width(); x++)
 			{
 				Ray r = cam.RayForPixel(x, y);
-				Color c = color_at(w, r, limit);
+				Color c = color_at(s, r, limit);
 				image.SetPixel(x, y, c);
 			}
 		}
@@ -26,9 +26,9 @@ namespace LRT
 		return image;
 	}
 
-	Color color_at(World& w, const Ray ray, u32 limit)
+	Color color_at(Scene& s, const Ray ray, u32 limit)
 	{
-		std::vector<Intersection> inters = intersect(ray, w);
+		std::vector<Intersection> inters = intersect(ray, s);
 		u32 i = hit(inters);
 
 		if (i == -1)
@@ -36,25 +36,27 @@ namespace LRT
 			return Colors::black;
 		}
 
-		return shadeHit(PreComputedValues(inters[i], ray, w), limit);
+		return shadeHit(PreComputedValues(inters[i], ray, s), limit);
 	}
 
 	Color  shadeHit(const PreComputedValues& comps, u32 limit)
 	{
 		Color c(0.0f, 0.0f, 0.0f);
 
-		for (auto& light : comps.world.lights)
+		for (u32 i = 0; i < comps.scene.NumberOfLight(); i++)
 		{
-			bool inShadow = isShadowed(comps.world, light.position, comps.point + EPSILON * comps.normal);
+			PointLight& light = comps.scene.GetLight(i);
+
+			bool inShadow = isShadowed(comps.scene, light.position, comps.point + EPSILON * comps.normal);
 
 			u64 id = comps.intersection.GetPrimitiveID();
 
-			Color light_color = lighting(*comps.world.objects[id],
+			Color light_color = lighting(comps.scene.GetObject(id),
 				light, comps.point, comps.view, comps.normal, inShadow);
 
-			float reflect = comps.world.objects[comps.intersection.GetPrimitiveID()]->GetMaterial().reflective;
+			float reflect = comps.scene.GetObject(comps.intersection.GetPrimitiveID()).GetMaterial().reflective;
 
-			Color reflection_color = Reflected_color(comps, comps.world, limit);
+			Color reflection_color = Reflected_color(comps, comps.scene, limit);
 
 			c += (1 - reflect) * light_color + reflection_color;
 		}
@@ -62,9 +64,9 @@ namespace LRT
 		return c;
 	}
 
-	Color Reflected_color(const PreComputedValues& comps, World& w, u32 limit)
+	Color Reflected_color(const PreComputedValues& comps, Scene& s, u32 limit)
 	{
-		float reflect = w.objects[comps.intersection.GetPrimitiveID()]->GetMaterial().reflective;
+		float reflect = s.GetObject(comps.intersection.GetPrimitiveID()).GetMaterial().reflective;
 
 		if (glm::epsilonEqual(reflect, 0.0f, 0.00001f) || limit == 0)
 		{
@@ -72,7 +74,7 @@ namespace LRT
 		}
 
 		LRT::Ray reflect_ray(comps.point + EPSILON * comps.normal, comps.reflectv);
-		Color c = color_at(w, reflect_ray, limit - 1);
+		Color c = color_at(s, reflect_ray, limit - 1);
 
 		return c * reflect;
 	}
@@ -111,13 +113,13 @@ namespace LRT
 		return ambient + diffuse + specular;
 	}
 
-	PreComputedValues::PreComputedValues(const Intersection& i, const Ray& ray, World& w)
+	PreComputedValues::PreComputedValues(const Intersection& i, const Ray& ray, Scene& s)
 		:
-		world(w),
+		scene(s),
 		intersection(i),
 		point(ray(i.GetDistance())),
 		view(-ray.direction),
-		normal(w.objects[i.GetPrimitiveID()]->normalAt(point))
+		normal(s.GetObject(i.GetPrimitiveID()).normalAt(point))
 	{
 		if (glm::dot(normal, view) < 0)
 		{
@@ -132,13 +134,13 @@ namespace LRT
 		reflectv = glm::reflect(ray.direction, normal);
 	}
 
-	std::vector<Intersection> intersect(const Ray& ray, World& w)
+	std::vector<Intersection> intersect(const Ray& ray, Scene& s)
 	{
 		std::vector<Intersection> intersections;
 
-		for (u32 i = 0; i < w.objects.size(); i++)
+		for (u32 i = 0; i < s.NumberOfObjects(); i++)
 		{
-			std::vector<Intersection> inter = w.objects[i]->intersect(ray);
+			std::vector<Intersection> inter = s.GetObject(i).intersect(ray);
 			std::copy(inter.begin(), inter.end(), std::back_inserter(intersections));
 		}
 
@@ -171,7 +173,7 @@ namespace LRT
 		return currHitIndex;
 	}
 
-	bool  isShadowed(World& w, const glm::vec3 lightPos, const glm::vec3 point)
+	bool  isShadowed(Scene& s, const glm::vec3 lightPos, const glm::vec3 point)
 	{
 		glm::vec3 ptl = lightPos - point; // point to light
 
@@ -179,7 +181,7 @@ namespace LRT
 		glm::vec3 direction = glm::normalize(ptl);
 
 		Ray shadow_ray(point, direction);
-		std::vector<Intersection> hits = intersect(shadow_ray, w);
+		std::vector<Intersection> hits = intersect(shadow_ray, s);
 		u32 h = hit(hits);
 
 		if (h == -1)

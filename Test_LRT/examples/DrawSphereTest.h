@@ -9,13 +9,16 @@ void DrawSphereTest()
 
 	using namespace LRT;
 
+	LRT::Primitive::_ZeroIDCounter();
+
 	auto mirror_mat = LRT::Material::OneColorMat(Colors::black, 0.0f, 0.0f, 0.0f, 200.0f, 1.0f);
 
-	auto ring_pattern = std::unique_ptr<Pattern>(new LRT::RingPatten({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, glm::scale(glm::vec3(0.5f))));
+	auto ring_pattern = std::unique_ptr<Pattern>(new LRT::RingPatten({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f))));
 	auto mat_floor = Material::Create(std::move(ring_pattern), 0.1f, 0.9f, 0.9f, 200.0f, 0.0f);
 
 	auto mat_walls = Material::StripedPatternMat({ 0.8f, 0.7f, 0.7f }, { 0.5f, 0.45f, 0.45f }, 0.1f, 0.9f, 0.9f, 200.0f, 0.0f);
 
+	auto white = Material::OneColorMat(Colors::white, 0.1f, 0.9f, 0.9f, 200.0f, 0.0f);
 	auto red = Material::OneColorMat(Colors::red, 0.1f, 0.9f, 0.9f, 200.0f, 0.0f);
 
 	// floor
@@ -46,8 +49,11 @@ void DrawSphereTest()
 	celing.transform.SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
 	celing.transform.SetRotation(glm::vec3(0.0f, 0.0f, LRT::PI));
 
-	LRT::Sphere r_sphere(red);
-	red->reflective = 0.5f;
+	LRT::Sphere red_sphere(red);
+	red_sphere.transform.SetPosition(glm::vec3(9.0f, 1.0f, 0.0f));
+
+	LRT::Sphere r_sphere(white);
+	white->reflective = 0.8f;
 	r_sphere.transform.SetPosition(glm::vec3(-3.5f, 1.0f, 5.0f));
 
 	//Pattern* patten2 = new GradientPattern(Colors::green, Colors::red);
@@ -69,6 +75,7 @@ void DrawSphereTest()
 	w.objects.emplace_back(&right_wall);
 	w.objects.emplace_back(&celing);
 
+	w.objects.emplace_back(&red_sphere);
 	w.objects.emplace_back(&r_sphere);
 	//w.objects.emplace_back(&g_sphere);
 	//w.objects.emplace_back(&b_sphere);
@@ -76,15 +83,14 @@ void DrawSphereTest()
 	w.lights.emplace_back(glm::vec3(-1.0f, 4.0f, -10.0f), Colors::white);
 	//w.lights.emplace_back(glm::vec3(10.0f, 4.0f, -10.0f) , Colors::gray);
 
-#ifndef NDEBUG
-	LRT::Camera cam(192, 108, glm::lookAt(glm::vec3(0.0f, 1.5f, -5.0f), glm::vec3(0.0f, 1.5f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-#else
-	LRT::Camera cam(1920, 1080, glm::lookAt(glm::vec3(0.0f, 1.5f, -5.0f), glm::vec3(0.0f, 1.5f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-#endif
+	// 1920 1080
+	// 
+	LRT::Camera cam(4096, 2160, glm::lookAt(glm::vec3(-3.5f, 1.0f, 3.0f), glm::vec3(-3.5f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+
 
 	LRT::Canvas can = LRT::Render(cam, w, 200);
 
-	can.SaveToFilePPM("Output/TestSphere.PPM");
-	std::cout << "file saved in TestSphere.PPM\n";
+	can.SaveToFilePNG("Output/TestSphere.png");
+	std::cout << "file saved in TestSphere.png\n";
 }
 

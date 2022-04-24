@@ -9,7 +9,7 @@
 
 //#include "examples/ProjectileTest.h"
 //#include "examples/clockpositionsTest.h"
-#include "examples/DrawSphereTest.h"
+//#include "examples/DrawSphereTest.h"
 #include "examples/TableTest.h"
 
 #define RUN_TESTS 0
@@ -27,8 +27,8 @@ int main(int argc, char** argv)
 #if RUN_EXAMPLES
 	//ProjectileTest();
 	//clockpositionsTest();
-	DrawSphereTest();
-	//TableTest();
+	//DrawSphereTest();
+	TableTest();
 #endif
 
 

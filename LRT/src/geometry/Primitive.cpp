@@ -35,6 +35,11 @@ namespace LRT
         return !(*this == other);
     }
 
+    void Primitive::_ZeroIDCounter()
+    {
+        id_counter = 0;
+    }
+
     glm::vec3 Primitive::normalAt(const glm::vec3& world_point) const
     {
         glm::vec4 local_point = transform.WorldToLocal() * glm::vec4(world_point, 1.0f);

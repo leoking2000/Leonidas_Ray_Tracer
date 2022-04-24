@@ -167,5 +167,18 @@ void LRT::Canvas::SaveToFilePPM(const char* filename)
 
 void LRT::Canvas::SaveToFilePNG(const char* filename)
 {
-    //stbi_write_png(filename, m_width, m_height, 3, &m_data[0].x, m_width * 3 * 4);
+    u8* data = new u8[m_width * m_height * 3];
+
+    for (int i = 0, j = 0; i < m_width * m_height; i++, j += 3)
+    {
+        Color* pixel = &m_data[i];
+
+        data[j]   = (u8) glm::clamp<u32>(u32(pixel->r * 255.0f), 0, 255);
+        data[j+1] = (u8) glm::clamp<u32>(u32(pixel->g * 255.0f), 0, 255);
+        data[j+2] = (u8) glm::clamp<u32>(u32(pixel->b * 255.0f), 0, 255);
+    }
+
+    stbi_write_png(filename, m_width, m_height, 3, data, m_width * 3);
+
+    delete[] data;
 }

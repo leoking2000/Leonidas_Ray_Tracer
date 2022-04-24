@@ -31,6 +31,8 @@ namespace LRT
 		const u64 m_id;
 	private:
 		static u64 id_counter;
+	public:
+		static void _ZeroIDCounter();
 	};
 
 	class Sphere : public Primitive

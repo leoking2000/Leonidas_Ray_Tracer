@@ -27,6 +27,8 @@ protected:
 		{
 			delete w.objects[i];
 		}
+
+		LRT::Primitive::_ZeroIDCounter();
 	}
 
 	LRT::World w;
