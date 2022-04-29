@@ -169,7 +169,7 @@ void LRT::Canvas::SaveToFilePNG(const char* filename)
 {
     u8* data = new u8[m_width * m_height * 3];
 
-    for (int i = 0, j = 0; i < m_width * m_height; i++, j += 3)
+    for (u32 i = 0, j = 0; i < m_width * m_height; i++, j += 3)
     {
         Color* pixel = &m_data[i];
 

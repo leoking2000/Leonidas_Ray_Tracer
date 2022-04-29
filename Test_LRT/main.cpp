@@ -1,19 +1,13 @@
 #include "gtest/gtest.h"
 
-//#include "Tests/MathTest.h"
 #include "Tests/CanvasTest.h"
-//#include "Tests/GeometryTest.h"
-//#include "Tests/GraphicsTest.h"
-//#include "Tests/DefaultWorldTest.h"
-//#include "Tests/PattenTest.h"
+#include "Tests/GeometryTest.h"
 
-//#include "examples/ProjectileTest.h"
-//#include "examples/clockpositionsTest.h"
-//#include "examples/DrawSphereTest.h"
+#include "examples/ParallelMirrorTest.h"
 #include "examples/TableTest.h"
 
-#define RUN_TESTS 0
-#define RUN_EXAMPLES 1
+#define RUN_TESTS 1
+#define RUN_EXAMPLES 0
 
 int main(int argc, char** argv) 
 {
@@ -25,9 +19,7 @@ int main(int argc, char** argv)
 #endif
 
 #if RUN_EXAMPLES
-	//ProjectileTest();
-	//clockpositionsTest();
-	//DrawSphereTest();
+	ParallelMirrorTest();
 	TableTest();
 #endif
 

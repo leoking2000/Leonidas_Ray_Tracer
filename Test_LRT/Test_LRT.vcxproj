@@ -33,8 +33,10 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClInclude Include="examples\ParallelMirrorTest.h" />
     <ClInclude Include="examples\TableTest.h" />
     <ClInclude Include="Tests\CanvasTest.h" />
+    <ClInclude Include="Tests\GeometryTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
