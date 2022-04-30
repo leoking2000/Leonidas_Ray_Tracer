@@ -5,9 +5,10 @@
 
 #include "examples/ParallelMirrorTest.h"
 #include "examples/TableTest.h"
+#include "examples/sphere1.h"
 
-#define RUN_TESTS 1
-#define RUN_EXAMPLES 0
+#define RUN_TESTS 0
+#define RUN_EXAMPLES 1
 
 int main(int argc, char** argv) 
 {
@@ -19,8 +20,9 @@ int main(int argc, char** argv)
 #endif
 
 #if RUN_EXAMPLES
-	ParallelMirrorTest();
-	TableTest();
+	Sphere1();
+	//ParallelMirrorTest();
+	//TableTest();
 #endif
 
 

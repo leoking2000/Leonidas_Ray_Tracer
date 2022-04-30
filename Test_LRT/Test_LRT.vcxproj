@@ -34,6 +34,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClInclude Include="examples\ParallelMirrorTest.h" />
+    <ClInclude Include="examples\sphere1.h" />
     <ClInclude Include="examples\TableTest.h" />
     <ClInclude Include="Tests\CanvasTest.h" />
     <ClInclude Include="Tests\GeometryTest.h" />

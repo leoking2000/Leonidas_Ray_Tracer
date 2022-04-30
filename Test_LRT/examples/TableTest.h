@@ -107,9 +107,9 @@ void TableTest()
 
 	w.AddPointLight(glm::vec3(8.0f, 9.0f, -9.0f), Colors::white);
 
-	LRT::Camera cam(1920, 1080, glm::lookAt(glm::vec3(-4.0f, 7.0f, -9.0f), glm::vec3(0.0f, 4.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+	w.SetCamera(1920, 1080, glm::vec3(-4.0f, 7.0f, -9.0f), glm::vec3(0.0f, 4.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-	LRT::Canvas can = LRT::Render(cam, w, 5);
+	LRT::Canvas can = w.Render();
 
 	can.SaveToFilePNG("Output/Table.png");
 	std::cout << "file saved in Table.png\n";
