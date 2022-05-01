@@ -33,7 +33,8 @@ namespace LRT
 
 		if (i == -1)
 		{
-			return Colors::black;
+			glm::vec3 t = glm::vec3(0.5f) * (glm::vec3(ray.direction.y) + glm::vec3(1.0f));
+			return (glm::vec3(1.0f) - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
 		}
 
 		return shadeHit(PreComputedValues(inters[i], ray, s), limit);

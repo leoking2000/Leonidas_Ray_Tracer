@@ -10,7 +10,7 @@ namespace LRT
 	{
 	public:
 		Scene(); // make an empty Scene
-		Scene(const char* filename); // make a Scene from JSON file
+		//Scene(const char* filename); // make a Scene from JSON file
 
 		void SetCamera(u32 width, u32 height, 
 			const glm::vec3& pos,

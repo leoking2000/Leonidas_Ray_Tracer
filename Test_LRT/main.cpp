@@ -2,6 +2,7 @@
 
 #include "Tests/CanvasTest.h"
 #include "Tests/GeometryTest.h"
+#include "Tests/test.h"
 
 #include "examples/ParallelMirrorTest.h"
 #include "examples/TableTest.h"

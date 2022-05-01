@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "LRT.h"
 #include <fstream>
-#include <nlohmann/json.hpp>
+//#include <nlohmann/json.hpp>
 
 namespace LRT
 {
@@ -10,6 +10,7 @@ namespace LRT
         cam = std::make_unique<Camera>(1920, 1080, glm::mat4(1.0f), PI / 2.0f);
     }
 
+    /*
     Scene::Scene(const char* filename)
     {
         using namespace nlohmann;
@@ -27,6 +28,7 @@ namespace LRT
 
 
     }
+    */
 
     void Scene::SetCamera(u32 width, u32 height, const glm::vec3& pos, const glm::vec3& look, const glm::vec3& up, f32 fov)
     {
