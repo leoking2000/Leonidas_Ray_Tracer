@@ -6,7 +6,7 @@ void Sphere1()
 	using namespace LRT;
 
 	// make materials
-	auto red = Material::OneColorMat(Colors::red);
+	auto red = Material::OneColorMat(Colors::red, 0.1f, 0.9f, 0.7f, 200.0f, 0.4f);
 	auto cheker_patter = std::unique_ptr<Pattern>(new CheckerPattern(Colors::white, Colors::gray, glm::scale(glm::mat4(1.0f), glm::vec3(2.0f))));
 	auto floor_mat = Material::Create(std::move(cheker_patter));
 
