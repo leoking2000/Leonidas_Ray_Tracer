@@ -3,33 +3,84 @@
     {
         "width"  : 1920,
         "height" : 1080,
-        "pos"  : { "x" : 0, "y" : 0, "z" : -5},
-        "look" : { "x" : 0, "y" : 0, "z" : 0},
-        "up"   : { "x" : 0, "y" : 1, "z" : 0}
+        "pos"  : { "x" : 0.0, "y" : 3.0, "z" : -10.0 },
+        "look" : { "x" : 0.0, "y" : 0.0, "z" :  0.0 },
+        "up"   : { "x" : 0.0, "y" : 1.0, "z" :  0.0 }
     },
+
+    "lights" : 
+    [
+        {
+            "type"  : "pointlight",
+            "pos"   : { "x" : -200.0, "y" : 200.0, "z" : -200.0},
+            "color" : { "r" : 1.0, "g" : 1.0, "b" : 1.0 }
+        }
+    ],
+
+    "materials" :
+    [
+        {
+            "ambient"    : 0.1,
+            "diffuse"    : 0.9,
+            "specular"   : 0.7,
+            "shininess"  : 200.0,
+            "reflective" : 0.4,
+            "type"       : "onecolor",
+            "color"      : { "r" : 1.0, "g" : 0.0, "b" : 0.0 }
+        },
+        {
+            "ambient"    : 0.1,
+            "diffuse"    : 0.9,
+            "specular"   : 0.7,
+            "shininess"  : 200.0,
+            "reflective" : 0.0,
+            "type"       : "checkerpattern",
+            "color1"     : { "r" : 1.0, "g" : 1.0, "b" : 1.0 },
+            "color2"     : { "r" : 0.5, "g" : 0.5, "b" : 0.5 },
+            "scale"      : 2.0
+        },
+        {
+            "ambient"    : 0.1,
+            "diffuse"    : 0.9,
+            "specular"   : 0.7,
+            "shininess"  : 200.0,
+            "reflective" : 0.0,
+            "type"       : "stripedpattern",
+            "color1"     : { "r" : 0.0, "g" : 0.0, "b" : 1.0 },
+            "color2"     : { "r" : 0.0, "g" : 1.0, "b" : 1.0 }
+        }
+
+    ],
 
     "geometry" : 
     [
         {
             "type"  : "sphere",
-            "pos"   : { "x" : 0, "y" : 0, "z" : 0},
-            "scale" : { "x" : 2, "y" : 2, "z" : 2},
-            "rot"   : { "x" : 0, "y" : 0, "z" : 0},
-            "mat"   :
-            {
-                "type"  : "oneColor",
-                "color" : { "r" : 0, "g" : 0, "b" : 0}
-            }
-        }
-    ],
-
-
-
-    "lights" : 
-    [
+            "pos"   : { "x" : 0.0, "y" : 1.0, "z" : 1.0 },
+            "scale" : { "x" : 2.0, "y" : 2.0, "z" : 2.0 },
+            "rot"   : { "x" : 0.0, "y" : 0.0, "z" : 0.0 },
+            "matindex"   : 0
+        },
         {
-            "pos"   : { "x" : 5, "y" : 0, "z" : -5},
-            "color" : { "r" : 1, "g" : 1, "b" : 1}
+            "type"  : "sphere",
+            "pos"   : { "x" : 3.0, "y" : 0.0, "z" : -3.0},
+            "scale" : { "x" : 1.0, "y" : 1.0, "z" : 1.0},
+            "rot"   : { "x" : 0.0, "y" : 0.0, "z" : 0.0},
+            "matindex"   : 2
+        },
+        {
+            "type"  : "plane",
+            "pos"   : { "x" : 0.0, "y" : -1.0, "z" : 0.0},
+            "scale" : { "x" : 1.0, "y" : 1.0, "z" : 1.0},
+            "rot"   : { "x" : 0.0, "y" : 0.0, "z" : 0.0},
+            "matindex"   : 1
+        },
+        {
+            "type"  : "cube",
+            "pos"   : { "x" : -3.5, "y" : -0.5, "z" : -3.0},
+            "scale" : { "x" : 0.5, "y" : 0.5, "z" : 0.5 },
+            "rot"   : { "x" : 0.0, "y" : 0.0, "z" : 0.0 },
+            "matindex"   : 1
         }
     ]
 }
