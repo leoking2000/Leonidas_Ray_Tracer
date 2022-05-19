@@ -21,8 +21,8 @@ int main(int argc, char** argv)
 
 #if RUN_EXAMPLES
 	Sphere1();
-	//ParallelMirrorTest();
-	//TableTest();
+	TableTest();
+	ParallelMirrorTest();
 #endif
 
 

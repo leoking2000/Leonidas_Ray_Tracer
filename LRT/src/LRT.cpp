@@ -2,7 +2,7 @@
 #include <limits>
 #include <iterator>
 #include <algorithm>
-#include <iostream>
+//#include <iostream>
 
 namespace LRT
 {
@@ -14,7 +14,7 @@ namespace LRT
 
 		for (u32 y = 0; y < cam.Height(); y++)
 		{
-			std::cout << "Scan line remaining " << cam.Height() - y << "\n";
+			//std::cout << "Scan line remaining " << cam.Height() - y << "\n";
 			for (u32 x = 0; x < cam.Width(); x++)
 			{
 				Ray r = cam.RayForPixel(x, y);
@@ -22,7 +22,7 @@ namespace LRT
 				image.SetPixel(x, y, c);
 			}
 		}
-		std::cout << "Rendering Done\n";
+		//std::cout << "Rendering Done\n";
 		return image;
 	}
 

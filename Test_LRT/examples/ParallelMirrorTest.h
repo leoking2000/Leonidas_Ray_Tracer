@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "LRT.h"
+#include "Timer.h"
 
 void ParallelMirrorTest()
 {
@@ -70,11 +71,12 @@ void ParallelMirrorTest()
 
 	s.AddPointLight(glm::vec3(-1.0f, 4.0f, -10.0f), Colors::white);
 
-	// 1920 1080 
-	LRT::Camera cam(4096, 2160, glm::lookAt(glm::vec3(-3.5f, 1.0f, 3.0f), glm::vec3(-3.5f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+	// 1920 1080  4096, 2160
+	LRT::Camera cam(1920, 1080, glm::lookAt(glm::vec3(-3.5f, 1.0f, 3.0f), glm::vec3(-3.5f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 
-
+	Timer t;
 	LRT::Canvas can = LRT::Render(cam, s, 200);
+	std::cout << "Render Time: " << t.Elapsed() << "s \n";
 
 	can.SaveToFilePNG("Output/ParallelMirrorTest.png");
 	std::cout << "file saved in ParallelMirrorTest.png\n";

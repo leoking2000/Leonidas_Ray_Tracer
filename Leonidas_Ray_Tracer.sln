@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30406.217
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LRT", "LRT\LRT.vcxproj", "{CD746737-2E22-4491-9212-69469F178766}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_LRT", "Test_LRT\Test_LRT.vcxproj", "{48EA9C70-A407-4921-AABD-372E59A29ADD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LRT_APP", "LRT_APP\LRT_APP.vcxproj", "{61026F06-D121-4EBF-A947-38A2210F42F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{48EA9C70-A407-4921-AABD-372E59A29ADD}.Release|x64.Build.0 = Release|x64
 		{48EA9C70-A407-4921-AABD-372E59A29ADD}.Release|x86.ActiveCfg = Release|Win32
 		{48EA9C70-A407-4921-AABD-372E59A29ADD}.Release|x86.Build.0 = Release|Win32
+		{61026F06-D121-4EBF-A947-38A2210F42F4}.Debug|x64.ActiveCfg = Debug|x64
+		{61026F06-D121-4EBF-A947-38A2210F42F4}.Debug|x64.Build.0 = Debug|x64
+		{61026F06-D121-4EBF-A947-38A2210F42F4}.Debug|x86.ActiveCfg = Debug|Win32
+		{61026F06-D121-4EBF-A947-38A2210F42F4}.Debug|x86.Build.0 = Debug|Win32
+		{61026F06-D121-4EBF-A947-38A2210F42F4}.Release|x64.ActiveCfg = Release|x64
+		{61026F06-D121-4EBF-A947-38A2210F42F4}.Release|x64.Build.0 = Release|x64
+		{61026F06-D121-4EBF-A947-38A2210F42F4}.Release|x86.ActiveCfg = Release|Win32
+		{61026F06-D121-4EBF-A947-38A2210F42F4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

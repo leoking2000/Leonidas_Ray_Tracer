@@ -21,9 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{cd746737-2e22-4491-9212-69469f178766}</ProjectGuid>
-    <RootNamespace>LRT</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <ProjectGuid>{61026f06-d121-4ebf-a947-38a2210f42f4}</ProjectGuid>
+    <RootNamespace>LRTAPP</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -40,13 +40,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -116,8 +116,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\LRT\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,8 +130,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\LRT\src;</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,35 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\geometry\Intersection.h" />
-    <ClInclude Include="src\geometry\Primitive.h" />
-    <ClInclude Include="src\geometry\Transform.h" />
-    <ClInclude Include="src\graphics\Camera.h" />
-    <ClInclude Include="src\graphics\Canvas.h" />
-    <ClInclude Include="src\graphics\stb_image_write.h" />
-    <ClInclude Include="src\LRT.h" />
-    <ClInclude Include="src\defines.h" />
-    <ClInclude Include="src\geometry\Ray.h" />
-    <ClInclude Include="src\graphics\light.h" />
-    <ClInclude Include="src\graphics\Material.h" />
-    <ClInclude Include="src\graphics\pattern.h" />
-    <ClInclude Include="src\LRTMath.h" />
-    <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\Timer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\geometry\Intersection.cpp" />
-    <ClCompile Include="src\geometry\Primitive.cpp" />
-    <ClCompile Include="src\graphics\Camera.cpp" />
-    <ClCompile Include="src\graphics\Canvas.cpp" />
-    <ClCompile Include="src\geometry\Ray.cpp" />
-    <ClCompile Include="src\LRT.cpp" />
-    <ClCompile Include="src\graphics\Material.cpp" />
-    <ClCompile Include="src\graphics\pattern.cpp" />
-    <ClCompile Include="src\Scene.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

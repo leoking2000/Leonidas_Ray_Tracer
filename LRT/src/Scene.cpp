@@ -3,6 +3,8 @@
 #include <fstream>
 #include <vector>
 #include <nlohmann/json.hpp>
+#include "Timer.h"
+#include <iostream>
 
 namespace LRT
 {
@@ -134,7 +136,13 @@ namespace LRT
 
     Canvas Scene::Render()
     {
-        return LRT::Render(*cam, *this, 200);
+        Timer t;
+
+        Canvas c = LRT::Render(*cam, *this, 2);
+
+        std::cout << "Render Time: " << t.Elapsed() << "s \n";
+
+        return c;
     }
 
 }
