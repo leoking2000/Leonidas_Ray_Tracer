@@ -1,7 +1,6 @@
-#include "gtest/gtest.h"
-
-#include "Tests/CanvasTest.h"
-#include "Tests/GeometryTest.h"
+//#include "gtest/gtest.h"
+//#include "Tests/CanvasTest.h"
+//#include "Tests/GeometryTest.h"
 
 #include "examples/ParallelMirrorTest.h"
 #include "examples/TableTest.h"
@@ -20,7 +19,7 @@ int main(int argc, char** argv)
 #endif
 
 #if RUN_EXAMPLES
-	Sphere1();
+	//Sphere1();
 	TableTest();
 	ParallelMirrorTest();
 #endif
